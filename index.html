@@ -152,15 +152,21 @@
         border-radius: 0.75rem;
         box-shadow: var(--shadow-sm);
       }
+
+      /* LOGIN LOGO */
+      .login-logo {
+        max-width: 320px;
+        margin-bottom: 1rem;
+      }
     </style>
   </head>
   <body>
 
     <main id="mainContainer" class="container-login">
-      <!-- HALAMAN LOGIN (MODIFIED for EMAIL) -->
+      <!-- HALAMAN LOGIN (MODIFIED for EMAIL & LOGO) -->
       <div id="loginView" class="content-card text-center">
-        <i class="bi bi-shield-lock" style="font-size: 3.5rem; color: var(--primary-blue);"></i>
-        <h2 class="mt-3 justify-content-center">Selamat Datang</h2>
+        <img src="https://osce.masandigital.com/LOGO%20POLTEKKES%20KEMENKES%20KUPANG.png" alt="Logo Poltekkes Kupang" class="login-logo">
+        <h2 class="mt-2 justify-content-center">Selamat Datang</h2>
         <p class="text-muted mb-4">Silakan masuk untuk melanjutkan ke dashboard.</p>
         <div class="mb-3 text-start">
           <label for="emailInput" class="form-label">Email</label>
@@ -263,7 +269,7 @@
             </div>
         </div>
         <hr>
-        <p class="text-muted">Ringkasan aktivitas sistem dan manajemen user.</p>
+        <p class="text-muted">Ringkasan aktivitas sistem dan manajemen data master.</p>
         <!-- Admin Stats & Tools Section -->
         <div class="card admin-sub-card mb-5">
             <div class="card-body p-4">
@@ -292,13 +298,37 @@
                 </div>
             </div>
         </div>
-        <!-- User Management Section -->
-        <div class="card admin-sub-card">
-            <div class="card-body p-4">
-                <h3 class="mb-4"><i class="bi bi-people-fill"></i> Manajemen User</h3>
-                <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="userList"></tbody></table></div>
+        
+        <div class="row g-4">
+            <!-- User Management Section -->
+            <div class="col-lg-8">
+                <div class="card admin-sub-card h-100">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4"><i class="bi bi-people-fill"></i> Manajemen User</h3>
+                        <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="userList"></tbody></table></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Peminatan Management Section -->
+            <div class="col-lg-4">
+                <div class="card admin-sub-card h-100">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4"><i class="bi bi-tags-fill"></i> Manajemen Peminatan</h3>
+                        <form id="peminatanForm" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" id="peminatanId" class="form-control" placeholder="ID Peminatan (e.g. P01)" required>
+                                <input type="text" id="peminatanNama" class="form-control" placeholder="Nama Peminatan" required>
+                                <button class="btn btn-primary" type="submit"><i class="bi bi-plus-lg m-0"></i></button>
+                            </div>
+                        </form>
+                        <div class="table-responsive">
+                            <table class="table table-sm"><thead><tr><th>ID</th><th>Nama</th><th></th></tr></thead><tbody id="peminatanList"></tbody></table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
       </div>
     </main>
     
@@ -394,6 +424,9 @@
         document.getElementById("btnDownloadTemplateDosen").addEventListener("click", handleDownloadTemplate);
         document.getElementById("btnDownloadTemplateAdmin").addEventListener("click", handleDownloadTemplate);
         document.getElementById("formUploadSoal").addEventListener("submit", handleSubmitUpload);
+        // Admin Peminatan form handler
+        const peminatanForm = document.getElementById("peminatanForm");
+        if(peminatanForm) peminatanForm.addEventListener("submit", handlePeminatanFormSubmit);
 
         async function handleSubmitUpload(e) {
             e.preventDefault();
@@ -648,6 +681,7 @@
             if (data) {
                 populateAdminStats(data.stats);
                 populateUserTables(data.users);
+                populateAdminPeminatanList(data.peminatan);
             }
         }
 
@@ -678,11 +712,12 @@
             userListBody.innerHTML = '';
           
             users.forEach(user => {
+                const peminatanBadges = (user.peminatan || '').split(',').filter(Boolean).map(p => `<span class="badge bg-secondary me-1">${p}</span>`).join('') || '-';
                 const row = `<tr>
                   <td>${user.nama}</td>
                   <td>${user.email || '-'}</td>
                   <td><span class="badge bg-info text-dark">${user.role}</span></td>
-                  <td><span class="badge bg-secondary">${(user.peminatan || '-').replace(/,/g, ', ')}</span></td>
+                  <td>${peminatanBadges}</td>
                   <td>
                     <button class="btn btn-sm btn-outline-primary py-1 px-2" onclick='openUserModal(${JSON.stringify(user)}, "${user.role}")'><i class="bi bi-pencil-square"></i></button>
                     <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="handleDeleteUser('${user.userId}', '${user.nama}')"><i class="bi bi-trash"></i></button>
@@ -691,6 +726,47 @@
             });
         }
         
+        function populateAdminPeminatanList(peminatanList) {
+            const listContainer = document.getElementById('peminatanList');
+            if (!peminatanList) {
+                listContainer.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Gagal memuat data.</td></tr>';
+                return;
+            }
+            listContainer.innerHTML = peminatanList.map(p => `
+                <tr>
+                    <td><span class="badge bg-primary">${p.id}</span></td>
+                    <td>${p.nama}</td>
+                    <td class="text-end"><button class="btn btn-sm btn-outline-danger p-0 px-2" onclick="handleDeletePeminatan('${p.id}', '${p.nama}')"><i class="bi bi-x-lg"></i></button></td>
+                </tr>
+            `).join('');
+        }
+        
+        async function handlePeminatanFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('peminatanId').value.trim();
+            const nama = document.getElementById('peminatanNama').value.trim();
+            if(!id || !nama) return;
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+
+            const response = await callApi('addPeminatan', { peminatanData: { id, nama } });
+            alert(response.message);
+            if (response.success) {
+                e.target.reset();
+                loadAdminDashboard(); // Reload all admin data
+            }
+            submitBtn.disabled = false;
+        }
+
+        window.handleDeletePeminatan = async function(id, nama) {
+            if (confirm(`Yakin ingin menghapus peminatan "${nama}" (${id})?`)) {
+                const response = await callApi('deletePeminatan', { peminatanId: id });
+                alert(response.message);
+                if (response.success) loadAdminDashboard();
+            }
+        }
+
         window.openUserModal = function(user, role) {
           const form = document.getElementById('userForm');
           form.reset();
@@ -743,7 +819,6 @@
                     loadAdminDashboard(); // Reload data
                 }
             } catch(error) {
-                // Error already alerted by callApi, we can just log it
                 console.error(error);
             } finally {
                 submitBtn.disabled = false;
