@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Internal CSS -->
+    <style>
+      :root {
+        --primary-pink: #E83E8C;
+        --primary-pink-hover: #d1307b;
+        --secondary-pink: #fce4ec;
+        --light-bg: #fdf8fa;
+        --dark-text: #333;
+        --gray-text: #6c757d;
+        --border-color: #f0d5e3;
+        --success-color: #198754;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --white-color: #fff;
+        --shadow: 0 4px 15px rgba(0,0,0,0.07);
+      }
+
+      body { 
+        background-color: var(--light-bg); 
+        font-family: 'Poppins', sans-serif;
+        color: var(--dark-text);
+      }
+      .container { max-width: 960px; }
+
+      .content-card {
+        display: none; 
+        margin-top: 50px; 
+        padding: 2.5rem; 
+        background-color: var(--white-color); 
+        border-radius: 1rem; 
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-bar { 
+        background-color: var(--white-color); 
+        box-shadow: 0 2px 8px rgba(0,0,0,.08); 
+        padding: 1rem; 
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .nav-bar-content { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+      }
+      .navbar-brand {
+        color: var(--primary-pink) !important;
+        font-weight: 600;
+      }
+
+      /* Form Elements Styling */
+      .form-label { font-weight: 500; color: var(--gray-text); }
+      .form-control, .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #ced4da;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+      }
+      .form-control:focus, .form-select:focus {
+        border-color: var(--primary-pink);
+        box-shadow: 0 0 0 0.25rem rgba(232, 62, 140, 0.25);
+      }
+      h2, h3, h4 { color: var(--primary-pink); font-weight: 600; }
+      hr { border-top: 1px solid var(--border-color); }
+
+      /* Buttons */
+      .btn { border-radius: 0.5rem; padding: 0.6rem 1.2rem; font-weight: 500; transition: all 0.2s ease; }
+      .btn-primary { background-color: var(--primary-pink); border-color: var(--primary-pink); }
+      .btn-primary:hover { background-color: var(--primary-pink-hover); border-color: var(--primary-pink-hover); }
+      .btn-danger { background-color: var(--danger-color); border-color: var(--danger-color); }
+      .btn-success { background-color: var(--success-color); border-color: var(--success-color); }
+
+      /* Tables */
+      .table { border-color: var(--border-color); }
+      .table th { color: var(--primary-pink); }
+      .table-hover > tbody > tr:hover > * {
+        background-color: var(--secondary-pink);
+      }
+      
+      /* Reviewer Card */
+      .reviewer-card {
+        border: 1px solid var(--border-color);
+        border-radius: 0.75rem;
+        box-shadow: none;
+        transition: box-shadow 0.2s ease;
+      }
+      .reviewer-card:hover {
+        box-shadow: var(--shadow);
+      }
+      .reviewer-card .card-header {
+        background-color: var(--secondary-pink);
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 500;
+      }
+      .reviewer-card .list-group-item.correct-answer {
+        background-color: #d1e7dd; /* Bootstrap success bg */
+        font-weight: 600;
+        border-left: 4px solid var(--success-color);
+      }
+      
+    </style>
+  </head>
+  <body>
+
+    <!-- NAVIGASI BAR -->
+    <div class="nav-bar" id="navBar" style="display:none;">
+      <div class="container nav-bar-content">
+        <span class="navbar-brand mb-0 h1">Ukom Soal Review</span>
+        <div>
+          <span id="userInfo" class="me-3 text-muted"></span>
+          <button id="btnLogout" class="btn btn-outline-danger btn-sm">Logout</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- HALAMAN LOGIN -->
+      <div id="loginView" class="content-card">
+        <h2 class="text-center mb-4">Selamat Datang</h2>
+        <p class="text-center text-muted mb-4">Silakan login untuk melanjutkan</p>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="email@contoh.com">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password">
+        </div>
+        <button id="btnLogin" class="btn btn-primary w-100 mt-3">Login</button>
+        <div id="loginSpinner" class="text-center mt-3" style="display:none;">
+          <div class="spinner-border text-primary" role="status" style="color: var(--primary-pink) !important;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD DOSEN -->
+      <div id="dosenView" class="content-card">
+        <h3>Dashboard Dosen</h3>
+        <hr>
+        <h4 class="mt-4">Form Input Soal Baru</h4>
+        <form id="formSoal">
+          <div class="mb-3">
+            <label class="form-label">Peminatan</label>
+            <select id="peminatanDosen" class="form-select" required></select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Tulis Soal</label>
+            <textarea id="soalText" class="form-control" rows="4" required></textarea>
+          </div>
+          <!-- Opsi A-E -->
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><label class="form-label">Opsi A</label><input type="text" id="opsiA" class="form-control" required></div>
+            <div class="col-md-6"><label class="form-label">Opsi B</label><input type="text" id="opsiB" class="form-control" required></div>
+            <div class="col-md-6"><label class="form-label">Opsi C</label><input type="text" id="opsiC" class="form-control" required></div>
+            <div class="col-md-6"><label class="form-label">Opsi D</label><input type="text" id="opsiD" class="form-control" required></div>
+            <div class="col-md-12"><label class="form-label">Opsi E</label><input type="text" id="opsiE" class="form-control" required></div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kunci Jawaban</label>
+            <select id="kunciJawaban" class="form-select" required>
+              <option value="" disabled selected>Pilih Kunci Jawaban...</option>
+              <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Kirim Soal untuk Review</button>
+        </form>
+        <hr class="my-5">
+        <h4>Riwayat Soal Anda</h4>
+        <div id="riwayatSoalDosen"></div>
+      </div>
+
+      <!-- DASHBOARD REVIEWER -->
+      <div id="reviewerView" class="content-card">
+        <h3>Dashboard Reviewer</h3>
+        <p class="text-muted">Soal yang perlu direview berdasarkan peminatan Anda.</p>
+        <div id="soalUntukReview" class="mt-4"></div>
+      </div>
+
+      <!-- DASHBOARD ADMIN -->
+      <div id="adminView" class="content-card">
+        <h3>Dashboard Admin</h3>
+        <hr>
+        <h4 class="mt-4">Rekapan Soal per Dosen</h4>
+        <table class="table table-hover">
+          <thead><tr><th>Nama Dosen</th><th>Jumlah Soal Diajukan</th></tr></thead>
+          <tbody id="rekapDosen"></tbody>
+        </table>
+        <hr class="my-5">
+        <h4>Rekapan Review per Reviewer</h4>
+        <table class="table table-hover">
+          <thead><tr><th>Nama Reviewer</th><th>Diterima</th><th>Ditolak</th></tr></thead>
+          <tbody id="rekapReviewer"></tbody>
+        </table>
+      </div>
+    </div>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Internal JavaScript -->
+    <script>
+      // PASTE URL SCRIPT ANDA DI SINI
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-IfEO7VTd85Wrrw0sUFxvYTn39nGOj4nFQ3YcpMx98fHQaxgrCnvaTdPHKcAHBFud/exec';
+      
+      // --- Helper function untuk memanggil API ---
+      async function callApi(action, payload, method = 'POST') {
+        try {
+          const options = {
+              method,
+              mode: 'cors',
+              headers: {}
+          };
+
+          let url = SCRIPT_URL;
+
+          if (method === 'POST') {
+              options.headers['Content-Type'] = 'application/json';
+              options.body = JSON.stringify({ action, payload });
+          } else { // GET
+              const params = new URLSearchParams({ action, ...payload });
+              url = `${SCRIPT_URL}?${params}`;
+          }
+
+          const response = await fetch(url, options);
+          
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+          }
+          return await response.json();
+        } catch (error) {
+          console.error("API call failed:", error);
+          alert("Terjadi kesalahan koneksi ke server. Silakan cek konsol untuk detail.");
+          throw error;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        const views = {
+          loginView: document.getElementById("loginView"),
+          dosenView: document.getElementById("dosenView"),
+          reviewerView: document.getElementById("reviewerView"),
+          adminView: document.getElementById("adminView")
+        };
+        const navBar = document.getElementById("navBar");
+
+        function showView(viewName) {
+            Object.values(views).forEach(view => view.style.display = 'none');
+            if(views[viewName]) {
+                views[viewName].style.display = 'block';
+            }
+        }
+
+        const loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+        if (loggedInUser) {
+          showDashboard(loggedInUser);
+        } else {
+          showView("loginView");
+        }
+
+        document.getElementById("btnLogin").addEventListener("click", handleLogin);
+        document.getElementById("btnLogout").addEventListener("click", handleLogout);
+        document.getElementById("formSoal").addEventListener("submit", handleSubmitSoal);
+
+        async function handleLogin() {
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          if (!email || !password) return alert("Email dan password wajib diisi.");
+
+          document.getElementById("loginSpinner").style.display = "block";
+          document.getElementById("btnLogin").disabled = true;
+
+          try {
+            const user = await callApi('userLogin', { email, password });
+            if (user) {
+              sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+              showDashboard(user);
+            } else {
+              alert("Email atau password salah!");
+            }
+          } catch (error) {
+            // Error is handled in callApi
+          } finally {
+            document.getElementById("loginSpinner").style.display = "none";
+            document.getElementById("btnLogin").disabled = false;
+          }
+        }
+
+        function handleLogout() {
+          sessionStorage.removeItem("loggedInUser");
+          location.reload();
+        }
+        
+        function showDashboard(user) {
+          showView(null); // Hide all views first
+          navBar.style.display = "block";
+          document.getElementById("userInfo").innerText = `Halo, ${user.nama} (${user.role})`;
+          
+          if (user.role === "DOSEN") {
+            showView("dosenView");
+            loadPeminatanForDosen();
+            loadRiwayatSoalDosen(user.userId);
+          } else if (user.role === "REVIEWER") {
+            showView("reviewerView");
+            loadSoalForReviewer(user.peminatan);
+          } else if (user.role === "ADMIN") {
+            showView("adminView");
+            loadAdminStats();
+          }
+        }
+
+        async function loadPeminatanForDosen() {
+          const peminatanList = await callApi('getPeminatanList', {}, 'GET');
+          const select = document.getElementById("peminatanDosen");
+          select.innerHTML = '<option value="" selected disabled>Pilih peminatan...</option>';
+          peminatanList.forEach(p => {
+            select.innerHTML += `<option value="${p.id}">${p.nama}</option>`;
+          });
+        }
+        
+        async function handleSubmitSoal(e) {
+          e.preventDefault();
+          const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+          const soalData = {
+              soal_text: document.getElementById("soalText").value,
+              opsi_a: document.getElementById("opsiA").value,
+              opsi_b: document.getElementById("opsiB").value,
+              opsi_c: document.getElementById("opsiC").value,
+              opsi_d: document.getElementById("opsiD").value,
+              opsi_e: document.getElementById("opsiE").value,
+              kunci_jawaban: document.getElementById("kunciJawaban").value,
+              id_peminatan: document.getElementById("peminatanDosen").value,
+              id_dosen_pembuat: user.userId,
+              nama_dosen_pembuat: user.nama
+          };
+          if (!soalData.id_peminatan || !soalData.kunci_jawaban) {
+            return alert("Peminatan dan Kunci Jawaban wajib dipilih.");
+          }
+
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Mengirim...`;
+          
+          const response = await callApi('submitSoal', { soalData });
+          alert(response.message);
+          if (response.success) {
+            document.getElementById("formSoal").reset();
+            loadRiwayatSoalDosen(user.userId);
+          }
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Kirim Soal untuk Review";
+        }
+        
+        async function loadRiwayatSoalDosen(dosenId) {
+          const soalList = await callApi('getSoalByDosen', { dosenId }, 'GET');
+          const container = document.getElementById("riwayatSoalDosen");
+          if (!soalList || soalList.length === 0) {
+            container.innerHTML = '<p class="text-center text-muted">Anda belum pernah mengajukan soal.</p>';
+            return;
+          }
+          let html = '<table class="table table-striped table-hover"><thead><tr><th>Soal</th><th>Status</th><th>Catatan Reviewer</th></tr></thead><tbody>';
+          soalList.slice().reverse().forEach(soal => {
+            let statusBadge = '';
+            switch(soal.status) {
+              case 'DITERIMA': statusBadge = '<span class="badge bg-success">DITERIMA</span>'; break;
+              case 'DITOLAK': statusBadge = '<span class="badge bg-danger">DITOLAK</span>'; break;
+              case 'MENUNGGU_REVIEW': statusBadge = '<span class="badge bg-warning text-dark">MENUNGGU REVIEW</span>'; break;
+              default: statusBadge = `<span class="badge bg-secondary">${soal.status}</span>`;
+            }
+            html += `<tr>
+                        <td>${soal.soal_text.substring(0, 70)}...</td>
+                        <td>${statusBadge}</td>
+                        <td>${soal.catatan_reviewer || '-'}</td>
+                     </tr>`;
+          });
+          container.innerHTML = html + '</tbody></table>';
+        }
+
+        async function loadSoalForReviewer(peminatanIds) {
+          const soalList = await callApi('getSoalForReviewer', { peminatanIds }, 'GET');
+          const container = document.getElementById("soalUntukReview");
+          if (!soalList || soalList.length === 0) {
+            container.innerHTML = '<div class="alert alert-info text-center" style="background-color: var(--secondary-pink); border-color: var(--border-color); color: var(--primary-pink);">Tidak ada soal yang perlu direview saat ini.</div>';
+            return;
+          }
+          container.innerHTML = soalList.map(soal => `
+            <div class="card reviewer-card mb-4" id="card_${soal.id_soal}">
+              <div class="card-header">Soal dari: <strong>${soal.nama_dosen_pembuat}</strong></div>
+              <div class="card-body">
+                <h6 class="card-title">Pertanyaan:</h6>
+                <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
+                <ul class="list-group list-group-flush mb-3">
+                  <li class="list-group-item ${soal.kunci_jawaban === 'A' ? 'correct-answer' : ''}"><strong>A:</strong> ${soal.opsi_a}</li>
+                  <li class="list-group-item ${soal.kunci_jawaban === 'B' ? 'correct-answer' : ''}"><strong>B:</strong> ${soal.opsi_b}</li>
+                  <li class="list-group-item ${soal.kunci_jawaban === 'C' ? 'correct-answer' : ''}"><strong>C:</strong> ${soal.opsi_c}</li>
+                  <li class="list-group-item ${soal.kunci_jawaban === 'D' ? 'correct-answer' : ''}"><strong>D:</strong> ${soal.opsi_d}</li>
+                  <li class="list-group-item ${soal.kunci_jawaban === 'E' ? 'correct-answer' : ''}"><strong>E:</strong> ${soal.opsi_e}</li>
+                </ul>
+                <p><strong>Kunci Jawaban diajukan: ${soal.kunci_jawaban}</strong></p><hr>
+                <div class="mb-3">
+                  <label for="catatan_${soal.id_soal}" class="form-label">Catatan Review (Wajib jika ditolak)</label>
+                  <textarea class="form-control" id="catatan_${soal.id_soal}" rows="2"></textarea>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                  <button class="btn btn-success" onclick="handleReview('${soal.id_soal}', 'DITERIMA', this)">Terima</button>
+                  <button class="btn btn-danger" onclick="handleReview('${soal.id_soal}', 'DITOLAK', this)">Tolak</button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        window.handleReview = async function(id_soal, status, buttonElement) {
+            const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+            const catatan = document.getElementById(`catatan_${id_soal}`).value;
+            if (status === 'DITOLAK' && !catatan.trim()) return alert("Catatan wajib diisi jika menolak soal.");
+            
+            const otherButton = buttonElement.parentElement.querySelector('.btn:not(:disabled)');
+            buttonElement.disabled = true;
+            if(otherButton) otherButton.disabled = true;
+            buttonElement.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...`;
+
+            const reviewData = { id_soal, status, catatan, id_reviewer: user.userId };
+            
+            const response = await callApi('processReview', { reviewData });
+            alert(response.message);
+            if (response.success) {
+              const cardToRemove = document.getElementById(`card_${id_soal}`);
+              cardToRemove.style.transition = 'opacity 0.5s ease';
+              cardToRemove.style.opacity = '0';
+              setTimeout(() => {
+                cardToRemove.remove();
+                if (document.getElementById("soalUntukReview").children.length === 0) {
+                  loadSoalForReviewer(user.peminatan);
+                }
+              }, 500);
+            } else {
+              buttonElement.disabled = false;
+              if(otherButton) otherButton.disabled = false;
+              buttonElement.innerText = status === 'DITERIMA' ? 'Terima' : 'Tolak';
+            }
+        }
+
+        async function loadAdminStats() {
+          const stats = await callApi('getAdminDashboardStats', {}, 'GET');
+          const rekapDosenBody = document.getElementById('rekapDosen');
+          rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ?
+            Object.entries(stats.soalPerDosen).map(([dosen, count]) => `<tr><td>${dosen}</td><td>${count}</td></tr>`).join('') :
+            '<tr><td colspan="2" class="text-center text-muted">Belum ada data.</td></tr>';
+
+          const rekapReviewerBody = document.getElementById('rekapReviewer');
+          rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ?
+            Object.values(stats.reviewPerReviewer).map(data => `<tr><td>${data.nama}</td><td>${data.diterima}</td><td>${data.ditolak}</td></tr>`).join('') :
+            '<tr><td colspan="3" class="text-center text-muted">Belum ada data.</td></tr>';
+        }
+      });
+    </script>
+
+  </body>
+</html>
