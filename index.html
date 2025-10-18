@@ -157,14 +157,14 @@
   <body>
 
     <main id="mainContainer" class="container-login">
-      <!-- HALAMAN LOGIN -->
+      <!-- HALAMAN LOGIN (MODIFIED for EMAIL) -->
       <div id="loginView" class="content-card text-center">
         <i class="bi bi-shield-lock" style="font-size: 3.5rem; color: var(--primary-blue);"></i>
         <h2 class="mt-3 justify-content-center">Selamat Datang</h2>
         <p class="text-muted mb-4">Silakan masuk untuk melanjutkan ke dashboard.</p>
         <div class="mb-3 text-start">
-          <label for="userIdInput" class="form-label">User ID</label>
-          <input type="text" id="userIdInput" class="form-control" placeholder="Masukkan User ID Anda" autocomplete="username">
+          <label for="emailInput" class="form-label">Email</label>
+          <input type="email" id="emailInput" class="form-control" placeholder="Masukkan email Anda" autocomplete="email">
         </div>
         <div class="mb-3 text-start">
           <label for="passwordInput" class="form-label">Password</label>
@@ -276,7 +276,7 @@
                         </div>
                         <h4 class="mt-4 h5 text-center text-muted">Rekapan Aktivitas</h4>
                         <div class="row g-3">
-                            <div class="col-lg-4" id="rekapPeminatanContainer"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Peminatan</th><th>Soal</th></tr></thead><tbody id="rekapPeminatan"></tbody></table></div></div>
+                            <div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Peminatan</th><th>Soal</th></tr></thead><tbody id="rekapPeminatan"></tbody></table></div></div>
                             <div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Nama Dosen</th><th>Soal</th></tr></thead><tbody id="rekapDosen"></tbody></table></div></div>
                             <div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Reviewer</th><th><i class="bi bi-check-lg text-success"></i></th><th><i class="bi bi-x-lg text-danger"></i></th></tr></thead><tbody id="rekapReviewer"></tbody></table></div></div>
                         </div>
@@ -296,10 +296,7 @@
         <div class="card admin-sub-card">
             <div class="card-body p-4">
                 <h3 class="mb-4"><i class="bi bi-people-fill"></i> Manajemen User</h3>
-                <div class="row g-5">
-                    <div class="col-lg-6"><h4><i class="bi bi-person-workspace"></i> Daftar Dosen</h4><div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="dosenList"></tbody></table></div></div>
-                    <div class="col-lg-6"><h4><i class="bi bi-person-video3"></i> Daftar Reviewer</h4><div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="reviewerList"></tbody></table></div></div>
-                </div>
+                <div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="userList"></tbody></table></div>
             </div>
         </div>
       </div>
@@ -308,13 +305,13 @@
     <!-- BANK SOAL MODAL -->
     <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
 
-    <!-- USER MANAGEMENT MODAL -->
-    <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div><div class="mb-3"><label for="userPeminatan" class="form-label">ID Peminatan</label><input type="text" class="form-control" id="userPeminatan" name="peminatan"><small class="form-text text-muted">Pisahkan dengan koma jika lebih dari satu (e.g., P01,P02)</small></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
+    <!-- USER MANAGEMENT MODAL (MODIFIED) -->
+    <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div><div class="mb-3"><label for="userPeminatan" class="form-label">ID Peminatan</label><input type="text" class="form-control" id="userPeminatan" name="peminatan"><small class="form-text text-muted">Pisahkan dengan koma jika lebih dari satu (e.g., P01,P02)</small></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // PASTE URL SCRIPT ANDA DI SINI
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUz8kb9Erxux78Xw2d-NyC1u_iofCtAa_tgHrA8L6PrZryR_YD22zVKiTXnwkrSbfz/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzica43-Mi7CTXR0IqDdQdXM1kLZv4lbg76V5cuHiQUAlLyR1OxaKpDBWFP35j_rH-V/exec';
       
       let userModalInstance;
       
@@ -325,7 +322,6 @@
           const options = { method, mode: 'cors', headers: {} };
           let url = SCRIPT_URL;
           if (method === 'POST') {
-              options.headers['Content-Type'] = 'text/plain;charset=utf-8';
               options.body = JSON.stringify({ action, payload });
           } else {
               const params = new URLSearchParams({ action, ...payload });
@@ -447,23 +443,23 @@
         }
         
         function setupSimpleLogin() {
-          const userIdInput = document.getElementById("userIdInput");
+          const emailInput = document.getElementById("emailInput");
           const passwordInput = document.getElementById("passwordInput");
           const btnMasuk = document.getElementById("btnMasuk");
           function validateForm() {
-            btnMasuk.disabled = !(userIdInput.value.trim() !== '' && passwordInput.value.trim() !== '');
+            btnMasuk.disabled = !(emailInput.value.trim() !== '' && passwordInput.value.trim() !== '');
           }
-          userIdInput.addEventListener("input", validateForm);
+          emailInput.addEventListener("input", validateForm);
           passwordInput.addEventListener("input", validateForm);
         }
 
         async function handleMasuk() {
-            const userId = document.getElementById("userIdInput").value;
+            const email = document.getElementById("emailInput").value;
             const password = document.getElementById("passwordInput").value;
-            if (!userId || !password) return;
+            if (!email || !password) return;
             
             document.getElementById("btnMasuk").disabled = true;
-            const response = await callApi('loginUser', { loginData: { userId, password } });
+            const response = await callApi('loginUser', { loginData: { email, password } });
 
             if(response.success){
                 sessionStorage.setItem("loggedInUser", JSON.stringify(response.user));
@@ -579,7 +575,7 @@
 
         async function loadReviewerDashboard(user) {
             const peminatanIds = user.peminatan || '';
-            const stats = await callApi('getReviewerStats', { reviewerId: user.userId, peminatanIds }, 'GET');
+            const stats = await callApi('getReviewerStats', { reviewerId: user.userId }, 'GET');
             if (stats) {
                 document.getElementById("reviewerPendingCount").textContent = stats.pendingReview;
                 document.getElementById("reviewerTotalCount").textContent = stats.totalReviewed;
@@ -598,7 +594,10 @@
           }
           container.innerHTML = soalList.map(soal => `
             <div class="card reviewer-card mb-4" id="card_${soal.id_soal}">
-              <div class="card-header">Soal dari: <strong>${soal.nama_dosen_pembuat}</strong></div>
+              <div class="card-header d-flex justify-content-between">
+                <span>Soal dari: <strong>${soal.nama_dosen_pembuat}</strong></span>
+                <span class="badge bg-primary align-self-center">${soal.nama_peminatan}</span>
+              </div>
               <div class="card-body">
                 <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
                 <ul class="list-group list-group-flush mb-3">
@@ -633,7 +632,7 @@
                 if (document.getElementById("soalUntukReview").children.length === 0) {
                   loadSoalForReviewer(user.peminatan);
                 }
-                loadReviewerDashboard(user); // Refresh stats
+                loadReviewerDashboard(user);
               }, 500);
             } else {
                buttonContainer.querySelectorAll('.btn').forEach(btn => btn.disabled = false);
@@ -642,51 +641,54 @@
             }
         }
         
+        // --- ADMIN DASHBOARD (OPTIMIZED) ---
         async function loadAdminDashboard() {
-            loadAdminStats();
-            loadUserManagement();
+            // Call the new combined endpoint
+            const data = await callApi('getAdminDashboardData', {}, 'GET');
+            if (data) {
+                populateAdminStats(data.stats);
+                populateUserTables(data.users);
+            }
         }
 
-        async function loadAdminStats() {
-          const [stats, users] = await Promise.all([
-             callApi('getAdminDashboardStats', {}, 'GET'),
-             callApi('getUsers', {}, 'GET')
-          ]);
+        function populateAdminStats(stats) {
+          if (!stats) return;
           document.getElementById('bankSoalCount').textContent = stats.bankSoalCount || 0;
-          document.getElementById('totalUserCount').textContent = users.length || 0;
-
+          
           const rekapDosenBody = document.getElementById('rekapDosen');
           rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ?
             Object.entries(stats.soalPerDosen).map(([dosen, count]) => `<tr><td>${dosen.split(" ")[0]}</td><td>${count}</td></tr>`).join('') :
-            '<tr><td colspan="2" class="text-center text-muted">...</td></tr>';
+            '<tr><td colspan="2" class="text-center text-muted">-</td></tr>';
           
           const rekapReviewerBody = document.getElementById('rekapReviewer');
           rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ?
             Object.values(stats.reviewPerReviewer).map(data => `<tr><td>${data.nama.split(" ")[0]}</td><td>${data.diterima}</td><td>${data.ditolak}</td></tr>`).join('') :
-            '<tr><td colspan="3" class="text-center text-muted">...</td></tr>';
+            '<tr><td colspan="3" class="text-center text-muted">-</td></tr>';
 
           const rekapPeminatanBody = document.getElementById('rekapPeminatan');
           rekapPeminatanBody.innerHTML = stats.soalPerPeminatan && Object.keys(stats.soalPerPeminatan).length > 0 ?
             Object.entries(stats.soalPerPeminatan).map(([peminatan, count]) => `<tr><td>${peminatan}</td><td>${count}</td></tr>`).join('') :
-            '<tr><td colspan="2" class="text-center text-muted">...</td></tr>';
+            '<tr><td colspan="2" class="text-center text-muted">-</td></tr>';
         }
 
-        async function loadUserManagement() {
-          const users = await callApi('getUsers', {}, 'GET');
-          ['dosenList', 'reviewerList'].forEach(id => document.getElementById(id).innerHTML = '');
+        function populateUserTables(users) {
+            if (!users) return;
+            document.getElementById('totalUserCount').textContent = users.length || 0;
+            const userListBody = document.getElementById('userList');
+            userListBody.innerHTML = '';
           
-          users.forEach(user => {
-            const listId = user.role === 'DOSEN' ? 'dosenList' : (user.role === 'REVIEWER' ? 'reviewerList' : null);
-            if (!listId) return;
-            const row = `<tr>
-              <td>${user.nama}</td>
-              <td><span class="badge bg-secondary">${(user.peminatan || '-').replace(/,/g, ', ')}</span></td>
-              <td>
-                <button class="btn btn-sm btn-outline-primary py-1 px-2" onclick='openUserModal(${JSON.stringify(user)}, "${user.role}")'><i class="bi bi-pencil-square"></i></button>
-                <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="handleDeleteUser('${user.userId}', '${user.nama}')"><i class="bi bi-trash"></i></button>
-              </td></tr>`;
-            document.getElementById(listId).innerHTML += row;
-          });
+            users.forEach(user => {
+                const row = `<tr>
+                  <td>${user.nama}</td>
+                  <td>${user.email || '-'}</td>
+                  <td><span class="badge bg-info text-dark">${user.role}</span></td>
+                  <td><span class="badge bg-secondary">${(user.peminatan || '-').replace(/,/g, ', ')}</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-primary py-1 px-2" onclick='openUserModal(${JSON.stringify(user)}, "${user.role}")'><i class="bi bi-pencil-square"></i></button>
+                    <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="handleDeleteUser('${user.userId}', '${user.nama}')"><i class="bi bi-trash"></i></button>
+                  </td></tr>`;
+                userListBody.innerHTML += row;
+            });
         }
         
         window.openUserModal = function(user, role) {
@@ -695,15 +697,16 @@
           document.getElementById('userRole').value = role;
           const label = document.getElementById('userModalLabel');
           label.innerHTML = `<i class="bi ${role === 'DOSEN' ? 'bi-person-plus-fill' : 'bi-person-video3'} me-2"></i>`;
-          if (user) { // Edit
-            label.innerHTML += `Edit Data ${role.toLowerCase()}`;
+          if (user) { // Edit mode
+            label.innerHTML += `Edit Data ${role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()}`;
             document.getElementById('userId').value = user.userId;
             document.getElementById('userNama').value = user.nama;
+            document.getElementById('userEmail').value = user.email || '';
             document.getElementById('userPeminatan').value = user.peminatan || '';
             document.getElementById('userPassword').placeholder = "Kosongkan jika tidak diubah";
             document.getElementById('userPassword').required = false;
-          } else { // Add
-            label.innerHTML += `Tambah ${role.toLowerCase()} Baru`;
+          } else { // Add mode
+            label.innerHTML += `Tambah ${role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()} Baru`;
             document.getElementById('userId').value = '';
             document.getElementById('userPassword').placeholder = "Password wajib diisi";
             document.getElementById('userPassword').required = true;
@@ -720,6 +723,7 @@
             const userData = {
                 userId: form.userId.value,
                 nama: form.userNama.value,
+                email: form.userEmail.value,
                 role: form.userRole.value,
                 password: form.userPassword.value,
                 peminatan: form.userPeminatan.value,
@@ -731,13 +735,19 @@
                 submitBtn.disabled = false; return;
             }
 
-            const response = await callApi(action, { userData });
-            alert(response.message);
-            if(response.success) {
-                userModalInstance.hide();
-                loadAdminDashboard();
+            try {
+                const response = await callApi(action, { userData });
+                alert(response.message);
+                if(response.success) {
+                    userModalInstance.hide();
+                    loadAdminDashboard(); // Reload data
+                }
+            } catch(error) {
+                // Error already alerted by callApi, we can just log it
+                console.error(error);
+            } finally {
+                submitBtn.disabled = false;
             }
-            submitBtn.disabled = false;
         }
         
         window.handleDeleteUser = async function(userId, userName) {
