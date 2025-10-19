@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base target="_top">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ukom Soal Review</title>
-    
+    <base target="_top" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SiMiVig - Review Soal Vignette Kebidanan</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
 
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 
     <!-- Internal CSS -->
     <style>
+      /* --- Root Variables for Both Views --- */
       :root {
+        /* Landing Page Theme */
+        --bg-color: #fefbff;
+        --primary-text: #4a4363;
+        --secondary-text: #7a7593;
+        --accent-color: #d9c8e4;
+        --card-shadow: 0 12px 30px rgba(74, 67, 99, 0.08);
+
+        /* App/Dashboard Theme */
         --primary-blue: #0d6efd;
         --primary-blue-hover: #0b5ed7;
         --secondary-blue: #e7f1ff;
@@ -39,166 +48,233 @@
         to { opacity: 1; transform: translateY(0); }
       }
 
-      body { 
-        background-color: var(--light-bg); 
-        font-family: 'Inter', sans-serif;
-        color: var(--dark-text);
+      body {
+        background-color: var(--bg-color);
+        font-family: "Poppins", sans-serif;
+        color: var(--primary-text);
         display: flex;
-        flex-direction: column; /* <-- TAMBAHKAN INI */
+        flex-direction: column;
         min-height: 100vh;
-        /* HAPUS: align-items: center; */
-        /* HAPUS: justify-content: center; */
+        overflow-x: hidden;
+        margin: 0;
       }
 
+      /* --- LANDING PAGE STYLES --- */
+      #landingContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        width: 100%;
+        animation: fadeIn 0.6s ease-out;
+      }
+      .landing-content {
+        max-width: 1140px;
+        width: 100%;
+        padding: 1.5rem;
+      }
+      .app-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4rem;
+        padding: 1rem 0;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary-text);
+        text-decoration: none;
+      }
+      .logo-icon { width: 28px; height: 28px; }
+      .main-nav a {
+        text-decoration: none;
+        color: var(--primary-text);
+        margin-left: 2.5rem;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: color 0.2s;
+        cursor: pointer;
+        position: relative;
+        padding-bottom: 5px;
+      }
+      .main-nav a:hover { color: var(--secondary-text); }
+      .main-nav a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--accent-color);
+        transition: width 0.3s ease-out;
+      }
+      .main-nav a:hover::after { width: 100%; }
+      .hero-section { display: flex; align-items: center; gap: 4rem; margin-bottom: 6rem; }
+      .hero-text { flex-basis: 50%; flex-shrink: 0; }
+      .hero-text h1 { font-size: 3.5rem; font-weight: 700; line-height: 1.25; margin-bottom: 1rem; color: var(--primary-text); }
+      .hero-text p { font-size: 1.25rem; color: var(--secondary-text); margin-bottom: 2.5rem; }
+      .btn-start {
+        background-color: var(--accent-color);
+        color: #4a4363;
+        border: none; padding: 0.9rem 3.5rem;
+        border-radius: 12px; font-size: 1.1rem;
+        font-weight: 600; cursor: pointer;
+        box-shadow: 0 5px 20px rgba(217, 200, 228, 0.7);
+        transition: all 0.2s ease; text-decoration: none;
+      }
+      .btn-start:hover { color: #4a4363; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(217, 200, 228, 0.9); }
+      .hero-image { flex-basis: 50%; text-align: right; }
+      .hero-image img { max-width: 450px; width: 100%; height: auto; }
+      
+      /* --- APP/DASHBOARD STYLES --- */
+      body.app-view {
+        background-color: var(--light-bg);
+        font-family: 'Inter', sans-serif;
+        color: var(--dark-text);
+      }
       #mainContainer {
         width: 100%;
         transition: max-width 0.3s ease-in-out;
-        flex-grow: 1; /* <-- TAMBAHKAN INI */
-        display: flex; /* <-- TAMBAHKAN INI */
-        align-items: center; /* <-- TAMBAHKAN INI */
-        justify-content: center; /* <-- TAMBAHKAN INI */
+        flex-grow: 1;
+        display: flex;
+        align-items: center; /* Vertical centering for login */
+        justify-content: center; /* Horizontal centering for login */
+        display: none; /* Initially hidden */
+      }
+      #mainContainer.dashboard-view {
+          align-items: flex-start; /* Align dashboard to top */
+          padding: 1.5rem;
       }
 
-      .container-login { max-width: 480px; }
+      .container-login {
+        max-width: 450px;
+        width: 80%;
+      }
 
       .content-card {
-        display: none; 
-        padding: 2.5rem; 
-        background-color: var(--white-color); 
-        border-radius: 1rem; 
+        display: none;
+        padding: 2.5rem;
+        background-color: var(--white-color);
+        border-radius: 1rem;
         border: 1px solid var(--border-color);
         box-shadow: var(--shadow);
         animation: fadeIn 0.5s ease-out forwards;
+        width: 100%;
       }
 
-      /* User Info & Role Badge in Dashboard Header */
-      #userInfoDosen, #userInfoReviewer, #userInfoAdmin, .role-badge {
-        font-weight: 500;
-      }
-      .role-badge {
-        font-size: 0.75rem;
-        padding: 0.3em 0.6em;
-        vertical-align: middle;
-        margin-left: 8px;
-        background-color: var(--secondary-blue);
-        color: var(--primary-blue);
-        border: 1px solid var(--primary-blue);
-      }
-      
-      /* FORM ELEMENTS STYLING */
+      #userInfoDosen, #userInfoReviewer, #userInfoAdmin, .role-badge { font-weight: 500; }
+      .role-badge { font-size: 0.75rem; padding: 0.3em 0.6em; vertical-align: middle; margin-left: 8px; background-color: var(--secondary-blue); color: var(--primary-blue); border: 1px solid var(--primary-blue); }
       .form-label { font-weight: 500; color: var(--gray-text); }
-      .form-control, .form-select {
-        border-radius: 0.5rem; padding: 0.75rem 1rem;
-        border: 1px solid var(--border-color);
-        transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
-      }
-      .form-control:focus, .form-select:focus {
-        border-color: var(--primary-blue);
-        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
-      }
-
+      .form-control, .form-select { border-radius: 0.5rem; padding: 0.75rem 1rem; border: 1px solid var(--border-color); transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out; }
+      .form-control:focus, .form-select:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15); }
       h2, h3 { color: var(--dark-text); font-weight: 600; display: flex; align-items: center; gap: 0.75rem;}
       h2 .bi, h3 .bi { font-size: 1.1em; color: var(--primary-blue);}
-
-      /* BUTTONS */
       .btn { border-radius: 0.5rem; padding: 0.6rem 1.25rem; font-weight: 600; transition: all 0.2s ease; }
       .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
       .btn-primary { background-color: var(--primary-blue); border-color: var(--primary-blue); }
       .btn-primary:hover { background-color: var(--primary-blue-hover); border-color: var(--primary-blue-hover); }
       .btn .bi { margin-right: 0.5rem; vertical-align: -2px;}
-
-      /* TABLES */
       .table { vertical-align: middle; }
       .table > :not(caption) > * > * { padding: 1rem; }
-      .table thead th { 
-        background-color: var(--light-bg); color: var(--dark-text); 
-        font-weight: 600; border-bottom: 2px solid var(--primary-blue);
-      }
-      .table-hover > tbody > tr:hover > * {
-        background-color: var(--secondary-blue);
-      }
-      
-      /* REVIEWER CARD */
-      .reviewer-card {
-        border: 1px solid var(--border-color); border-radius: 0.75rem; box-shadow: var(--shadow-sm);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        border-left: 4px solid var(--primary-blue);
-      }
+      .table thead th { background-color: var(--light-bg); color: var(--dark-text); font-weight: 600; border-bottom: 2px solid var(--primary-blue); }
+      .table-hover > tbody > tr:hover > * { background-color: var(--secondary-blue); }
+      .reviewer-card { border: 1px solid var(--border-color); border-radius: 0.75rem; box-shadow: var(--shadow-sm); transition: transform 0.2s ease, box-shadow 0.2s ease; border-left: 4px solid var(--primary-blue); }
       .reviewer-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
-      .reviewer-card .card-header {
-        background-color: var(--secondary-blue); border-bottom: 1px solid var(--border-color);
-        font-weight: 600; color: var(--primary-blue);
-        border-radius: 0.75rem 0.75rem 0 0;
-      }
-      .reviewer-card .list-group-item.correct-answer {
-        background-color: #d1e7dd; color: #0f5132;
-        font-weight: 600; border-color: rgba(0,0,0,0.05);
-      }
-
-      /* STAT CARDS */
-      .stat-card {
-        background-color: var(--white-color); border-radius: 0.75rem;
-        padding: 1.5rem; border: 1px solid var(--border-color);
-        box-shadow: var(--shadow-sm); text-align: center;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      }
-      .stat-card .stat-icon {
-        font-size: 2.2rem; margin-bottom: 0.75rem; color: var(--primary-blue); display: block;
-      }
+      .reviewer-card .card-header { background-color: var(--secondary-blue); border-bottom: 1px solid var(--border-color); font-weight: 600; color: var(--primary-blue); border-radius: 0.75rem 0.75rem 0 0; }
+      .reviewer-card .list-group-item.correct-answer { background-color: #d1e7dd; color: #0f5132; font-weight: 600; border-color: rgba(0,0,0,0.05); }
+      .stat-card { background-color: var(--white-color); border-radius: 0.75rem; padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); text-align: center; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+      .stat-card .stat-icon { font-size: 2.2rem; margin-bottom: 0.75rem; color: var(--primary-blue); display: block; }
       .stat-card .stat-value { font-size: 2rem; font-weight: 700; color: var(--dark-text); }
       .stat-card .stat-label { font-size: 0.9rem; color: var(--gray-text); font-weight: 500; }
       .stat-card.clickable { cursor: pointer; }
-      .stat-card.clickable:hover {
-        transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--primary-blue);
+      .stat-card.clickable:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--primary-blue); }
+      .admin-sub-card { border: 1px solid var(--border-color); border-radius: 0.75rem; box-shadow: var(--shadow-sm); }
+      .login-logo { max-width: 150px; margin-bottom: 1rem; }
+      #loginView h2, #loginView h3 { font-family: 'Inter', sans-serif; }
+      .app-footer { width: 100%; padding: 1.5rem 0; background-color: var(--white-color); border-top: 1px solid var(--border-color); color: var(--gray-text); font-size: 0.9rem; flex-shrink: 0; }
+      .app-footer.landing { background-color: transparent; border-top: none; }
+      
+      /* Responsive */
+      @media (max-width: 992px) {
+        .hero-section { flex-direction: column; text-align: center; gap: 2rem; }
+        .hero-text h1 { font-size: 3rem; }
+        .hero-image { text-align: center; margin-top: 2rem; order: -1; }
+        .hero-image img { max-width: 350px; }
+        #mainContainer.dashboard-view { padding: 1rem; }
       }
-
-      /* ADMIN DASHBOARD CARDS */
-      .admin-sub-card {
-        border: 1px solid var(--border-color);
-        border-radius: 0.75rem;
-        box-shadow: var(--shadow-sm);
-      }
-
-      /* LOGIN LOGO */
-      .login-logo {
-        max-width: 320px;
-        margin-bottom: 1rem;
-      }
-            .app-footer {
-        width: 100%;
-        padding: 1.5rem 0;
-        background-color: var(--white-color);
-        border-top: 1px solid var(--border-color);
-        color: var(--gray-text);
-        font-size: 0.9rem;
-        flex-shrink: 0; /* Mencegah footer menyusut */
+      @media (max-width: 768px) {
+        .app-header { flex-direction: column; gap: 1rem; margin-bottom: 2rem; text-align: center; }
+        .main-nav { display: flex; justify-content: center; }
+        .main-nav a { margin: 0 1rem; }
+        .hero-text h1 { font-size: 2.5rem; }
+        .hero-text p { font-size: 1.1rem; }
+        .container-login { width: 90%; }
+        #mainContainer.dashboard-view { padding: 0.5rem; }
+        .content-card { padding: 1.5rem; }
       }
     </style>
   </head>
   <body>
 
-    <main id="mainContainer" class="container-login">
-      <!-- HALAMAN LOGIN (MODIFIED for EMAIL & LOGO) -->
-      <div id="loginView" class="content-card text-center">
-        <img src="https://osce.masandigital.com/LOGO%20POLTEKKES%20KEMENKES%20KUPANG.png" alt="Logo Poltekkes Kupang" class="login-logo">
-        <h2 class="mt-2 justify-content-center">Selamat Datang di SiMiVig</h2>
-        <h3 class="mt-2 justify-content-center">Review Soal Vignette Kebidanan</h3>
-        <p class="text-muted mb-4">Silakan masuk untuk melanjutkan ke dashboard.</p>
-        <div class="mb-3 text-start">
-          <label for="emailInput" class="form-label">Email</label>
-          <input type="email" id="emailInput" class="form-control" placeholder="Masukkan email Anda" autocomplete="email">
-        </div>
-        <div class="mb-3 text-start">
-          <label for="passwordInput" class="form-label">Password</label>
-          <input type="password" id="passwordInput" class="form-control" placeholder="Masukkan password Anda" autocomplete="current-password">
-        </div>
-        <button id="btnMasuk" class="btn btn-primary w-100 mt-3" disabled><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
-        <div id="loginSpinner" class="text-center mt-3" style="display:none;">
-          <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+    <!-- NEW LANDING PAGE (Initially visible) -->
+    <main id="landingContainer">
+      <div class="landing-content">
+          <header class="app-header">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50,10 C60,0 80,0 90,10 C100,20 100,40 90,50 C80,60 60,60 50,50 M50,10 C40,0 20,0 10,10 C0,20 0,40 10,50 C20,60 40,60 50,50 M90,90 C80,100 60,100 50,90 C40,80 40,60 50,50 M10,90 C20,100 40,100 50,90 C60,80 60,60 50,50" fill="#fbc4d1" />
+                </svg>
+              SiMiVig
+            </a>
+            <nav class="main-nav">
+              <a id="navReviewSoal">Review Soal</a>
+              <a id="navBankSoal">Bank Soal</a>
+            </nav>
+          </header>
+
+          <section class="hero-section">
+            <div class="hero-text">
+              <h1>Review Soal<br />Vignette<br />Kebidanan</h1>
+              <p>Aplikasi Midwifery Vignette</p>
+              <a href="#" class="btn-start" id="btnMulai">Mulai Review</a>
+            </div>
+            <div class="hero-image">
+              <img src="bayi.png"/>
+            </div>
+          </section>
+
+      </div>
+    </main>
+
+    <!-- ORIGINAL APPLICATION (Initially hidden) -->
+    <main id="mainContainer">
+      <!-- Container for Login View (Centered) -->
+      <div class="container-login">
+        <div id="loginView" class="content-card text-center">
+          <img src="https://osce.masandigital.com/LOGO%20POLTEKKES%20KEMENKES%20KUPANG.png" alt="Logo Poltekkes Kupang" class="login-logo">
+          <h2 class="mt-2 justify-content-center">Selamat Datang di SiMiVig</h2>
+          <p class="text-muted mb-4">Silakan masuk untuk melanjutkan.</p>
+          <div class="mb-3 text-start">
+            <label for="emailInput" class="form-label">Email</label>
+            <input type="email" id="emailInput" class="form-control" placeholder="Masukkan email Anda" autocomplete="email">
+          </div>
+          <div class="mb-3 text-start">
+            <label for="passwordInput" class="form-label">Password</label>
+            <input type="password" id="passwordInput" class="form-control" placeholder="Masukkan password Anda" autocomplete="current-password">
+          </div>
+          <button id="btnMasuk" class="btn btn-primary w-100 mt-3" disabled><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
+          <div id="loginSpinner" class="text-center mt-3" style="display:none;">
+            <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+          </div>
         </div>
       </div>
-
-      <!-- DASHBOARD DOSEN -->
+      
+      <!-- DASHBOARD DOSEN (Full Width) -->
       <div id="dosenView" class="content-card">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="bi bi-person-workspace"></i> Dashboard Dosen</h2>
@@ -254,7 +330,7 @@
         <div id="riwayatSoalDosen"></div>
       </div>
 
-      <!-- DASHBOARD REVIEWER -->
+      <!-- DASHBOARD REVIEWER (Full Width) -->
       <div id="reviewerView" class="content-card">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="bi bi-person-video3"></i> Dashboard Reviewer</h2>
@@ -275,7 +351,7 @@
         <div id="soalUntukReview" class="mt-4"></div>
       </div>
 
-      <!-- DASHBOARD ADMIN -->
+      <!-- DASHBOARD ADMIN (Full Width) -->
       <div id="adminView" class="content-card">
         <div class="d-flex justify-content-between align-items-center">
             <h2><i class="bi bi-person-gear"></i> Dashboard Admin</h2>
@@ -286,7 +362,6 @@
         </div>
         <hr>
         <p class="text-muted">Ringkasan aktivitas sistem dan manajemen data master.</p>
-        <!-- Admin Stats & Tools Section -->
         <div class="card admin-sub-card mb-5">
             <div class="card-body p-4">
                 <div class="row g-4">
@@ -334,7 +409,6 @@
         </div>
         
         <div class="row g-4">
-            <!-- User Management Section -->
             <div class="col-lg-8">
                 <div class="card admin-sub-card h-100">
                     <div class="card-body p-4">
@@ -343,7 +417,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Peminatan Management Section -->
             <div class="col-lg-4">
                 <div class="card admin-sub-card h-100">
                     <div class="card-body p-4">
@@ -365,31 +438,26 @@
 
       </div>
     </main>
-
-        <!-- FOOTER BARU DIMULAI DI SINI -->
-    <footer class="app-footer">
+    
+    <footer class="app-footer landing">
       <div class="container-fluid text-center">
-        <p class="mb-0">&copy; <span id="currentYear"></span> Poltekkes Kemenkes Kupang. develop by Mas Andy.</p>
+        <p class="mb-0">&copy; <span id="currentYear"></span> Poltekkes Kemenkes Kupang. Developed by Mas Andy.</p>
       </div>
     </footer>
-    <!-- FOOTER BARU BERAKHIR DI SINI -->
     
     <!-- BANK SOAL MODAL -->
     <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
 
-    <!-- USER MANAGEMENT MODAL (MODIFIED) -->
+    <!-- USER MANAGEMENT MODAL -->
     <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div>
-    <!-- NEW: Peminatan Checkboxes -->
     <div class="mb-3">
         <label class="form-label">Peminatan</label>
-        <div id="userPeminatanCheckboxes" class="p-2 border rounded" style="max-height: 150px; overflow-y: auto;">
-            <!-- Checkboxes will be inserted here by JavaScript -->
-        </div>
+        <div id="userPeminatanCheckboxes" class="p-2 border rounded" style="max-height: 150px; overflow-y: auto;"></div>
         <small class="form-text text-muted">Pilih satu atau lebih peminatan yang relevan.</small>
     </div>
     </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
 
-    <!-- SOAL EDIT MODAL (NEW) -->
+    <!-- SOAL EDIT MODAL -->
     <div class="modal fade" id="editSoalModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content" style="border-radius: 1rem;"><form id="editSoalForm"><div class="modal-header bg-light"><h5 class="modal-title h2"><i class="bi bi-pencil-square me-2"></i> Edit & Ajukan Ulang Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">
         <input type="hidden" id="editSoalId">
         <div class="row g-3">
@@ -411,9 +479,10 @@
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3gv_dlo1-B2qV22SSA4Mpsnqeg2fX-gyU3mQnjFSARPB94VT5AjsBEaOlua1fnDH2/exec';
       
       let userModalInstance;
-      let editSoalModalInstance; // New
-      let allPeminatanList = []; // Store all peminatan for reuse
+      let editSoalModalInstance;
+      let allPeminatanList = [];
       
+      // --- ORIGINAL APP FUNCTIONS --- //
       async function callApi(action, payload, method = 'POST') {
         const spinner = document.getElementById("loginSpinner");
         if(spinner) spinner.style.display = 'block';
@@ -437,7 +506,6 @@
             if(spinner) spinner.style.display = 'none';
         }
       }
-      
       function handleDownloadTemplate() {
           const headers = ["soal_text", "opsi_a", "opsi_b", "opsi_c", "opsi_d", "opsi_e", "kunci_jawaban", "id_peminatan"];
           const csvContent = "data:text/csv;charset=utf-8," + headers.join(",");
@@ -449,11 +517,9 @@
           link.click();
           document.body.removeChild(link);
       }
-      
-      // Helper function to trigger file download from various data types
       function downloadFile(data, filename, mimeType) {
         let blob;
-        if (mimeType.includes('pdf') && typeof data === 'string') { // Base64 PDF
+        if (mimeType.includes('pdf') && typeof data === 'string') {
             const byteCharacters = atob(data);
             const byteNumbers = new Array(byteCharacters.length);
             for (let i = 0; i < byteCharacters.length; i++) {
@@ -461,7 +527,7 @@
             }
             const byteArray = new Uint8Array(byteNumbers);
             blob = new Blob([byteArray], { type: mimeType });
-        } else { // CSV, JSON
+        } else {
             blob = new Blob([data], { type: mimeType });
         }
         
@@ -475,48 +541,75 @@
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       }
+      // --- END ORIGINAL APP FUNCTIONS --- //
 
       document.addEventListener("DOMContentLoaded", function() {
-        const mainContainer = document.getElementById("mainContainer");
         const bodyEl = document.body;
+        const footer = document.querySelector('.app-footer');
+        const landingContainer = document.getElementById("landingContainer");
+        const mainContainer = document.getElementById("mainContainer");
+        const loginContainer = document.querySelector(".container-login");
+
         const views = {
           loginView: document.getElementById("loginView"),
           dosenView: document.getElementById("dosenView"),
           reviewerView: document.getElementById("reviewerView"),
           adminView: document.getElementById("adminView")
         };
+        
+        function transitionToApp() {
+            landingContainer.style.display = 'none';
+            mainContainer.style.display = 'flex';
+            bodyEl.classList.add('app-view');
+            footer.classList.remove('landing');
+        }
 
         function showView(viewName) {
+            transitionToApp();
             Object.values(views).forEach(view => view.style.display = 'none');
+            
             if(views[viewName]) {
                 views[viewName].style.display = 'block';
+                // Toggle container class for centering login vs full-width dashboard
                 if(viewName === 'loginView'){
-                  mainContainer.className = 'container-login';
-                  bodyEl.style.alignItems = 'center';
-                  bodyEl.style.justifyContent = 'center';
+                   mainContainer.classList.remove('dashboard-view');
+                   loginContainer.style.display = 'block'; // Show login container
                 } else {
-                  mainContainer.className = 'container-fluid py-4';
-                  bodyEl.style.alignItems = 'flex-start';
-                  bodyEl.style.justifyContent = 'center';
+                   mainContainer.classList.add('dashboard-view');
+                   loginContainer.style.display = 'none'; // Hide login container
                 }
             }
         }
         
         userModalInstance = new bootstrap.Modal(document.getElementById('userModal'));
-        editSoalModalInstance = new bootstrap.Modal(document.getElementById('editSoalModal')); // New
+        editSoalModalInstance = new bootstrap.Modal(document.getElementById('editSoalModal'));
 
+        // Check if user is already logged in
         const loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
         if (loggedInUser) {
           showDashboard(loggedInUser);
         } else {
-          showView("loginView");
+          // If not logged in, show landing page and set up its triggers
+          landingContainer.style.display = 'flex';
+          mainContainer.style.display = 'none';
+          document.getElementById('btnMulai').addEventListener('click', (e) => { e.preventDefault(); showView('loginView'); });
+          document.getElementById('navReviewSoal').addEventListener('click', (e) => { e.preventDefault(); showView('loginView'); });
+          document.getElementById('navBankSoal').addEventListener('click', (e) => { e.preventDefault(); showView('loginView'); });
+          
           setupSimpleLogin();
         }
 
+        // --- ALL ORIGINAL EVENT LISTENERS & FUNCTIONS BELOW --- //
         document.getElementById("btnMasuk").addEventListener("click", handleMasuk);
         document.querySelectorAll(".logout-button").forEach(btn => btn.addEventListener("click", handleLogout));
         document.getElementById("formSoal").addEventListener("submit", handleSubmitSoal);
-        document.getElementById("editSoalForm").addEventListener("submit", handleUpdateSoalSubmit); // New
+        document.getElementById("editSoalForm").addEventListener("submit", handleUpdateSoalSubmit);
+        document.getElementById("userForm").addEventListener("submit", handleUserFormSubmit);
+        // --- ALL ORIGINAL EVENT LISTENERS & FUNCTIONS BELOW --- //
+        document.getElementById("btnMasuk").addEventListener("click", handleMasuk);
+        document.querySelectorAll(".logout-button").forEach(btn => btn.addEventListener("click", handleLogout));
+        document.getElementById("formSoal").addEventListener("submit", handleSubmitSoal);
+        document.getElementById("editSoalForm").addEventListener("submit", handleUpdateSoalSubmit);
         document.getElementById("userForm").addEventListener("submit", handleUserFormSubmit);
         document.getElementById("btnDownloadTemplateDosen").addEventListener("click", handleDownloadTemplate);
         document.getElementById("btnDownloadTemplateAdmin").addEventListener("click", handleDownloadTemplate);
@@ -532,10 +625,8 @@
             const file = fileInput.files[0];
             const submitBtn = e.target.querySelector('button[type="submit"]');
             if (!file) return alert("Silakan pilih file untuk diunggah.");
-            
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
-
             const reader = new FileReader();
             reader.onload = async function(event) {
                 const csvData = event.target.result;
@@ -572,7 +663,6 @@
                 submitBtn.innerHTML = `<i class="bi bi-upload m-0"></i>`;
             }
         }
-        
         function setupSimpleLogin() {
           const emailInput = document.getElementById("emailInput");
           const passwordInput = document.getElementById("passwordInput");
@@ -583,15 +673,12 @@
           emailInput.addEventListener("input", validateForm);
           passwordInput.addEventListener("input", validateForm);
         }
-
         async function handleMasuk() {
             const email = document.getElementById("emailInput").value;
             const password = document.getElementById("passwordInput").value;
             if (!email || !password) return;
-            
             document.getElementById("btnMasuk").disabled = true;
             const response = await callApi('loginUser', { loginData: { email, password } });
-
             if(response.success){
                 sessionStorage.setItem("loggedInUser", JSON.stringify(response.user));
                 showDashboard(response.user);
@@ -600,21 +687,18 @@
                 document.getElementById("btnMasuk").disabled = false;
             }
         }
-
         function handleLogout() {
           sessionStorage.removeItem("loggedInUser");
           location.reload();
         }
-        
         async function showDashboard(user) {
           const roleBadge = `<span class="badge rounded-pill role-badge">${user.role}</span>`;
           const userInfoHtml = `Halo, <strong>${user.nama}</strong> ${roleBadge}`;
-          
           if (user.role === "DOSEN") {
             showView("dosenView");
             document.getElementById('userInfoDosen').innerHTML = userInfoHtml;
             document.getElementById('namaDosen').value = user.nama;
-            await loadPeminatanForDosen(user.peminatan); // Await this to ensure list is loaded
+            await loadPeminatanForDosen(user.peminatan);
             loadRiwayatSoalDosen(user.userId);
           } else if (user.role === "REVIEWER") {
             showView("reviewerView");
@@ -626,18 +710,15 @@
             loadAdminDashboard();
           }
         }
-
         async function populatePeminatanSelect(selectId, userPeminatanStr) {
             const userPeminatanIds = userPeminatanStr ? userPeminatanStr.split(',') : [];
             if (allPeminatanList.length === 0) {
                 const response = await callApi('getPeminatanList', {}, 'GET');
                 if(response) allPeminatanList = response;
             }
-            
             const select = document.getElementById(selectId);
             select.innerHTML = '<option value="" selected disabled>Pilih peminatan...</option>';
             const filteredPeminatan = allPeminatanList.filter(p => userPeminatanIds.includes(p.id.toString()));
-            
             if (filteredPeminatan.length > 0) {
                 filteredPeminatan.forEach(p => {
                     select.innerHTML += `<option value="${p.id}">${p.nama}</option>`;
@@ -648,13 +729,11 @@
                 select.disabled = true;
             }
         }
-
         async function loadPeminatanForDosen(userPeminatanStr) {
           await populatePeminatanSelect('peminatanDosen', userPeminatanStr);
           const select = document.getElementById('peminatanDosen');
           document.querySelector('#formSoal button[type="submit"]').disabled = select.disabled;
         }
-        
         async function handleSubmitSoal(e) {
           e.preventDefault();
           const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
@@ -666,11 +745,9 @@
               id_dosen_pembuat: user.userId
           };
           if (!soalData.id_peminatan || !soalData.kunci_jawaban) return alert("Peminatan dan Kunci Jawaban wajib dipilih.");
-
           const submitBtn = e.target.querySelector('button[type="submit"]');
           submitBtn.disabled = true;
           submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Mengirim...`;
-          
           const response = await callApi('submitSoal', { soalData });
           alert(response.message);
           if (response.success) {
@@ -681,17 +758,14 @@
           submitBtn.disabled = false;
           submitBtn.innerHTML = `<i class="bi bi-send-check"></i> Kirim Soal`;
         }
-        
         async function loadRiwayatSoalDosen(dosenId) {
             const container = document.getElementById("riwayatSoalDosen");
             container.innerHTML = '<div class="text-center"><div class="spinner-border text-secondary" role="status"></div></div>';
             document.getElementById("dosenStatSection").style.display = 'block';
-            
             const soalList = await callApi('getSoalByDosen', { dosenId }, 'GET');
             document.getElementById("dosenTotalCount").textContent = soalList.length;
             document.getElementById("dosenDiterimaCount").textContent = soalList.filter(s => s.status === 'DITERIMA').length;
             document.getElementById("dosenDitolakCount").textContent = soalList.filter(s => s.status === 'DITOLAK').length;
-
             if (!soalList || soalList.length === 0) {
               container.innerHTML = '<div class="alert alert-light text-center border">Anda belum pernah mengajukan soal.</div>';
               return;
@@ -714,7 +788,6 @@
             });
             container.innerHTML = html + '</tbody></table></div>';
         }
-
         window.openEditSoalModal = async function(soal) {
           document.getElementById('editSoalId').value = soal.id_soal;
           document.getElementById('editSoalText').value = soal.soal_text;
@@ -724,33 +797,25 @@
           document.getElementById('editOpsiD').value = soal.opsi_d;
           document.getElementById('editOpsiE').value = soal.opsi_e;
           document.getElementById('editKunciJawaban').value = soal.kunci_jawaban;
-          
           const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
           await populatePeminatanSelect('editPeminatanDosen', user.peminatan);
           document.getElementById('editPeminatanDosen').value = soal.id_peminatan;
-
           editSoalModalInstance.show();
         }
-
         async function handleUpdateSoalSubmit(e) {
             e.preventDefault();
             const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
             const soalData = {
                 id_soal: document.getElementById("editSoalId").value,
                 soal_text: document.getElementById("editSoalText").value,
-                opsi_a: document.getElementById("editOpsiA").value,
-                opsi_b: document.getElementById("editOpsiB").value,
-                opsi_c: document.getElementById("editOpsiC").value,
-                opsi_d: document.getElementById("editOpsiD").value,
-                opsi_e: document.getElementById("editOpsiE").value,
-                kunci_jawaban: document.getElementById("editKunciJawaban").value,
+                opsi_a: document.getElementById("editOpsiA").value, opsi_b: document.getElementById("editOpsiB").value,
+                opsi_c: document.getElementById("editOpsiC").value, opsi_d: document.getElementById("editOpsiD").value,
+                opsi_e: document.getElementById("editOpsiE").value, kunci_jawaban: document.getElementById("editKunciJawaban").value,
                 id_peminatan: document.getElementById("editPeminatanDosen").value,
             };
-
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Mengirim Ulang...`;
-            
             const response = await callApi('resubmitSoal', { soalData });
             alert(response.message);
             if (response.success) {
@@ -760,8 +825,6 @@
             submitBtn.disabled = false;
             submitBtn.innerHTML = `<i class="bi bi-send-check"></i> Simpan & Ajukan Ulang`;
         }
-
-
         async function loadReviewerDashboard(user) {
             const peminatanIds = user.peminatan || '';
             const stats = await callApi('getReviewerStats', { reviewerId: user.userId }, 'GET');
@@ -773,7 +836,6 @@
             }
             loadSoalForReviewer(peminatanIds);
         }
-
         async function loadSoalForReviewer(peminatanIdsStr) {
           const soalList = await callApi('getSoalForReviewer', { peminatanIds: peminatanIdsStr }, 'GET');
           const container = document.getElementById("soalUntukReview");
@@ -801,7 +863,6 @@
               </div>
             </div>`).join('');
         }
-
         window.handleReview = async function(id_soal, status, buttonElement) {
             const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
             const catatan = document.getElementById(`catatan_${id_soal}`).value;
@@ -829,43 +890,30 @@
                buttonContainer.querySelector('.btn-danger').innerHTML = '<i class="bi bi-x-circle"></i> Tolak';
             }
         }
-        
         async function loadAdminDashboard() {
             const data = await callApi('getAdminDashboardData', {}, 'GET');
             if (data) {
-                allPeminatanList = data.peminatan || []; // Store peminatan list
+                allPeminatanList = data.peminatan || [];
                 populateAdminStats(data.stats);
                 populateUserTables(data.users);
                 populateAdminPeminatanList(data.peminatan);
             }
         }
-
         function populateAdminStats(stats) {
           if (!stats) return;
           document.getElementById('bankSoalCount').textContent = stats.bankSoalCount || 0;
-          
           const rekapDosenBody = document.getElementById('rekapDosen');
-          rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ?
-            Object.entries(stats.soalPerDosen).map(([dosen, count]) => `<tr><td>${dosen.split(" ")[0]}</td><td>${count}</td></tr>`).join('') :
-            '<tr><td colspan="2" class="text-center text-muted">-</td></tr>';
-          
+          rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ? Object.entries(stats.soalPerDosen).map(([dosen, count]) => `<tr><td>${dosen.split(" ")[0]}</td><td>${count}</td></tr>`).join('') : '<tr><td colspan="2" class="text-center text-muted">-</td></tr>';
           const rekapReviewerBody = document.getElementById('rekapReviewer');
-          rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ?
-            Object.values(stats.reviewPerReviewer).map(data => `<tr><td>${data.nama.split(" ")[0]}</td><td>${data.diterima}</td><td>${data.ditolak}</td></tr>`).join('') :
-            '<tr><td colspan="3" class="text-center text-muted">-</td></tr>';
-
+          rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ? Object.values(stats.reviewPerReviewer).map(data => `<tr><td>${data.nama.split(" ")[0]}</td><td>${data.diterima}</td><td>${data.ditolak}</td></tr>`).join('') : '<tr><td colspan="3" class="text-center text-muted">-</td></tr>';
           const rekapPeminatanBody = document.getElementById('rekapPeminatan');
-          rekapPeminatanBody.innerHTML = stats.soalPerPeminatan && Object.keys(stats.soalPerPeminatan).length > 0 ?
-            Object.entries(stats.soalPerPeminatan).map(([peminatan, count]) => `<tr><td>${peminatan}</td><td>${count}</td></tr>`).join('') :
-            '<tr><td colspan="2" class="text-center text-muted">-</td></tr>';
+          rekapPeminatanBody.innerHTML = stats.soalPerPeminatan && Object.keys(stats.soalPerPeminatan).length > 0 ? Object.entries(stats.soalPerPeminatan).map(([peminatan, count]) => `<tr><td>${peminatan}</td><td>${count}</td></tr>`).join('') : '<tr><td colspan="2" class="text-center text-muted">-</td></tr>';
         }
-
         function populateUserTables(users) {
             if (!users) return;
             document.getElementById('totalUserCount').textContent = users.length || 0;
             const userListBody = document.getElementById('userList');
             userListBody.innerHTML = '';
-          
             users.forEach(user => {
                 const peminatanBadges = (user.peminatan || '').split(',').filter(Boolean).map(p => `<span class="badge bg-secondary me-1">${p}</span>`).join('') || '-';
                 const row = `<tr>
@@ -880,7 +928,6 @@
                 userListBody.innerHTML += row;
             });
         }
-        
         function populateAdminPeminatanList(peminatanList) {
             const listContainer = document.getElementById('peminatanList');
             if (!peminatanList) {
@@ -895,16 +942,13 @@
                 </tr>
             `).join('');
         }
-        
         async function handlePeminatanFormSubmit(e) {
             e.preventDefault();
             const id = document.getElementById('peminatanId').value.trim();
             const nama = document.getElementById('peminatanNama').value.trim();
             if(!id || !nama) return;
-
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-
             const response = await callApi('addPeminatan', { peminatanData: { id, nama } });
             alert(response.message);
             if (response.success) {
@@ -913,7 +957,6 @@
             }
             submitBtn.disabled = false;
         }
-
         window.handleDeletePeminatan = async function(id, nama) {
             if (confirm(`Yakin ingin menghapus peminatan "${nama}" (${id})?`)) {
                 const response = await callApi('deletePeminatan', { peminatanId: id });
@@ -921,34 +964,27 @@
                 if (response.success) loadAdminDashboard();
             }
         }
-
         window.openUserModal = function(user, role) {
           const form = document.getElementById('userForm');
           form.reset();
           document.getElementById('userRole').value = role;
           const label = document.getElementById('userModalLabel');
           label.innerHTML = `<i class="bi ${role === 'DOSEN' ? 'bi-person-plus-fill' : 'bi-person-video3'} me-2"></i>`;
-          
           const checkboxContainer = document.getElementById('userPeminatanCheckboxes');
           checkboxContainer.innerHTML = '';
           const userPeminatan = user ? (user.peminatan || '').split(',') : [];
           allPeminatanList.forEach(p => {
               const isChecked = userPeminatan.includes(p.id.toString());
-              checkboxContainer.innerHTML += `
-                  <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="${p.id}" id="peminatan_check_${p.id}" ${isChecked ? 'checked' : ''}>
-                      <label class="form-check-label" for="peminatan_check_${p.id}">${p.nama} (${p.id})</label>
-                  </div>`;
+              checkboxContainer.innerHTML += `<div class="form-check"><input class="form-check-input" type="checkbox" value="${p.id}" id="peminatan_check_${p.id}" ${isChecked ? 'checked' : ''}><label class="form-check-label" for="peminatan_check_${p.id}">${p.nama} (${p.id})</label></div>`;
           });
-
-          if (user) { // Edit mode
+          if (user) {
             label.innerHTML += `Edit Data ${role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()}`;
             document.getElementById('userId').value = user.userId;
             document.getElementById('userNama').value = user.nama;
             document.getElementById('userEmail').value = user.email || '';
             document.getElementById('userPassword').placeholder = "Kosongkan jika tidak diubah";
             document.getElementById('userPassword').required = false;
-          } else { // Add mode
+          } else {
             label.innerHTML += `Tambah ${role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()} Baru`;
             document.getElementById('userId').value = '';
             document.getElementById('userPassword').placeholder = "Password wajib diisi";
@@ -956,32 +992,18 @@
           }
           userModalInstance.show();
         }
-
         async function handleUserFormSubmit(e) {
             e.preventDefault();
             const form = e.target;
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-
-            const selectedPeminatan = Array.from(document.querySelectorAll('#userPeminatanCheckboxes .form-check-input:checked'))
-                                       .map(cb => cb.value)
-                                       .join(',');
-
-            const userData = {
-                userId: form.userId.value,
-                nama: form.userNama.value,
-                email: form.userEmail.value,
-                role: form.userRole.value,
-                password: form.userPassword.value,
-                peminatan: selectedPeminatan,
-            };
-            
+            const selectedPeminatan = Array.from(document.querySelectorAll('#userPeminatanCheckboxes .form-check-input:checked')).map(cb => cb.value).join(',');
+            const userData = { userId: form.userId.value, nama: form.userNama.value, email: form.userEmail.value, role: form.userRole.value, password: form.userPassword.value, peminatan: selectedPeminatan, };
             const action = userData.userId ? 'updateUser' : 'addUser';
             if(action === 'addUser' && !userData.password){
                 alert("Password wajib diisi untuk user baru.");
                 submitBtn.disabled = false; return;
             }
-
             try {
                 const response = await callApi(action, { userData });
                 alert(response.message);
@@ -992,7 +1014,6 @@
             } catch(error) { console.error(error); } 
             finally { submitBtn.disabled = false; }
         }
-        
         window.handleDeleteUser = async function(userId, userName) {
             if (confirm(`Yakin ingin menghapus user "${userName}"?`)) {
                 const response = await callApi('deleteUser', { userId });
@@ -1000,8 +1021,6 @@
                 if (response.success) loadAdminDashboard();
             }
         }
-        
-        // --- ADMIN EXPORT, BACKUP, RESTORE ---
         window.handleExport = async function(format, peminatanId, button) {
             const spinner = button.querySelector('.spinner-border');
             spinner.classList.remove('d-none');
@@ -1020,7 +1039,6 @@
                 button.disabled = false;
             }
         }
-        
         window.handleBackup = async function(button) {
             const spinner = button.querySelector('.spinner-border');
             spinner.classList.remove('d-none');
@@ -1041,30 +1059,26 @@
                 button.disabled = false;
             }
         }
-        
         async function handleRestoreSubmit(e) {
             e.preventDefault();
             const fileInput = document.getElementById('restoreFile');
             const file = fileInput.files[0];
             const button = e.target.querySelector('button[type="submit"]');
             if(!file) return alert("Silakan pilih file backup (.json) untuk di-restore.");
-            
             const confirmation = prompt("PERINGATAN! Tindakan ini akan MENGHAPUS SEMUA DATA saat ini dan menggantinya dengan data dari file backup. Ketik 'RESTORE' untuk melanjutkan.");
             if (confirmation !== 'RESTORE') {
                 fileInput.value = '';
                 return alert("Proses restore dibatalkan.");
             }
-            
             button.disabled = true;
             button.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
-            
             const reader = new FileReader();
             reader.onload = async (event) => {
                 try {
                     const backupData = JSON.parse(event.target.result);
                     const response = await callApi('restoreData', { backupData });
                     alert(response.message);
-                    if(response.success) location.reload(); // Reload to show new data
+                    if(response.success) location.reload();
                 } catch (err) {
                     console.error(err);
                     alert("Gagal memproses file backup. Pastikan file valid. " + err.message);
@@ -1081,79 +1095,44 @@
             };
             reader.readAsText(file);
         }
-
         let bankSoalModalInstance;
         window.showBankSoal = async function() {
             if (!bankSoalModalInstance) bankSoalModalInstance = new bootstrap.Modal(document.getElementById('bankSoalModal'));
             const modalBody = document.getElementById('bankSoalContent');
             modalBody.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div></div>';
             bankSoalModalInstance.show();
-
             const bankSoalList = await callApi('getBankSoal', {}, 'GET');
-
             if (!allPeminatanList || allPeminatanList.length === 0) {
                 modalBody.innerHTML = '<div class="alert alert-warning text-center m-3">Data Peminatan tidak ditemukan.</div>';
                 return;
             }
-            
             let tabHtml = '';
             let contentHtml = '';
-            
             const renderSoalContent = (soalList, peminatanId, peminatanNama) => {
-                const header = `
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="mb-0">Daftar Soal - ${peminatanNama}</h4>
-                        <div class="btn-group btn-group-sm">
-                            <button class="btn btn-outline-success" onclick="handleExport('excel', '${peminatanId}', this)"><i class="bi bi-file-earmark-excel-fill me-1"></i> Excel <span class="spinner-border spinner-border-sm d-none"></span></button>
-                            <button class="btn btn-outline-danger" onclick="handleExport('pdf', '${peminatanId}', this)"><i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF <span class="spinner-border spinner-border-sm d-none"></span></button>
-                        </div>
-                    </div>`;
-
-                if (soalList.length === 0) {
-                    return header + '<div class="alert alert-info text-center m-3">Bank Soal masih kosong untuk kategori ini.</div>';
-                }
+                const header = `<div class="d-flex justify-content-between align-items-center mb-3"><h4 class="mb-0">Daftar Soal - ${peminatanNama}</h4><div class="btn-group btn-group-sm"><button class="btn btn-outline-success" onclick="handleExport('excel', '${peminatanId}', this)"><i class="bi bi-file-earmark-excel-fill me-1"></i> Excel <span class="spinner-border spinner-border-sm d-none"></span></button><button class="btn btn-outline-danger" onclick="handleExport('pdf', '${peminatanId}', this)"><i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF <span class="spinner-border spinner-border-sm d-none"></span></button></div></div>`;
+                if (soalList.length === 0) { return header + '<div class="alert alert-info text-center m-3">Bank Soal masih kosong untuk kategori ini.</div>'; }
                 const soalCards = soalList.map((soal, s_index) => {
                     const peminatanInfo = allPeminatanList.find(p => p.id.toString() === soal.id_peminatan.toString());
                     const peminatanBadge = peminatanInfo && peminatanId === 'all' ? `<span class="badge bg-primary">${peminatanInfo.nama}</span>` : '';
-                    return `
-                    <div class="card reviewer-card mb-3">
-                      <div class="card-header d-flex justify-content-between">
-                        <span>Soal #${s_index + 1} (Dari: ${soal.nama_dosen_pembuat})</span>
-                        ${peminatanBadge}
-                      </div>
-                      <div class="card-body">
-                        <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
-                        <ul class="list-group list-group-flush">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt] || ''}</li>`).join('')}</ul>
-                      </div>
-                    </div>`;
+                    return `<div class="card reviewer-card mb-3"><div class="card-header d-flex justify-content-between"><span>Soal #${s_index + 1} (Dari: ${soal.nama_dosen_pembuat})</span>${peminatanBadge}</div><div class="card-body"><p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p><ul class="list-group list-group-flush">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt] || ''}</li>`).join('')}</ul></div></div>`;
                 }).join('');
                 return header + soalCards;
             };
-
-            // "All Peminatan" Tab
             const allSoalCount = bankSoalList.length;
             tabHtml += `<button class="nav-link text-start active" id="peminatan-tab-all" data-bs-toggle="pill" data-bs-target="#peminatan-content-all" type="button" role="tab" aria-selected="true">Semua Peminatan <span class="badge bg-primary rounded-pill ms-1">${allSoalCount}</span></button>`;
             contentHtml += `<div class="tab-pane fade show active" id="peminatan-content-all" role="tabpanel" tabindex="0">${renderSoalContent(bankSoalList, 'all', 'Semua Peminatan')}</div>`;
-
-            // Individual Peminatan Tabs
             allPeminatanList.forEach((peminatan) => {
                 const soalForPeminatan = bankSoalList.filter(s => s.id_peminatan.toString() === peminatan.id.toString());
                 const count = soalForPeminatan.length;
                 tabHtml += `<button class="nav-link text-start" id="peminatan-tab-${peminatan.id}" data-bs-toggle="pill" data-bs-target="#peminatan-content-${peminatan.id}" type="button" role="tab" aria-selected="false">${peminatan.nama} <span class="badge bg-secondary rounded-pill ms-1">${count}</span></button>`;
                 contentHtml += `<div class="tab-pane fade" id="peminatan-content-${peminatan.id}" role="tabpanel" tabindex="0">${renderSoalContent(soalForPeminatan, peminatan.id, peminatan.nama)}</div>`;
             });
-
-            modalBody.innerHTML = `
-                <div class="d-flex align-items-start">
-                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="min-width: 200px;">${tabHtml}</div>
-                    <div class="tab-content flex-grow-1" id="v-pills-tabContent">${contentHtml}</div>
-                </div>`;
+            modalBody.innerHTML = `<div class="d-flex align-items-start"><div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="min-width: 200px;">${tabHtml}</div><div class="tab-content flex-grow-1" id="v-pills-tabContent">${contentHtml}</div></div>`;
         }
       });
-    </script>
-<script>
+
+      // Simple script for footer year
       document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
-
   </body>
 </html>
