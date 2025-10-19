@@ -1,3 +1,5 @@
+--- START OF FILE index.html ---
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -295,6 +297,24 @@
                             <button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'REVIEWER')"><i class="bi bi-person-video3 me-2"></i> Tambah Reviewer Baru</button>
                             <button type="button" id="btnDownloadTemplateAdmin" class="list-group-item list-group-item-action"><i class="bi bi-download me-2"></i> Download Template Soal</button>
                         </div>
+                        <h3 class="mt-4"><i class="bi bi-box-seam"></i> Ekspor & Backup</h3>
+                        <div class="list-group">
+                             <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('excel', 'all', this)"><span><i class="bi bi-file-earmark-excel-fill text-success me-2"></i> Ekspor Bank Soal (Excel)</span><span class="spinner-border spinner-border-sm d-none"></span></button>
+                             <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('pdf', 'all', this)"><span><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i> Ekspor Bank Soal (PDF)</span><span class="spinner-border spinner-border-sm d-none"></span></button>
+                             <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleBackup(this)"><span><i class="bi bi-database-down me-2"></i> Backup Seluruh Data (JSON)</span><span class="spinner-border spinner-border-sm d-none"></span></button>
+                        </div>
+                        <div class="card bg-light border-warning mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title text-warning-emphasis"><i class="bi bi-exclamation-triangle-fill"></i> Restore Data</h5>
+                                <p class="card-text small">Tindakan ini akan menimpa seluruh data yang ada. Gunakan dengan hati-hati.</p>
+                                <form id="restoreForm">
+                                    <div class="input-group">
+                                        <input type="file" class="form-control form-control-sm" id="restoreFile" accept=".json" required>
+                                        <button class="btn btn-sm btn-warning" type="submit"><i class="bi bi-database-up"></i></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,7 +371,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // PASTE URL SCRIPT ANDA DI SINI
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwR5SHk0HCtq93GACX3uhHCqX5xXQs4UYdl7Y0PcNTpMihcPqWqkPDOlB10I7zolf0/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3gv_dlo1-B2qV22SSA4Mpsnqeg2fX-gyU3mQnjFSARPB94VT5AjsBEaOlua1fnDH2/exec';
       
       let userModalInstance;
       let allPeminatanList = []; // Store all peminatan for reuse
@@ -390,6 +410,32 @@
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+      }
+      
+      // Helper function to trigger file download from various data types
+      function downloadFile(data, filename, mimeType) {
+        let blob;
+        if (mimeType.includes('pdf') && typeof data === 'string') { // Base64 PDF
+            const byteCharacters = atob(data);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            blob = new Blob([byteArray], { type: mimeType });
+        } else { // CSV, JSON
+            blob = new Blob([data], { type: mimeType });
+        }
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
       }
 
       document.addEventListener("DOMContentLoaded", function() {
@@ -437,6 +483,8 @@
         document.getElementById("formUploadSoal").addEventListener("submit", handleSubmitUpload);
         const peminatanForm = document.getElementById("peminatanForm");
         if(peminatanForm) peminatanForm.addEventListener("submit", handlePeminatanFormSubmit);
+        const restoreForm = document.getElementById("restoreForm");
+        if(restoreForm) restoreForm.addEventListener("submit", handleRestoreSubmit);
 
         async function handleSubmitUpload(e) {
             e.preventDefault();
@@ -854,6 +902,87 @@
                 if (response.success) loadAdminDashboard();
             }
         }
+        
+        // --- ADMIN EXPORT, BACKUP, RESTORE ---
+        window.handleExport = async function(format, peminatanId, button) {
+            const spinner = button.querySelector('.spinner-border');
+            spinner.classList.remove('d-none');
+            button.disabled = true;
+            try {
+                const response = await callApi('exportSoal', { format, peminatanId });
+                if(response.success){
+                    downloadFile(response.fileData, response.fileName, response.mimeType);
+                } else {
+                    alert(response.message || "Gagal melakukan ekspor.");
+                }
+            } catch(e) {
+                alert("Terjadi kesalahan saat ekspor.");
+            } finally {
+                spinner.classList.add('d-none');
+                button.disabled = false;
+            }
+        }
+        
+        window.handleBackup = async function(button) {
+            const spinner = button.querySelector('.spinner-border');
+            spinner.classList.remove('d-none');
+            button.disabled = true;
+            try {
+                const response = await callApi('backupData', {});
+                if(response.success){
+                    const timestamp = new Date().toISOString().slice(0, 19).replace(/[-:T]/g, "");
+                    const filename = `simivig_backup_${timestamp}.json`;
+                    downloadFile(response.backupData, filename, 'application/json');
+                } else {
+                    alert(response.message || "Gagal melakukan backup.");
+                }
+            } catch(e) {
+                alert("Terjadi kesalahan saat backup.");
+            } finally {
+                spinner.classList.add('d-none');
+                button.disabled = false;
+            }
+        }
+        
+        async function handleRestoreSubmit(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('restoreFile');
+            const file = fileInput.files[0];
+            const button = e.target.querySelector('button[type="submit"]');
+            if(!file) return alert("Silakan pilih file backup (.json) untuk di-restore.");
+            
+            const confirmation = prompt("PERINGATAN! Tindakan ini akan MENGHAPUS SEMUA DATA saat ini dan menggantinya dengan data dari file backup. Ketik 'RESTORE' untuk melanjutkan.");
+            if (confirmation !== 'RESTORE') {
+                fileInput.value = '';
+                return alert("Proses restore dibatalkan.");
+            }
+            
+            button.disabled = true;
+            button.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+            
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                try {
+                    const backupData = JSON.parse(event.target.result);
+                    const response = await callApi('restoreData', { backupData });
+                    alert(response.message);
+                    if(response.success) location.reload(); // Reload to show new data
+                } catch (err) {
+                    console.error(err);
+                    alert("Gagal memproses file backup. Pastikan file valid. " + err.message);
+                } finally {
+                    button.disabled = false;
+                    button.innerHTML = `<i class="bi bi-database-up"></i>`;
+                    fileInput.value = '';
+                }
+            };
+            reader.onerror = () => {
+                alert("Gagal membaca file.");
+                button.disabled = false;
+                button.innerHTML = `<i class="bi bi-database-up"></i>`;
+            };
+            reader.readAsText(file);
+        }
 
         let bankSoalModalInstance;
         window.showBankSoal = async function() {
@@ -872,17 +1001,22 @@
             let tabHtml = '';
             let contentHtml = '';
             
-            // --- NEW: Create "All Peminatan" Tab ---
-            const allSoalCount = bankSoalList.length;
-            tabHtml += `<button class="nav-link text-start active" id="peminatan-tab-all" data-bs-toggle="pill" data-bs-target="#peminatan-content-all" type="button" role="tab" aria-selected="true">Semua Peminatan <span class="badge bg-primary rounded-pill ms-1">${allSoalCount}</span></button>`;
-            
-            let allSoalHtml;
-            if (allSoalCount === 0) {
-                allSoalHtml = '<div class="alert alert-info text-center m-3">Bank Soal masih kosong.</div>';
-            } else {
-                allSoalHtml = bankSoalList.map((soal, s_index) => {
+            const renderSoalContent = (soalList, peminatanId, peminatanNama) => {
+                const header = `
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="mb-0">Daftar Soal - ${peminatanNama}</h4>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-outline-success" onclick="handleExport('excel', '${peminatanId}', this)"><i class="bi bi-file-earmark-excel-fill me-1"></i> Excel <span class="spinner-border spinner-border-sm d-none"></span></button>
+                            <button class="btn btn-outline-danger" onclick="handleExport('pdf', '${peminatanId}', this)"><i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF <span class="spinner-border spinner-border-sm d-none"></span></button>
+                        </div>
+                    </div>`;
+
+                if (soalList.length === 0) {
+                    return header + '<div class="alert alert-info text-center m-3">Bank Soal masih kosong untuk kategori ini.</div>';
+                }
+                const soalCards = soalList.map((soal, s_index) => {
                     const peminatanInfo = allPeminatanList.find(p => p.id.toString() === soal.id_peminatan.toString());
-                    const peminatanBadge = peminatanInfo ? `<span class="badge bg-primary">${peminatanInfo.nama}</span>` : '';
+                    const peminatanBadge = peminatanInfo && peminatanId === 'all' ? `<span class="badge bg-primary">${peminatanInfo.nama}</span>` : '';
                     return `
                     <div class="card reviewer-card mb-3">
                       <div class="card-header d-flex justify-content-between">
@@ -895,31 +1029,20 @@
                       </div>
                     </div>`;
                 }).join('');
-            }
-            contentHtml += `<div class="tab-pane fade show active" id="peminatan-content-all" role="tabpanel" tabindex="0">${allSoalHtml}</div>`;
-            // --- END of NEW ---
+                return header + soalCards;
+            };
 
-            // --- Loop for individual peminatan ---
+            // "All Peminatan" Tab
+            const allSoalCount = bankSoalList.length;
+            tabHtml += `<button class="nav-link text-start active" id="peminatan-tab-all" data-bs-toggle="pill" data-bs-target="#peminatan-content-all" type="button" role="tab" aria-selected="true">Semua Peminatan <span class="badge bg-primary rounded-pill ms-1">${allSoalCount}</span></button>`;
+            contentHtml += `<div class="tab-pane fade show active" id="peminatan-content-all" role="tabpanel" tabindex="0">${renderSoalContent(bankSoalList, 'all', 'Semua Peminatan')}</div>`;
+
+            // Individual Peminatan Tabs
             allPeminatanList.forEach((peminatan) => {
-                const tabId = `peminatan-tab-${peminatan.id}`;
-                const contentId = `peminatan-content-${peminatan.id}`;
                 const soalForPeminatan = bankSoalList.filter(s => s.id_peminatan.toString() === peminatan.id.toString());
                 const count = soalForPeminatan.length;
-
-                tabHtml += `<button class="nav-link text-start" id="${tabId}" data-bs-toggle="pill" data-bs-target="#${contentId}" type="button" role="tab" aria-selected="false">${peminatan.nama} <span class="badge bg-secondary rounded-pill ms-1">${count}</span></button>`;
-                
-                let soalHtml = '<div class="p-3 alert alert-light border">Belum ada soal yang diterima untuk peminatan ini.</div>';
-                if (count > 0) {
-                    soalHtml = soalForPeminatan.map((soal, s_index) => `
-                        <div class="card reviewer-card mb-3">
-                          <div class="card-header d-flex justify-content-between"><span>Soal #${s_index + 1} (Dari: ${soal.nama_dosen_pembuat})</span></div>
-                          <div class="card-body">
-                            <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
-                            <ul class="list-group list-group-flush">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt] || ''}</li>`).join('')}</ul>
-                          </div>
-                        </div>`).join('');
-                }
-                contentHtml += `<div class="tab-pane fade" id="${contentId}" role="tabpanel" aria-labelledby="${tabId}" tabindex="0">${soalHtml}</div>`;
+                tabHtml += `<button class="nav-link text-start" id="peminatan-tab-${peminatan.id}" data-bs-toggle="pill" data-bs-target="#peminatan-content-${peminatan.id}" type="button" role="tab" aria-selected="false">${peminatan.nama} <span class="badge bg-secondary rounded-pill ms-1">${count}</span></button>`;
+                contentHtml += `<div class="tab-pane fade" id="peminatan-content-${peminatan.id}" role="tabpanel" tabindex="0">${renderSoalContent(soalForPeminatan, peminatan.id, peminatan.nama)}</div>`;
             });
 
             modalBody.innerHTML = `
