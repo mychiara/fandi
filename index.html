@@ -44,15 +44,21 @@
         font-family: 'Inter', sans-serif;
         color: var(--dark-text);
         display: flex;
+        flex-direction: column; /* <-- TAMBAHKAN INI */
         min-height: 100vh;
-        align-items: center;
-        justify-content: center;
+        /* HAPUS: align-items: center; */
+        /* HAPUS: justify-content: center; */
       }
 
       #mainContainer {
         width: 100%;
         transition: max-width 0.3s ease-in-out;
+        flex-grow: 1; /* <-- TAMBAHKAN INI */
+        display: flex; /* <-- TAMBAHKAN INI */
+        align-items: center; /* <-- TAMBAHKAN INI */
+        justify-content: center; /* <-- TAMBAHKAN INI */
       }
+
       .container-login { max-width: 480px; }
 
       .content-card {
@@ -157,6 +163,15 @@
       .login-logo {
         max-width: 320px;
         margin-bottom: 1rem;
+      }
+            .app-footer {
+        width: 100%;
+        padding: 1.5rem 0;
+        background-color: var(--white-color);
+        border-top: 1px solid var(--border-color);
+        color: var(--gray-text);
+        font-size: 0.9rem;
+        flex-shrink: 0; /* Mencegah footer menyusut */
       }
     </style>
   </head>
@@ -350,6 +365,14 @@
 
       </div>
     </main>
+
+        <!-- FOOTER BARU DIMULAI DI SINI -->
+    <footer class="app-footer">
+      <div class="container-fluid text-center">
+        <p class="mb-0">&copy; <span id="currentYear"></span> Poltekkes Kemenkes Kupang. develop by Mas Andy.</p>
+      </div>
+    </footer>
+    <!-- FOOTER BARU BERAKHIR DI SINI -->
     
     <!-- BANK SOAL MODAL -->
     <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
@@ -1127,6 +1150,9 @@
                 </div>`;
         }
       });
+    </script>
+<script>
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
 
   </body>
