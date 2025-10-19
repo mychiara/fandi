@@ -337,7 +337,16 @@
     <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
 
     <!-- USER MANAGEMENT MODAL (MODIFIED) -->
-    <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div><div class="mb-3"><label for="userPeminatan" class="form-label">ID Peminatan</label><input type="text" class="form-control" id="userPeminatan" name="peminatan"><small class="form-text text-muted">Pisahkan dengan koma jika lebih dari satu (e.g., P01,P02)</small></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
+    <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div>
+    <!-- NEW: Peminatan Checkboxes -->
+    <div class="mb-3">
+        <label class="form-label">Peminatan</label>
+        <div id="userPeminatanCheckboxes" class="p-2 border rounded" style="max-height: 150px; overflow-y: auto;">
+            <!-- Checkboxes will be inserted here by JavaScript -->
+        </div>
+        <small class="form-text text-muted">Pilih satu atau lebih peminatan yang relevan.</small>
+    </div>
+    </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -345,6 +354,7 @@
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwR5SHk0HCtq93GACX3uhHCqX5xXQs4UYdl7Y0PcNTpMihcPqWqkPDOlB10I7zolf0/exec';
       
       let userModalInstance;
+      let allPeminatanList = []; // Store all peminatan for reuse
       
       async function callApi(action, payload, method = 'POST') {
         const spinner = document.getElementById("loginSpinner");
@@ -425,7 +435,6 @@
         document.getElementById("btnDownloadTemplateDosen").addEventListener("click", handleDownloadTemplate);
         document.getElementById("btnDownloadTemplateAdmin").addEventListener("click", handleDownloadTemplate);
         document.getElementById("formUploadSoal").addEventListener("submit", handleSubmitUpload);
-        // Admin Peminatan form handler
         const peminatanForm = document.getElementById("peminatanForm");
         if(peminatanForm) peminatanForm.addEventListener("submit", handlePeminatanFormSubmit);
 
@@ -675,11 +684,10 @@
             }
         }
         
-        // --- ADMIN DASHBOARD (OPTIMIZED) ---
         async function loadAdminDashboard() {
-            // Call the new combined endpoint
             const data = await callApi('getAdminDashboardData', {}, 'GET');
             if (data) {
+                allPeminatanList = data.peminatan || []; // Store peminatan list
                 populateAdminStats(data.stats);
                 populateUserTables(data.users);
                 populateAdminPeminatanList(data.peminatan);
@@ -755,7 +763,7 @@
             alert(response.message);
             if (response.success) {
                 e.target.reset();
-                loadAdminDashboard(); // Reload all admin data
+                loadAdminDashboard(); 
             }
             submitBtn.disabled = false;
         }
@@ -774,12 +782,24 @@
           document.getElementById('userRole').value = role;
           const label = document.getElementById('userModalLabel');
           label.innerHTML = `<i class="bi ${role === 'DOSEN' ? 'bi-person-plus-fill' : 'bi-person-video3'} me-2"></i>`;
+          
+          const checkboxContainer = document.getElementById('userPeminatanCheckboxes');
+          checkboxContainer.innerHTML = '';
+          const userPeminatan = user ? (user.peminatan || '').split(',') : [];
+          allPeminatanList.forEach(p => {
+              const isChecked = userPeminatan.includes(p.id.toString());
+              checkboxContainer.innerHTML += `
+                  <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="${p.id}" id="peminatan_check_${p.id}" ${isChecked ? 'checked' : ''}>
+                      <label class="form-check-label" for="peminatan_check_${p.id}">${p.nama} (${p.id})</label>
+                  </div>`;
+          });
+
           if (user) { // Edit mode
             label.innerHTML += `Edit Data ${role.charAt(0).toUpperCase() + role.slice(1).toLowerCase()}`;
             document.getElementById('userId').value = user.userId;
             document.getElementById('userNama').value = user.nama;
             document.getElementById('userEmail').value = user.email || '';
-            document.getElementById('userPeminatan').value = user.peminatan || '';
             document.getElementById('userPassword').placeholder = "Kosongkan jika tidak diubah";
             document.getElementById('userPassword').required = false;
           } else { // Add mode
@@ -797,13 +817,17 @@
             const submitBtn = form.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
 
+            const selectedPeminatan = Array.from(document.querySelectorAll('#userPeminatanCheckboxes .form-check-input:checked'))
+                                       .map(cb => cb.value)
+                                       .join(',');
+
             const userData = {
                 userId: form.userId.value,
                 nama: form.userNama.value,
                 email: form.userEmail.value,
                 role: form.userRole.value,
                 password: form.userPassword.value,
-                peminatan: form.userPeminatan.value,
+                peminatan: selectedPeminatan,
             };
             
             const action = userData.userId ? 'updateUser' : 'addUser';
@@ -817,13 +841,10 @@
                 alert(response.message);
                 if(response.success) {
                     userModalInstance.hide();
-                    loadAdminDashboard(); // Reload data
+                    loadAdminDashboard(); 
                 }
-            } catch(error) {
-                console.error(error);
-            } finally {
-                submitBtn.disabled = false;
-            }
+            } catch(error) { console.error(error); } 
+            finally { submitBtn.disabled = false; }
         }
         
         window.handleDeleteUser = async function(userId, userName) {
@@ -840,27 +861,75 @@
             const modalBody = document.getElementById('bankSoalContent');
             modalBody.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div></div>';
             bankSoalModalInstance.show();
+
             const bankSoalList = await callApi('getBankSoal', {}, 'GET');
-            if (!bankSoalList || bankSoalList.length === 0) {
-                modalBody.innerHTML = '<div class="alert alert-info text-center m-3">Bank Soal masih kosong.</div>';
+
+            if (!allPeminatanList || allPeminatanList.length === 0) {
+                modalBody.innerHTML = '<div class="alert alert-warning text-center m-3">Data Peminatan tidak ditemukan.</div>';
                 return;
             }
-            modalBody.innerHTML = bankSoalList.map((soal, index) => `
-                <div class="card reviewer-card mb-3">
-                  <div class="card-header d-flex justify-content-between">
-                    <span>Soal #${index + 1} (Dari: ${soal.nama_dosen_pembuat})</span>
-                    <span class="badge bg-primary">Peminatan ID: ${soal.id_peminatan}</span>
-                  </div>
-                  <div class="card-body">
-                    <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
-                    <ul class="list-group list-group-flush">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt]}</li>`).join('')}</ul>
-                  </div>
-                </div>`).join('');
+            
+            let tabHtml = '';
+            let contentHtml = '';
+            
+            // --- NEW: Create "All Peminatan" Tab ---
+            const allSoalCount = bankSoalList.length;
+            tabHtml += `<button class="nav-link text-start active" id="peminatan-tab-all" data-bs-toggle="pill" data-bs-target="#peminatan-content-all" type="button" role="tab" aria-selected="true">Semua Peminatan <span class="badge bg-primary rounded-pill ms-1">${allSoalCount}</span></button>`;
+            
+            let allSoalHtml;
+            if (allSoalCount === 0) {
+                allSoalHtml = '<div class="alert alert-info text-center m-3">Bank Soal masih kosong.</div>';
+            } else {
+                allSoalHtml = bankSoalList.map((soal, s_index) => {
+                    const peminatanInfo = allPeminatanList.find(p => p.id.toString() === soal.id_peminatan.toString());
+                    const peminatanBadge = peminatanInfo ? `<span class="badge bg-primary">${peminatanInfo.nama}</span>` : '';
+                    return `
+                    <div class="card reviewer-card mb-3">
+                      <div class="card-header d-flex justify-content-between">
+                        <span>Soal #${s_index + 1} (Dari: ${soal.nama_dosen_pembuat})</span>
+                        ${peminatanBadge}
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
+                        <ul class="list-group list-group-flush">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt] || ''}</li>`).join('')}</ul>
+                      </div>
+                    </div>`;
+                }).join('');
+            }
+            contentHtml += `<div class="tab-pane fade show active" id="peminatan-content-all" role="tabpanel" tabindex="0">${allSoalHtml}</div>`;
+            // --- END of NEW ---
+
+            // --- Loop for individual peminatan ---
+            allPeminatanList.forEach((peminatan) => {
+                const tabId = `peminatan-tab-${peminatan.id}`;
+                const contentId = `peminatan-content-${peminatan.id}`;
+                const soalForPeminatan = bankSoalList.filter(s => s.id_peminatan.toString() === peminatan.id.toString());
+                const count = soalForPeminatan.length;
+
+                tabHtml += `<button class="nav-link text-start" id="${tabId}" data-bs-toggle="pill" data-bs-target="#${contentId}" type="button" role="tab" aria-selected="false">${peminatan.nama} <span class="badge bg-secondary rounded-pill ms-1">${count}</span></button>`;
+                
+                let soalHtml = '<div class="p-3 alert alert-light border">Belum ada soal yang diterima untuk peminatan ini.</div>';
+                if (count > 0) {
+                    soalHtml = soalForPeminatan.map((soal, s_index) => `
+                        <div class="card reviewer-card mb-3">
+                          <div class="card-header d-flex justify-content-between"><span>Soal #${s_index + 1} (Dari: ${soal.nama_dosen_pembuat})</span></div>
+                          <div class="card-body">
+                            <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
+                            <ul class="list-group list-group-flush">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt] || ''}</li>`).join('')}</ul>
+                          </div>
+                        </div>`).join('');
+                }
+                contentHtml += `<div class="tab-pane fade" id="${contentId}" role="tabpanel" aria-labelledby="${tabId}" tabindex="0">${soalHtml}</div>`;
+            });
+
+            modalBody.innerHTML = `
+                <div class="d-flex align-items-start">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="min-width: 200px;">${tabHtml}</div>
+                    <div class="tab-content flex-grow-1" id="v-pills-tabContent">${contentHtml}</div>
+                </div>`;
         }
       });
     </script>
 
   </body>
 </html>
-
-
