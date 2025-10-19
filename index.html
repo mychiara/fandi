@@ -1,5 +1,3 @@
---- START OF FILE index.html ---
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -368,12 +366,29 @@
     </div>
     </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
 
+    <!-- SOAL EDIT MODAL (NEW) -->
+    <div class="modal fade" id="editSoalModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content" style="border-radius: 1rem;"><form id="editSoalForm"><div class="modal-header bg-light"><h5 class="modal-title h2"><i class="bi bi-pencil-square me-2"></i> Edit & Ajukan Ulang Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">
+        <input type="hidden" id="editSoalId">
+        <div class="row g-3">
+            <div class="col-12"><label for="editPeminatanDosen" class="form-label">Peminatan</label><select id="editPeminatanDosen" class="form-select" required></select></div>
+            <div class="col-12"><label for="editSoalText" class="form-label">Vignette / Teks Soal</label><textarea id="editSoalText" class="form-control" rows="4" placeholder="Tulis soal di sini..." required></textarea></div>
+            <div class="col-md-6"><label for="editOpsiA" class="form-label">Opsi A</label><input type="text" id="editOpsiA" class="form-control" placeholder="Opsi A" required></div>
+            <div class="col-md-6"><label for="editOpsiB" class="form-label">Opsi B</label><input type="text" id="editOpsiB" class="form-control" placeholder="Opsi B" required></div>
+            <div class="col-md-6"><label for="editOpsiC" class="form-label">Opsi C</label><input type="text" id="editOpsiC" class="form-control" placeholder="Opsi C" required></div>
+            <div class="col-md-6"><label for="editOpsiD" class="form-label">Opsi D</label><input type="text" id="editOpsiD" class="form-control" placeholder="Opsi D" required></div>
+            <div class="col-md-6"><label for="editOpsiE" class="form-label">Opsi E</label><input type="text" id="editOpsiE" class="form-control" placeholder="Opsi E" required></div>
+            <div class="col-md-6"><label for="editKunciJawaban" class="form-label">Kunci Jawaban</label><select id="editKunciJawaban" class="form-select" required><option value="" disabled selected>Pilih Kunci...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div>
+        </div>
+    </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-send-check"></i> Simpan & Ajukan Ulang</button></div></form></div></div></div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // PASTE URL SCRIPT ANDA DI SINI
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3gv_dlo1-B2qV22SSA4Mpsnqeg2fX-gyU3mQnjFSARPB94VT5AjsBEaOlua1fnDH2/exec';
       
       let userModalInstance;
+      let editSoalModalInstance; // New
       let allPeminatanList = []; // Store all peminatan for reuse
       
       async function callApi(action, payload, method = 'POST') {
@@ -465,6 +480,7 @@
         }
         
         userModalInstance = new bootstrap.Modal(document.getElementById('userModal'));
+        editSoalModalInstance = new bootstrap.Modal(document.getElementById('editSoalModal')); // New
 
         const loggedInUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
         if (loggedInUser) {
@@ -477,6 +493,7 @@
         document.getElementById("btnMasuk").addEventListener("click", handleMasuk);
         document.querySelectorAll(".logout-button").forEach(btn => btn.addEventListener("click", handleLogout));
         document.getElementById("formSoal").addEventListener("submit", handleSubmitSoal);
+        document.getElementById("editSoalForm").addEventListener("submit", handleUpdateSoalSubmit); // New
         document.getElementById("userForm").addEventListener("submit", handleUserFormSubmit);
         document.getElementById("btnDownloadTemplateDosen").addEventListener("click", handleDownloadTemplate);
         document.getElementById("btnDownloadTemplateAdmin").addEventListener("click", handleDownloadTemplate);
@@ -566,7 +583,7 @@
           location.reload();
         }
         
-        function showDashboard(user) {
+        async function showDashboard(user) {
           const roleBadge = `<span class="badge rounded-pill role-badge">${user.role}</span>`;
           const userInfoHtml = `Halo, <strong>${user.nama}</strong> ${roleBadge}`;
           
@@ -574,7 +591,7 @@
             showView("dosenView");
             document.getElementById('userInfoDosen').innerHTML = userInfoHtml;
             document.getElementById('namaDosen').value = user.nama;
-            loadPeminatanForDosen(user.peminatan);
+            await loadPeminatanForDosen(user.peminatan); // Await this to ensure list is loaded
             loadRiwayatSoalDosen(user.userId);
           } else if (user.role === "REVIEWER") {
             showView("reviewerView");
@@ -587,26 +604,32 @@
           }
         }
 
+        async function populatePeminatanSelect(selectId, userPeminatanStr) {
+            const userPeminatanIds = userPeminatanStr ? userPeminatanStr.split(',') : [];
+            if (allPeminatanList.length === 0) {
+                const response = await callApi('getPeminatanList', {}, 'GET');
+                if(response) allPeminatanList = response;
+            }
+            
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="" selected disabled>Pilih peminatan...</option>';
+            const filteredPeminatan = allPeminatanList.filter(p => userPeminatanIds.includes(p.id.toString()));
+            
+            if (filteredPeminatan.length > 0) {
+                filteredPeminatan.forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.nama}</option>`;
+                });
+                select.disabled = false;
+            } else {
+                select.innerHTML = '<option value="" disabled selected>Anda tidak terdaftar pada peminatan manapun.</option>';
+                select.disabled = true;
+            }
+        }
+
         async function loadPeminatanForDosen(userPeminatanStr) {
-          const userPeminatanIds = userPeminatanStr ? userPeminatanStr.split(',') : [];
-          const allPeminatanList = await callApi('getPeminatanList', {}, 'GET');
-          
-          const select = document.getElementById("peminatanDosen");
-          select.innerHTML = '<option value="" selected disabled>Pilih peminatan...</option>';
-
-          const filteredPeminatan = allPeminatanList.filter(p => userPeminatanIds.includes(p.id.toString()));
-
-          if (filteredPeminatan.length === 0) {
-              select.innerHTML = '<option value="" disabled selected>Anda tidak terdaftar pada peminatan manapun.</option>';
-              select.disabled = true;
-              document.querySelector('#formSoal button[type="submit"]').disabled = true;
-          } else {
-              filteredPeminatan.forEach(p => {
-                  select.innerHTML += `<option value="${p.id}">${p.nama}</option>`;
-              });
-              select.disabled = false;
-              document.querySelector('#formSoal button[type="submit"]').disabled = false;
-          }
+          await populatePeminatanSelect('peminatanDosen', userPeminatanStr);
+          const select = document.getElementById('peminatanDosen');
+          document.querySelector('#formSoal button[type="submit"]').disabled = select.disabled;
         }
         
         async function handleSubmitSoal(e) {
@@ -650,7 +673,7 @@
               container.innerHTML = '<div class="alert alert-light text-center border">Anda belum pernah mengajukan soal.</div>';
               return;
             }
-            let html = '<div class="table-responsive"><table class="table table-striped table-hover"><thead><tr><th>Soal</th><th>Status</th><th>Catatan Reviewer</th></tr></thead><tbody>';
+            let html = '<div class="table-responsive"><table class="table table-striped table-hover"><thead><tr><th>Soal</th><th>Status</th><th>Catatan Reviewer</th><th>Aksi</th></tr></thead><tbody>';
             soalList.slice().reverse().forEach(soal => {
               let statusBadge = '';
               switch(soal.status) {
@@ -659,10 +682,62 @@
                 case 'MENUNGGU_REVIEW': statusBadge = '<span class="badge bg-warning text-dark">MENUNGGU REVIEW</span>'; break;
                 default: statusBadge = `<span class="badge bg-secondary">${soal.status}</span>`;
               }
-              html += `<tr><td>${soal.soal_text.substring(0, 70)}...</td><td>${statusBadge}</td><td>${soal.catatan_reviewer || '-'}</td></tr>`;
+              let aksiHtml = '-';
+              if (soal.status === 'DITOLAK') {
+                  const soalJsonString = JSON.stringify(soal).replace(/'/g, "\\'");
+                  aksiHtml = `<button class="btn btn-sm btn-warning py-1" onclick='openEditSoalModal(${soalJsonString})'><i class="bi bi-pencil-square" style="margin-right: 0.2rem;"></i> Edit & Kirim Ulang</button>`;
+              }
+              html += `<tr><td>${soal.soal_text.substring(0, 70)}...</td><td>${statusBadge}</td><td>${soal.catatan_reviewer || '-'}</td><td>${aksiHtml}</td></tr>`;
             });
             container.innerHTML = html + '</tbody></table></div>';
         }
+
+        window.openEditSoalModal = async function(soal) {
+          document.getElementById('editSoalId').value = soal.id_soal;
+          document.getElementById('editSoalText').value = soal.soal_text;
+          document.getElementById('editOpsiA').value = soal.opsi_a;
+          document.getElementById('editOpsiB').value = soal.opsi_b;
+          document.getElementById('editOpsiC').value = soal.opsi_c;
+          document.getElementById('editOpsiD').value = soal.opsi_d;
+          document.getElementById('editOpsiE').value = soal.opsi_e;
+          document.getElementById('editKunciJawaban').value = soal.kunci_jawaban;
+          
+          const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+          await populatePeminatanSelect('editPeminatanDosen', user.peminatan);
+          document.getElementById('editPeminatanDosen').value = soal.id_peminatan;
+
+          editSoalModalInstance.show();
+        }
+
+        async function handleUpdateSoalSubmit(e) {
+            e.preventDefault();
+            const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+            const soalData = {
+                id_soal: document.getElementById("editSoalId").value,
+                soal_text: document.getElementById("editSoalText").value,
+                opsi_a: document.getElementById("editOpsiA").value,
+                opsi_b: document.getElementById("editOpsiB").value,
+                opsi_c: document.getElementById("editOpsiC").value,
+                opsi_d: document.getElementById("editOpsiD").value,
+                opsi_e: document.getElementById("editOpsiE").value,
+                kunci_jawaban: document.getElementById("editKunciJawaban").value,
+                id_peminatan: document.getElementById("editPeminatanDosen").value,
+            };
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Mengirim Ulang...`;
+            
+            const response = await callApi('resubmitSoal', { soalData });
+            alert(response.message);
+            if (response.success) {
+              editSoalModalInstance.hide();
+              loadRiwayatSoalDosen(user.userId);
+            }
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `<i class="bi bi-send-check"></i> Simpan & Ajukan Ulang`;
+        }
+
 
         async function loadReviewerDashboard(user) {
             const peminatanIds = user.peminatan || '';
