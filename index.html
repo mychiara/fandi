@@ -38,6 +38,7 @@
         --success-color: #198754;
         --danger-color: #dc3545;
         --warning-color: #ffc107;
+        --info-color: #0dcaf0;
         --white-color: #fff;
         --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
         --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
@@ -446,7 +447,7 @@
     </footer>
     
     <!-- BANK SOAL MODAL -->
-    <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
+    <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><div class="d-flex w-100 justify-content-between align-items-center"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><div id="bankSoalControls" class="d-flex align-items-center gap-2"></div></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
 
     <!-- USER MANAGEMENT MODAL -->
     <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div>
@@ -458,7 +459,7 @@
     </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
 
     <!-- SOAL EDIT MODAL -->
-    <div class="modal fade" id="editSoalModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content" style="border-radius: 1rem;"><form id="editSoalForm"><div class="modal-header bg-light"><h5 class="modal-title h2"><i class="bi bi-pencil-square me-2"></i> Edit & Ajukan Ulang Soal</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">
+    <div class="modal fade" id="editSoalModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content" style="border-radius: 1rem;"><form id="editSoalForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="editSoalModalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body">
         <input type="hidden" id="editSoalId">
         <div class="row g-3">
             <div class="col-12"><label for="editPeminatanDosen" class="form-label">Peminatan</label><select id="editPeminatanDosen" class="form-select" required></select></div>
@@ -470,13 +471,13 @@
             <div class="col-md-6"><label for="editOpsiE" class="form-label">Opsi E</label><input type="text" id="editOpsiE" class="form-control" placeholder="Opsi E" required></div>
             <div class="col-md-6"><label for="editKunciJawaban" class="form-label">Kunci Jawaban</label><select id="editKunciJawaban" class="form-select" required><option value="" disabled selected>Pilih Kunci...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div>
         </div>
-    </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-send-check"></i> Simpan & Ajukan Ulang</button></div></form></div></div></div>
+    </div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="editSoalSubmitBtn"></button></div></form></div></div></div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       // PASTE URL SCRIPT ANDA DI SINI
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3gv_dlo1-B2qV22SSA4Mpsnqeg2fX-gyU3mQnjFSARPB94VT5AjsBEaOlua1fnDH2/exec';
+      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypJPODPYiJahEHAAvfSFjTdDdcxvWvQv2QjRyBMNTg3onhGBlA5fpqjuXYpRAv5zuz/exec';
       
       let userModalInstance;
       let editSoalModalInstance;
@@ -599,12 +600,6 @@
           setupSimpleLogin();
         }
 
-        // --- ALL ORIGINAL EVENT LISTENERS & FUNCTIONS BELOW --- //
-        document.getElementById("btnMasuk").addEventListener("click", handleMasuk);
-        document.querySelectorAll(".logout-button").forEach(btn => btn.addEventListener("click", handleLogout));
-        document.getElementById("formSoal").addEventListener("submit", handleSubmitSoal);
-        document.getElementById("editSoalForm").addEventListener("submit", handleUpdateSoalSubmit);
-        document.getElementById("userForm").addEventListener("submit", handleUserFormSubmit);
         // --- ALL ORIGINAL EVENT LISTENERS & FUNCTIONS BELOW --- //
         document.getElementById("btnMasuk").addEventListener("click", handleMasuk);
         document.querySelectorAll(".logout-button").forEach(btn => btn.addEventListener("click", handleLogout));
@@ -780,15 +775,31 @@
                 default: statusBadge = `<span class="badge bg-secondary">${soal.status}</span>`;
               }
               let aksiHtml = '-';
-              if (soal.status === 'DITOLAK') {
+              if (soal.status === 'DITOLAK' || soal.status === 'MENUNGGU_REVIEW') {
                   const soalJsonString = JSON.stringify(soal).replace(/'/g, "\\'");
-                  aksiHtml = `<button class="btn btn-sm btn-warning py-1" onclick='openEditSoalModal(${soalJsonString})'><i class="bi bi-pencil-square" style="margin-right: 0.2rem;"></i> Edit & Kirim Ulang</button>`;
+                  const isRejected = soal.status === 'DITOLAK';
+                  const btnClass = isRejected ? 'btn-warning' : 'btn-info text-dark';
+                  const btnIcon = isRejected ? 'bi-pencil-square' : 'bi-pencil';
+                  const btnText = isRejected ? 'Edit & Kirim Ulang' : 'Edit Soal';
+                  const context = isRejected ? 'resubmit' : 'update';
+                  aksiHtml = `<button class="btn btn-sm ${btnClass} py-1" onclick='openEditSoalModal(${soalJsonString}, "${context}")'><i class="${btnIcon}" style="margin-right: 0.2rem;"></i> ${btnText}</button>`;
               }
               html += `<tr><td>${soal.soal_text.substring(0, 70)}...</td><td>${statusBadge}</td><td>${soal.catatan_reviewer || '-'}</td><td>${aksiHtml}</td></tr>`;
             });
             container.innerHTML = html + '</tbody></table></div>';
         }
-        window.openEditSoalModal = async function(soal) {
+        window.openEditSoalModal = async function(soal, context) {
+          const modalTitle = document.getElementById('editSoalModalTitle');
+          const submitBtn = document.getElementById('editSoalSubmitBtn');
+
+          if(context === 'resubmit') {
+              modalTitle.innerHTML = `<i class="bi bi-pencil-square me-2"></i> Edit & Ajukan Ulang Soal`;
+              submitBtn.innerHTML = `<i class="bi bi-send-check"></i> Simpan & Ajukan Ulang`;
+          } else { // context === 'update'
+              modalTitle.innerHTML = `<i class="bi bi-pencil me-2"></i> Edit Soal`;
+              submitBtn.innerHTML = `<i class="bi bi-save"></i> Simpan Perubahan`;
+          }
+
           document.getElementById('editSoalId').value = soal.id_soal;
           document.getElementById('editSoalText').value = soal.soal_text;
           document.getElementById('editOpsiA').value = soal.opsi_a;
@@ -814,16 +825,17 @@
                 id_peminatan: document.getElementById("editPeminatanDosen").value,
             };
             const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalBtnHtml = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Mengirim Ulang...`;
-            const response = await callApi('resubmitSoal', { soalData });
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Menyimpan...`;
+            const response = await callApi('updateSoal', { soalData });
             alert(response.message);
             if (response.success) {
               editSoalModalInstance.hide();
               loadRiwayatSoalDosen(user.userId);
             }
             submitBtn.disabled = false;
-            submitBtn.innerHTML = `<i class="bi bi-send-check"></i> Simpan & Ajukan Ulang`;
+            submitBtn.innerHTML = originalBtnHtml;
         }
         async function loadReviewerDashboard(user) {
             const peminatanIds = user.peminatan || '';
@@ -1096,18 +1108,42 @@
             reader.readAsText(file);
         }
         let bankSoalModalInstance;
+        let originalBankSoalList = [];
         window.showBankSoal = async function() {
             if (!bankSoalModalInstance) bankSoalModalInstance = new bootstrap.Modal(document.getElementById('bankSoalModal'));
-            const modalBody = document.getElementById('bankSoalContent');
-            modalBody.innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div></div>';
+            document.getElementById('bankSoalContent').innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div></div>';
+            document.getElementById('bankSoalControls').innerHTML = '';
             bankSoalModalInstance.show();
-            const bankSoalList = await callApi('getBankSoal', {}, 'GET');
+            
+            originalBankSoalList = await callApi('getBankSoal', {}, 'GET');
+
             if (!allPeminatanList || allPeminatanList.length === 0) {
-                modalBody.innerHTML = '<div class="alert alert-warning text-center m-3">Data Peminatan tidak ditemukan.</div>';
+                document.getElementById('bankSoalContent').innerHTML = '<div class="alert alert-warning text-center m-3">Data Peminatan tidak ditemukan.</div>';
                 return;
             }
+
+            const years = [...new Set(originalBankSoalList.map(s => s.tgl_dibuat ? new Date(s.tgl_dibuat).getFullYear() : new Date().getFullYear()))].sort((a, b) => b - a);
+            let yearFilterHtml = `<select id="bankSoalYearFilter" class="form-select form-select-sm" style="width: auto;"><option value="all">Semua Tahun</option>`;
+            years.forEach(y => yearFilterHtml += `<option value="${y}">${y}</option>`);
+            yearFilterHtml += `</select>`;
+            document.getElementById('bankSoalControls').innerHTML = yearFilterHtml;
+
+            document.getElementById('bankSoalYearFilter').addEventListener('change', () => {
+                const selectedYear = document.getElementById('bankSoalYearFilter').value;
+                const filteredList = selectedYear === 'all'
+                    ? originalBankSoalList
+                    : originalBankSoalList.filter(s => s.tgl_dibuat && new Date(s.tgl_dibuat).getFullYear() == selectedYear);
+                renderBankSoalTabsAndContent(filteredList);
+            });
+
+            renderBankSoalTabsAndContent(originalBankSoalList);
+        }
+
+        function renderBankSoalTabsAndContent(bankSoalList) {
+            const modalBody = document.getElementById('bankSoalContent');
             let tabHtml = '';
             let contentHtml = '';
+
             const renderSoalContent = (soalList, peminatanId, peminatanNama) => {
                 const header = `<div class="d-flex justify-content-between align-items-center mb-3"><h4 class="mb-0">Daftar Soal - ${peminatanNama}</h4><div class="btn-group btn-group-sm"><button class="btn btn-outline-success" onclick="handleExport('excel', '${peminatanId}', this)"><i class="bi bi-file-earmark-excel-fill me-1"></i> Excel <span class="spinner-border spinner-border-sm d-none"></span></button><button class="btn btn-outline-danger" onclick="handleExport('pdf', '${peminatanId}', this)"><i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF <span class="spinner-border spinner-border-sm d-none"></span></button></div></div>`;
                 if (soalList.length === 0) { return header + '<div class="alert alert-info text-center m-3">Bank Soal masih kosong untuk kategori ini.</div>'; }
@@ -1118,9 +1154,11 @@
                 }).join('');
                 return header + soalCards;
             };
+
             const allSoalCount = bankSoalList.length;
             tabHtml += `<button class="nav-link text-start active" id="peminatan-tab-all" data-bs-toggle="pill" data-bs-target="#peminatan-content-all" type="button" role="tab" aria-selected="true">Semua Peminatan <span class="badge bg-primary rounded-pill ms-1">${allSoalCount}</span></button>`;
             contentHtml += `<div class="tab-pane fade show active" id="peminatan-content-all" role="tabpanel" tabindex="0">${renderSoalContent(bankSoalList, 'all', 'Semua Peminatan')}</div>`;
+            
             allPeminatanList.forEach((peminatan) => {
                 const soalForPeminatan = bankSoalList.filter(s => s.id_peminatan.toString() === peminatan.id.toString());
                 const count = soalForPeminatan.length;
