@@ -22,7 +22,7 @@
       :root {
         /* Landing Page Theme */
         --bg-color: #fefbff;
-        --primary-text: #4a4363;
+        --primary-te  t: #4a4363;
         --secondary-text: #7a7593;
         --accent-color: #d9c8e4;
         --card-shadow: 0 12px 30px rgba(74, 67, 99, 0.08);
@@ -376,7 +376,21 @@
                         <div class="row g-3">
                             <div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Peminatan</th><th>Soal</th></tr></thead><tbody id="rekapPeminatan"></tbody></table></div></div>
                             <div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Nama Dosen</th><th>Soal</th></tr></thead><tbody id="rekapDosen"></tbody></table></div></div>
-                            <div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Reviewer</th><th><i class="bi bi-check-lg text-success"></i></th><th><i class="bi bi-x-lg text-danger"></i></th></tr></thead><tbody id="rekapReviewer"></tbody></table></div></div>
+                            <div class="col-lg-4">
+  <div class="table-responsive">
+    <table class="table table-sm table-hover">
+      <thead>
+        <tr>
+          <th>Reviewer</th>
+          <th class="text-success">Diterima</th>
+          <th class="text-danger">Ditolak</th>
+        </tr>
+      </thead>
+      <tbody id="rekapReviewer"></tbody>
+    </table>
+  </div>
+</div>
+
                         </div>
                     </div>
                     <div class="col-lg-4">
