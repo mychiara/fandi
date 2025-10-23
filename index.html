@@ -523,7 +523,8 @@
       }
       function handleDownloadTemplate() {
           const headers = ["soal_text", "opsi_a", "opsi_b", "opsi_c", "opsi_d", "opsi_e", "kunci_jawaban", "id_peminatan"];
-          const csvContent = "data:text/csv;charset=utf-8," + headers.join(",");
+          // PERBAIKAN 1: Menambahkan BOM (\uFEFF) agar file CSV dapat dibuka dengan benar di Excel (terutama di Windows)
+          const csvContent = "data:text/csv;charset=utf-8," + '\uFEFF' + headers.join(",");
           const encodedUri = encodeURI(csvContent);
           const link = document.createElement("a");
           link.setAttribute("href", encodedUri);
@@ -644,16 +645,26 @@
                     alert("File CSV kosong atau hanya berisi header.");
                     resetUploadButton(); return;
                 }
-                const headers = rows.shift().split(',').map(h => h.trim().replace(/"/g, ''));
+                
+                // PERBAIKAN 2: Menggunakan urutan kolom yang baku, bukan membaca header dari file.
+                // Ini membuat proses upload lebih tahan terhadap kesalahan pengguna (misal: mengubah nama header).
+                const expectedHeaders = ["soal_text", "opsi_a", "opsi_b", "opsi_c", "opsi_d", "opsi_e", "kunci_jawaban", "id_peminatan"];
+                rows.shift(); // Mengabaikan baris header dari file yang diupload.
+                
                 const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
-                const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+                const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/; // Regex untuk split CSV yang menangani koma di dalam teks
+                
                 const soalDataArray = rows.map(row => {
                     const values = row.split(regex).map(v => v.trim().replace(/^"|"$/g, ''));
                     const soalObj = {};
-                    headers.forEach((header, i) => { soalObj[header] = values[i]; });
+                    // Membuat objek soal berdasarkan urutan kolom yang sudah ditentukan
+                    expectedHeaders.forEach((header, i) => {
+                        soalObj[header] = values[i] || ''; // Menggunakan '' jika nilai tidak ada
+                    });
                     soalObj.id_dosen_pembuat = user.userId;
                     return soalObj;
                 });
+
                 try {
                     const response = await callApi('submitBulkSoal', { soalDataArray });
                     alert(response.message);
@@ -662,7 +673,7 @@
                         loadRiwayatSoalDosen(user.userId);
                     }
                 } catch(err) {
-                    alert("Gagal mengunggah file. Pastikan format file sudah benar.");
+                    alert("Gagal mengunggah file. Pastikan format dan urutan kolom pada file sudah benar sesuai template.");
                 } finally { resetUploadButton(); }
             };
             reader.onerror = () => { alert("Gagal membaca file."); resetUploadButton(); };
@@ -720,7 +731,9 @@
           }
         }
         async function populatePeminatanSelect(selectId, userPeminatanStr) {
-            const userPeminatanIds = userPeminatanStr ? userPeminatanStr.split(',') : [];
+            // PERBAIKAN 3: Menambahkan .map(id => id.trim()) untuk membersihkan spasi ekstra pada ID peminatan
+            const userPeminatanIds = userPeminatanStr ? userPeminatanStr.split(',').map(id => id.trim()) : [];
+            
             if (allPeminatanList.length === 0) {
                 const response = await callApi('getPeminatanList', {}, 'GET');
                 if(response) allPeminatanList = response;
@@ -1188,4 +1201,3 @@
     </script>
   </body>
 </html>
-
