@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SiMiVig - Review Soal Vignette Kebidanan</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"/>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <!-- Internal CSS (Sama seperti sebelumnya) -->
+    <style>
+      :root{--bg-color:#fefbff;--primary-te  t:#4a4363;--secondary-text:#7a7593;--accent-color:#d9c8e4;--card-shadow:0 12px 30px rgba(74,67,99,.08);--primary-blue:#0d6efd;--primary-blue-hover:#0b5ed7;--secondary-blue:#e7f1ff;--light-bg:#f7f9fc;--dark-text:#212529;--gray-text:#6c757d;--border-color:#dee2e6;--success-color:#198754;--danger-color:#dc3545;--warning-color:#ffc107;--info-color:#0dcaf0;--white-color:#fff;--shadow:0 10px 30px rgba(0,0,0,.07);--shadow-sm:0 4px 15px rgba(0,0,0,.05)}@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}body{background-color:var(--bg-color);font-family:"Poppins",sans-serif;color:var(--primary-text);display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;margin:0}#landingContainer{display:flex;justify-content:center;align-items:center;flex-grow:1;width:100%;animation:fadeIn .6s ease-out}.landing-content{max-width:1140px;width:100%;padding:1.5rem}.app-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4rem;padding:1rem 0}.logo{display:flex;align-items:center;gap:.75rem;font-size:1.75rem;font-weight:700;color:var(--primary-text);text-decoration:none}.logo-icon{width:28px;height:28px}.main-nav a{text-decoration:none;color:var(--primary-text);margin-left:2.5rem;font-weight:500;font-size:1rem;transition:color .2s;cursor:pointer;position:relative;padding-bottom:5px}.main-nav a:hover{color:var(--secondary-text)}.main-nav a::after{content:'';position:absolute;width:0;height:2px;bottom:0;left:50%;transform:translateX(-50%);background-color:var(--accent-color);transition:width .3s ease-out}.main-nav a:hover::after{width:100%}.hero-section{display:flex;align-items:center;gap:4rem;margin-bottom:6rem}.hero-text{flex-basis:50%;flex-shrink:0}.hero-text h1{font-size:3.5rem;font-weight:700;line-height:1.25;margin-bottom:1rem;color:var(--primary-text)}.hero-text p{font-size:1.25rem;color:var(--secondary-text);margin-bottom:2.5rem}.btn-start{background-color:var(--accent-color);color:#4a4363;border:none;padding:.9rem 3.5rem;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;box-shadow:0 5px 20px rgba(217,200,228,.7);transition:all .2s ease;text-decoration:none}.btn-start:hover{color:#4a4363;transform:translateY(-3px);box-shadow:0 8px 25px rgba(217,200,228,.9)}.hero-image{flex-basis:50%;text-align:right}.hero-image img{max-width:450px;width:100%;height:auto}body.app-view{background-color:var(--light-bg);font-family:'Inter',sans-serif;color:var(--dark-text)}#mainContainer{width:100%;transition:max-width .3s ease-in-out;flex-grow:1;display:flex;align-items:center;justify-content:center;display:none}#mainContainer.dashboard-view{align-items:flex-start;padding:1.5rem}.container-login{max-width:450px;width:80%}.content-card{display:none;padding:2.5rem;background-color:var(--white-color);border-radius:1rem;border:1px solid var(--border-color);box-shadow:var(--shadow);animation:fadeIn .5s ease-out forwards;width:100%}#userInfoDosen,#userInfoReviewer,#userInfoAdmin,.role-badge{font-weight:500}.role-badge{font-size:.75rem;padding:.3em .6em;vertical-align:middle;margin-left:8px;background-color:var(--secondary-blue);color:var(--primary-blue);border:1px solid var(--primary-blue)}.form-label{font-weight:500;color:var(--gray-text)}.form-control,.form-select{border-radius:.5rem;padding:.75rem 1rem;border:1px solid var(--border-color);transition:border-color .2s ease-in-out,box-shadow .2s ease-in-out}.form-control:focus,.form-select:focus{border-color:var(--primary-blue);box-shadow:0 0 0 .2rem rgba(13,110,253,.15)}h2,h3{color:var(--dark-text);font-weight:600;display:flex;align-items:center;gap:.75rem}h2 .bi,h3 .bi{font-size:1.1em;color:var(--primary-blue)}.btn{border-radius:.5rem;padding:.6rem 1.25rem;font-weight:600;transition:all .2s ease}.btn:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.08)}.btn-primary{background-color:var(--primary-blue);border-color:var(--primary-blue)}.btn-primary:hover{background-color:var(--primary-blue-hover);border-color:var(--primary-blue-hover)}.btn .bi{margin-right:.5rem;vertical-align:-2px}.table{vertical-align:middle}.table >:not(caption)>*>*>{padding:1rem}.table thead th{background-color:var(--light-bg);color:var(--dark-text);font-weight:600;border-bottom:2px solid var(--primary-blue)}.table-hover > tbody > tr:hover > *{background-color:var(--secondary-blue)}.reviewer-card{border:1px solid var(--border-color);border-radius:.75rem;box-shadow:var(--shadow-sm);transition:transform .2s ease,box-shadow .2s ease;border-left:4px solid var(--primary-blue)}.reviewer-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}.reviewer-card .card-header{background-color:var(--secondary-blue);border-bottom:1px solid var(--border-color);font-weight:600;color:var(--primary-blue);border-radius:.75rem .75rem 0 0}.reviewer-card .list-group-item.correct-answer{background-color:#d1e7dd;color:#0f5132;font-weight:600;border-color:rgba(0,0,0,.05)}.stat-card{background-color:var(--white-color);border-radius:.75rem;padding:1.5rem;border:1px solid var(--border-color);box-shadow:var(--shadow-sm);text-align:center;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.stat-card .stat-icon{font-size:2.2rem;margin-bottom:.75rem;color:var(--primary-blue);display:block}.stat-card .stat-value{font-size:2rem;font-weight:700;color:var(--dark-text)}.stat-card .stat-label{font-size:.9rem;color:var(--gray-text);font-weight:500}.stat-card.clickable{cursor:pointer}.stat-card.clickable:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--primary-blue)}.admin-sub-card{border:1px solid var(--border-color);border-radius:.75rem;box-shadow:var(--shadow-sm)}.login-logo{max-width:150px;margin-bottom:1rem}#loginView h2,#loginView h3{font-family:'Inter',sans-serif}.app-footer{width:100%;padding:1.5rem 0;background-color:var(--white-color);border-top:1px solid var(--border-color);color:var(--gray-text);font-size:.9rem;flex-shrink:0}.app-footer.landing{background-color:transparent;border-top:none}@media (max-width:992px){.hero-section{flex-direction:column;text-align:center;gap:2rem}.hero-text h1{font-size:3rem}.hero-image{text-align:center;margin-top:2rem;order:-1}.hero-image img{max-width:350px}#mainContainer.dashboard-view{padding:1rem}}@media (max-width:768px){.app-header{flex-direction:column;gap:1rem;margin-bottom:2rem;text-align:center}.main-nav{display:flex;justify-content:center}.main-nav a{margin:0 1rem}.hero-text h1{font-size:2.5rem}.hero-text p{font-size:1.1rem}.container-login{width:90%}#mainContainer.dashboard-view{padding:.5rem}.content-card{padding:1.5rem}}
+    </style>
+  </head>
+  <body>
+    <!-- HTML Structure is identical to previous version -->
+    <!-- LANDING PAGE -->
+    <main id="landingContainer">
+      <div class="landing-content">
+          <header class="app-header">
+            <a href="#" class="logo">
+                <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,10 C60,0 80,0 90,10 C100,20 100,40 90,50 C80,60 60,60 50,50 M50,10 C40,0 20,0 10,10 C0,20 0,40 10,50 C20,60 40,60 50,50 M90,90 C80,100 60,100 50,90 C40,80 40,60 50,50 M10,90 C20,100 40,100 50,90 C60,80 60,60 50,50" fill="#fbc4d1" /></svg>
+              SiMiVig
+            </a>
+            <nav class="main-nav">
+              <a id="navReviewSoal">Review Soal</a>
+              <a id="navBankSoal">Bank Soal</a>
+            </nav>
+          </header>
+          <section class="hero-section">
+            <div class="hero-text">
+              <h1>Review Soal<br />Vignette<br />Kebidanan</h1>
+              <p>Aplikasi Midwifery Vignette</p>
+              <a href="#" class="btn-start" id="btnMulai">Mulai Review</a>
+            </div>
+            <div class="hero-image">
+              <img src="https://i.ibb.co/bF9p2Qd/bayi.png" alt="Baby Illustration"/>
+            </div>
+          </section>
+      </div>
+    </main>
+    <!-- APPLICATION CONTAINER -->
+    <main id="mainContainer">
+      <!-- LOGIN VIEW -->
+      <div class="container-login">
+        <div id="loginView" class="content-card text-center">
+          <img src="https://osce.masandigital.com/LOGO%20POLTEKKES%20KEMENKES%20KUPANG.png" alt="Logo Poltekkes Kupang" class="login-logo">
+          <h2 class="mt-2 justify-content-center">Selamat Datang di SiMiVig</h2>
+          <p class="text-muted mb-4">Silakan masuk untuk melanjutkan.</p>
+          <div class="mb-3 text-start"><label for="emailInput" class="form-label">Email</label><input type="email" id="emailInput" class="form-control" placeholder="Masukkan email Anda" autocomplete="email"></div>
+          <div class="mb-3 text-start"><label for="passwordInput" class="form-label">Password</label><input type="password" id="passwordInput" class="form-control" placeholder="Masukkan password Anda" autocomplete="current-password"></div>
+          <button id="btnMasuk" class="btn btn-primary w-100 mt-3" disabled><i class="bi bi-box-arrow-in-right"></i> Masuk</button>
+          <div id="loginSpinner" class="text-center mt-3" style="display:none;"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></div>
+        </div>
+      </div>
+      <!-- DOSEN VIEW -->
+      <div id="dosenView" class="content-card">
+        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-workspace"></i> Dashboard Dosen</h2><div class="d-flex align-items-center"><span id="userInfoDosen"></span><button class="btn btn-outline-danger btn-sm ms-3 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr>
+        <div class="row g-5"><div class="col-lg-6"><h3 class="mt-4"><i class="bi bi-file-earmark-arrow-up-fill"></i> Upload Soal via Template</h3><p class="text-muted">Untuk input banyak soal sekaligus, unduh template, isi, lalu unggah kembali.</p><div class="card p-3 bg-light border"><div class="row align-items-center g-2"><div class="col-md-5"><button id="btnDownloadTemplateDosen" class="btn btn-success w-100"><i class="bi bi-download"></i> Download</button></div><div class="col-md-7"><form id="formUploadSoal"><div class="input-group"><input type="file" class="form-control" id="soalFileUpload" accept=".csv" required><button class="btn btn-primary" type="submit" title="Upload File"><i class="bi bi-upload m-0"></i></button></div></form></div></div></div></div><div class="col-lg-6"><h3 class="mt-4"><i class="bi bi-pencil-square"></i> Input Soal Manual</h3><form id="formSoal"><div class="row g-3"><div class="col-12"><input type="text" id="namaDosen" class="form-control" readonly></div><div class="col-12"><select id="peminatanDosen" class="form-select" required></select></div><div class="col-12"><textarea id="soalText" class="form-control" rows="3" placeholder="Tulis soal di sini..." required></textarea></div><div class="col-md-6"><input type="text" id="opsiA" class="form-control" placeholder="Opsi A" required></div><div class="col-md-6"><input type="text" id="opsiB" class="form-control" placeholder="Opsi B" required></div><div class="col-md-6"><input type="text" id="opsiC" class="form-control" placeholder="Opsi C" required></div><div class="col-md-6"><input type="text" id="opsiD" class="form-control" placeholder="Opsi D" required></div><div class="col-md-6"><input type="text" id="opsiE" class="form-control" placeholder="Opsi E" required></div><div class="col-md-6"><select id="kunciJawaban" class="form-select" required><option value="" disabled selected>Kunci Jawaban...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div><div class="col-12"><button type="submit" class="btn btn-primary w-100"><i class="bi bi-send-check"></i> Kirim Soal</button></div></div></form></div></div>
+        <hr class="my-5"><h3><i class="bi bi-clock-history"></i> Riwayat & Statistik Soal Anda</h3><p class="text-muted">Ringkasan soal yang pernah Anda ajukan.</p>
+        <div id="dosenStatSection" style="display:none;"><div class="row g-4 mb-4"><div class="col-md-4 col-sm-12"><div class="stat-card"><i class="bi bi-journal-arrow-up stat-icon"></i><div id="dosenTotalCount" class="stat-value">0</div><div class="stat-label">Total Diajukan</div></div></div><div class="col-md-4 col-6"><div class="stat-card"><i class="bi bi-check-circle-fill stat-icon" style="color: var(--success-color);"></i><div id="dosenDiterimaCount" class="stat-value">0</div><div class="stat-label">Diterima</div></div></div><div class="col-md-4 col-6"><div class="stat-card"><i class="bi bi-x-circle-fill stat-icon" style="color: var(--danger-color);"></i><div id="dosenDitolakCount" class="stat-value">0</div><div class="stat-label">Ditolak</div></div></div></div></div>
+        <div id="riwayatSoalDosen"></div>
+      </div>
+      <!-- REVIEWER VIEW -->
+      <div id="reviewerView" class="content-card">
+        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-video3"></i> Dashboard Reviewer</h2><div class="d-flex align-items-center"><span id="userInfoReviewer"></span><button class="btn btn-outline-danger btn-sm ms-3 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr><p class="text-muted">Ringkasan aktivitas dan daftar soal yang menunggu untuk direview sesuai peminatan Anda.</p>
+        <div class="row g-4 my-4"><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-hourglass-split stat-icon" style="color: var(--warning-color);"></i><div id="reviewerPendingCount" class="stat-value">...</div><div class="stat-label">Menunggu Review</div></div></div><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-journal-check stat-icon"></i><div id="reviewerTotalCount" class="stat-value">...</div><div class="stat-label">Total Direview</div></div></div><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-check-circle-fill stat-icon" style="color: var(--success-color);"></i><div id="reviewerDiterimaCount" class="stat-value">...</div><div class="stat-label">Diterima</div></div></div><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-x-circle-fill stat-icon" style="color: var(--danger-color);"></i><div id="reviewerDitolakCount" class="stat-value">...</div><div class="stat-label">Ditolak</div></div></div></div>
+        <hr><div id="soalUntukReview" class="mt-4"></div>
+      </div>
+      <!-- ADMIN VIEW -->
+      <div id="adminView" class="content-card">
+        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-gear"></i> Dashboard Admin</h2><div class="d-flex align-items-center"><span id="userInfoAdmin"></span><button class="btn btn-outline-danger btn-sm ms-3 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr><p class="text-muted">Ringkasan aktivitas sistem dan manajemen data master.</p>
+        <div class="card admin-sub-card mb-5"><div class="card-body p-4"><div class="row g-4"><div class="col-lg-8"><h3 class="mt-2"><i class="bi bi-bar-chart-line-fill"></i> Statistik Keseluruhan</h3><div class="row g-3"><div class="col-sm-6"><div class="stat-card clickable h-100" onclick="showBankSoal()"><i class="bi bi-archive-fill stat-icon"></i><div id="bankSoalCount" class="stat-value">...</div><div class="stat-label">Soal di Bank Soal</div></div></div><div class="col-sm-6"><div class="stat-card h-100"><i class="bi bi-people-fill stat-icon"></i><div id="totalUserCount" class="stat-value">...</div><div class="stat-label">Total User Terdaftar</div></div></div></div><h4 class="mt-4 h5 text-center text-muted">Rekapan Aktivitas</h4><div class="row g-3"><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Peminatan</th><th>Soal</th></tr></thead><tbody id="rekapPeminatan"></tbody></table></div></div><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Nama Dosen</th><th>Soal</th></tr></thead><tbody id="rekapDosen"></tbody></table></div></div><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Reviewer</th><th class="text-success">Diterima</th><th class="text-danger">Ditolak</th></tr></thead><tbody id="rekapReviewer"></tbody></table></div></div></div></div><div class="col-lg-4"><h3 class="mt-2"><i class="bi bi-tools"></i> Alat Admin</h3><div class="list-group"><button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'DOSEN')"><i class="bi bi-person-plus-fill me-2"></i> Tambah Dosen Baru</button><button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'REVIEWER')"><i class="bi bi-person-video3 me-2"></i> Tambah Reviewer Baru</button><button type="button" id="btnDownloadTemplateAdmin" class="list-group-item list-group-item-action"><i class="bi bi-download me-2"></i> Download Template Soal</button></div><h3 class="mt-4"><i class="bi bi-box-seam"></i> Ekspor & Backup</h3><div class="list-group"><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('excel', 'all', this)"><span><i class="bi bi-file-earmark-excel-fill text-success me-2"></i> Ekspor Bank Soal (Excel)</span><span class="spinner-border spinner-border-sm d-none"></span></button><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('pdf', 'all', this)"><span><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i> Ekspor Bank Soal (PDF)</span><span class="spinner-border spinner-border-sm d-none"></span></button><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleBackup(this)"><span><i class="bi bi-database-down me-2"></i> Backup Seluruh Data (JSON)</span><span class="spinner-border spinner-border-sm d-none"></span></button></div><div class="card bg-light border-warning mt-4"><div class="card-body"><h5 class="card-title text-warning-emphasis"><i class="bi bi-exclamation-triangle-fill"></i> Restore Data</h5><p class="card-text small">Tindakan ini akan menimpa seluruh data yang ada. Gunakan dengan hati-hati.</p><form id="restoreForm"><div class="input-group"><input type="file" class="form-control form-control-sm" id="restoreFile" accept=".json" required><button class="btn btn-sm btn-warning" type="submit"><i class="bi bi-database-up"></i></button></div></form></div></div></div></div></div></div>
+        <div class="row g-4"><div class="col-lg-8"><div class="card admin-sub-card h-100"><div class="card-body p-4"><h3 class="mb-4"><i class="bi bi-people-fill"></i> Manajemen User</h3><div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="userList"></tbody></table></div></div></div></div><div class="col-lg-4"><div class="card admin-sub-card h-100"><div class="card-body p-4"><h3 class="mb-4"><i class="bi bi-tags-fill"></i> Manajemen Peminatan</h3><form id="peminatanForm" class="mb-3"><div class="input-group"><input type="text" id="peminatanId" class="form-control" placeholder="ID Peminatan (e.g. P01)" required><input type="text" id="peminatanNama" class="form-control" placeholder="Nama Peminatan" required><button class="btn btn-primary" type="submit"><i class="bi bi-plus-lg m-0"></i></button></div></form><div class="table-responsive"><table class="table table-sm"><thead><tr><th>ID</th><th>Nama</th><th></th></tr></thead><tbody id="peminatanList"></tbody></table></div></div></div></div></div>
+      </div>
+    </main>
+    <!-- FOOTER -->
+    <footer class="app-footer landing"><div class="container-fluid text-center"><p class="mb-0">&copy; <span id="currentYear"></span> Poltekkes Kemenkes Kupang. Developed by Mas Andy.</p></div></footer>
+    <!-- MODALS -->
+    <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><div class="d-flex w-100 justify-content-between align-items-center"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><div id="bankSoalControls" class="d-flex align-items-center gap-2"></div></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
+    <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div><div class="mb-3"><label class="form-label">Peminatan</label><div id="userPeminatanCheckboxes" class="p-2 border rounded" style="max-height: 150px; overflow-y: auto;"></div><small class="form-text text-muted">Pilih satu atau lebih peminatan yang relevan.</small></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
+    <div class="modal fade" id="editSoalModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content" style="border-radius: 1rem;"><form id="editSoalForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="editSoalModalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="editSoalId"><div class="row g-3"><div class="col-12"><label for="editPeminatanDosen" class="form-label">Peminatan</label><select id="editPeminatanDosen" class="form-select" required></select></div><div class="col-12"><label for="editSoalText" class="form-label">Vignette / Teks Soal</label><textarea id="editSoalText" class="form-control" rows="4" placeholder="Tulis soal di sini..." required></textarea></div><div class="col-md-6"><label for="editOpsiA" class="form-label">Opsi A</label><input type="text" id="editOpsiA" class="form-control" placeholder="Opsi A" required></div><div class="col-md-6"><label for="editOpsiB" class="form-label">Opsi B</label><input type="text" id="editOpsiB" class="form-control" placeholder="Opsi B" required></div><div class="col-md-6"><label for="editOpsiC" class="form-label">Opsi C</label><input type="text" id="editOpsiC" class="form-control" placeholder="Opsi C" required></div><div class="col-md-6"><label for="editOpsiD" class="form-label">Opsi D</label><input type="text" id="editOpsiD" class="form-control" placeholder="Opsi D" required></div><div class="col-md-6"><label for="editOpsiE" class="form-label">Opsi E</label><input type="text" id="editOpsiE" class="form-control" placeholder="Opsi E" required></div><div class="col-md-6"><label for="editKunciJawaban" class="form-label">Kunci Jawaban</label><select id="editKunciJawaban" class="form-select" required><option value="" disabled selected>Pilih Kunci...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="editSoalSubmitBtn"></button></div></form></div></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script> <!-- CHANGED TO FIRESTORE -->
+
+    <!-- Client-Side Export Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+      // ===================================================================================
+      // PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
+      // ===================================================================================
+      const firebaseConfig = {
+  apiKey: "AIzaSyAt2__hZKhPPDc7ZC6tsOXEiw8vcZRjVls",
+  authDomain: "simivig2.firebaseapp.com",
+  databaseURL: "https://simivig2-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "simivig2",
+  storageBucket: "simivig2.firebasestorage.app",
+  messagingSenderId: "347242191217",
+  appId: "1:347242191217:web:a3f2418ee39a418d467ed0",
+  measurementId: "G-GBE56MZNR9"
+};
+
+      // --- Initialize Firebase ---
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const firestore = firebase.firestore(); // INITIALIZE FIRESTORE
+      
+      let userModalInstance;
+      let editSoalModalInstance;
+      let allPeminatanList = [];
+      let currentUserProfile = null;
+      
+      // Helper to convert Firestore snapshot to an array
+      function snapshotToArray(snapshot) {
+          if (snapshot.empty) return [];
+          return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      }
+
+      function handleDownloadTemplate() {
+          const headers = ["soal_text", "opsi_a", "opsi_b", "opsi_c", "opsi_d", "opsi_e", "kunci_jawaban", "id_peminatan"];
+          const csvContent = "data:text/csv;charset=utf-8," + '\uFEFF' + headers.join(",");
+          const encodedUri = encodeURI(csvContent);
+          const link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", "template_soal.csv");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+      }
+      
+      function downloadFile(data, filename, mimeType) {
+        const blob = new Blob([data], { type: mimeType });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none'; a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click();
+        window.URL.revokeObjectURL(url); document.body.removeChild(a);
+      }
+      
+      document.addEventListener("DOMContentLoaded", function() {
+        const bodyEl = document.body;
+        const footer = document.querySelector('.app-footer');
+        const landingContainer = document.getElementById("landingContainer");
+        const mainContainer = document.getElementById("mainContainer");
+        const loginContainer = document.querySelector(".container-login");
+        const views = { loginView: document.getElementById("loginView"), dosenView: document.getElementById("dosenView"), reviewerView: document.getElementById("reviewerView"), adminView: document.getElementById("adminView")};
+        
+        function transitionToApp() { landingContainer.style.display = 'none'; mainContainer.style.display = 'flex'; bodyEl.classList.add('app-view'); footer.classList.remove('landing'); }
+        function showView(viewName) { transitionToApp(); Object.values(views).forEach(v => v.style.display = 'none'); if(views[viewName]) { views[viewName].style.display = 'block'; mainContainer.classList.toggle('dashboard-view', viewName !== 'loginView'); loginContainer.style.display = viewName === 'loginView' ? 'block' : 'none'; } }
+        
+        userModalInstance = new bootstrap.Modal(document.getElementById('userModal'));
+        editSoalModalInstance = new bootstrap.Modal(document.getElementById('editSoalModal'));
+
+        // --- Firebase Auth State Listener ---
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const doc = await firestore.collection('users').doc(user.uid).get();
+                    if (doc.exists) {
+                        currentUserProfile = { id: doc.id, ...doc.data() };
+                        showDashboard(currentUserProfile);
+                    } else {
+                        alert('Profil pengguna tidak ditemukan. Silakan hubungi admin.');
+                        handleLogout();
+                    }
+                } catch (error) {
+                    console.error("Error fetching user profile:", error);
+                    alert("Gagal memuat profil pengguna.");
+                    handleLogout();
+                }
+            } else {
+                currentUserProfile = null;
+                landingContainer.style.display = 'flex'; mainContainer.style.display = 'none'; bodyEl.classList.remove('app-view'); footer.classList.add('landing');
+                document.getElementById('btnMulai').addEventListener('click', (e) => { e.preventDefault(); showView('loginView'); });
+                document.getElementById('navReviewSoal').addEventListener('click', (e) => { e.preventDefault(); showView('loginView'); });
+                document.getElementById('navBankSoal').addEventListener('click', (e) => { e.preventDefault(); showView('loginView'); });
+                setupSimpleLogin();
+            }
+        });
+
+        // --- ALL EVENT LISTENERS & FUNCTIONS BELOW --- //
+        document.getElementById("btnMasuk").addEventListener("click", handleMasuk);
+        document.querySelectorAll(".logout-button").forEach(btn => btn.addEventListener("click", handleLogout));
+        document.getElementById("formSoal").addEventListener("submit", handleSubmitSoal);
+        document.getElementById("editSoalForm").addEventListener("submit", handleUpdateSoalSubmit);
+        document.getElementById("userForm").addEventListener("submit", handleUserFormSubmit);
+        document.getElementById("btnDownloadTemplateDosen").addEventListener("click", handleDownloadTemplate);
+        document.getElementById("btnDownloadTemplateAdmin").addEventListener("click", handleDownloadTemplate);
+        document.getElementById("formUploadSoal").addEventListener("submit", handleSubmitUpload);
+        document.getElementById("peminatanForm")?.addEventListener("submit", handlePeminatanFormSubmit);
+        document.getElementById("restoreForm")?.addEventListener("submit", handleRestoreSubmit);
+
+        async function handleSubmitUpload(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('soalFileUpload');
+            const file = fileInput.files[0];
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (!file) return alert("Silakan pilih file untuk diunggah.");
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+
+            const reader = new FileReader();
+            reader.onload = async function(event) {
+                const csvData = event.target.result;
+                const rows = csvData.split('\n').filter(row => row.trim() !== '');
+                if (rows.length < 2) { alert("File CSV kosong."); submitBtn.disabled = false; return; }
+                rows.shift();
+                
+                const batch = firestore.batch();
+                const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+
+                rows.forEach(row => {
+                    const values = row.split(regex).map(v => v.trim().replace(/^"|"$/g, ''));
+                    const soalObj = {
+                        soal_text: values[0] || '', opsi_a: values[1] || '', opsi_b: values[2] || '',
+                        opsi_c: values[3] || '', opsi_d: values[4] || '', opsi_e: values[5] || '',
+                        kunci_jawaban: values[6] || '', id_peminatan: values[7] || '',
+                        id_dosen_pembuat: currentUserProfile.id,
+                        nama_dosen_pembuat: currentUserProfile.nama,
+                        status: 'MENUNGGU_REVIEW',
+                        tgl_dibuat: new Date().toISOString()
+                    };
+                    const newSoalRef = firestore.collection("soal").doc();
+                    batch.set(newSoalRef, soalObj);
+                });
+
+                try {
+                    await batch.commit();
+                    alert(`${rows.length} soal berhasil diunggah.`);
+                    fileInput.value = '';
+                    loadRiwayatSoalDosen(currentUserProfile.id);
+                } catch(err) {
+                    console.error(err);
+                    alert("Gagal mengunggah file.");
+                } finally { submitBtn.disabled = false; submitBtn.innerHTML = `<i class="bi bi-upload m-0"></i>`; }
+            };
+            reader.onerror = () => { alert("Gagal membaca file."); submitBtn.disabled = false; };
+            reader.readAsText(file);
+        }
+
+        function setupSimpleLogin() {
+          const emailInput = document.getElementById("emailInput"), passwordInput = document.getElementById("passwordInput"), btnMasuk = document.getElementById("btnMasuk");
+          function validateForm() { btnMasuk.disabled = !(emailInput.value.trim() !== '' && passwordInput.value.trim() !== ''); }
+          emailInput.addEventListener("input", validateForm); passwordInput.addEventListener("input", validateForm);
+        }
+
+        async function handleMasuk() {
+            const email = document.getElementById("emailInput").value, password = document.getElementById("passwordInput").value;
+            if (!email || !password) return;
+            const btnMasuk = document.getElementById("btnMasuk"), spinner = document.getElementById("loginSpinner");
+            btnMasuk.disabled = true; spinner.style.display = 'block';
+            try { await auth.signInWithEmailAndPassword(email, password); } 
+            catch (error) { alert("Login gagal: " + error.message); btnMasuk.disabled = false; } 
+            finally { spinner.style.display = 'none'; }
+        }
+
+        async function handleLogout() { try { await auth.signOut(); location.reload(); } catch(error) { console.error("Logout error:", error); } }
+
+        async function showDashboard(user) {
+          const roleBadge = `<span class="badge rounded-pill role-badge">${user.role}</span>`;
+          const userInfoHtml = `Halo, <strong>${user.nama}</strong> ${roleBadge}`;
+          if (user.role === "DOSEN") {
+            showView("dosenView"); document.getElementById('userInfoDosen').innerHTML = userInfoHtml; document.getElementById('namaDosen').value = user.nama;
+            await loadPeminatanForDosen(user.peminatan); loadRiwayatSoalDosen(user.id);
+          } else if (user.role === "REVIEWER") {
+            showView("reviewerView"); document.getElementById('userInfoReviewer').innerHTML = userInfoHtml; loadReviewerDashboard(user);
+          } else if (user.role === "ADMIN") {
+            showView("adminView"); document.getElementById('userInfoAdmin').innerHTML = userInfoHtml; loadAdminDashboard();
+          }
+        }
+
+        async function populatePeminatanSelect(selectId, userPeminatanStr) {
+            const userPeminatanIds = userPeminatanStr ? userPeminatanStr.split(',').map(id => id.trim()) : [];
+            if (allPeminatanList.length === 0) {
+                const snapshot = await firestore.collection('peminatan').get();
+                allPeminatanList = snapshotToArray(snapshot);
+            }
+            const select = document.getElementById(selectId);
+            select.innerHTML = '<option value="" selected disabled>Pilih peminatan...</option>';
+            const filteredPeminatan = allPeminatanList.filter(p => userPeminatanIds.includes(p.id));
+            if (filteredPeminatan.length > 0) {
+                filteredPeminatan.forEach(p => { select.innerHTML += `<option value="${p.id}">${p.nama}</option>`; });
+                select.disabled = false;
+            } else {
+                select.innerHTML = '<option value="" disabled selected>Anda tidak terdaftar pada peminatan manapun.</option>';
+                select.disabled = true;
+            }
+        }
+
+        async function loadPeminatanForDosen(userPeminatanStr) {
+          await populatePeminatanSelect('peminatanDosen', userPeminatanStr);
+          document.querySelector('#formSoal button[type="submit"]').disabled = document.getElementById('peminatanDosen').disabled;
+        }
+
+        async function handleSubmitSoal(e) {
+          e.preventDefault();
+          const soalData = {
+              soal_text: document.getElementById("soalText").value, opsi_a: document.getElementById("opsiA").value, opsi_b: document.getElementById("opsiB").value, opsi_c: document.getElementById("opsiC").value, opsi_d: document.getElementById("opsiD").value, opsi_e: document.getElementById("opsiE").value,
+              kunci_jawaban: document.getElementById("kunciJawaban").value, id_peminatan: document.getElementById("peminatanDosen").value,
+              id_dosen_pembuat: currentUserProfile.id, nama_dosen_pembuat: currentUserProfile.nama,
+              status: 'MENUNGGU_REVIEW', tgl_dibuat: new Date().toISOString()
+          };
+          if (!soalData.id_peminatan || !soalData.kunci_jawaban) return alert("Peminatan dan Kunci Jawaban wajib dipilih.");
+          const submitBtn = e.target.querySelector('button[type="submit"]');
+          submitBtn.disabled = true; submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Mengirim...`;
+          try {
+              await firestore.collection('soal').add(soalData);
+              alert('Soal berhasil dikirim untuk direview.'); document.getElementById("formSoal").reset(); document.getElementById('namaDosen').value = currentUserProfile.nama;
+              loadRiwayatSoalDosen(currentUserProfile.id);
+          } catch(error) { console.error("Submit soal error: ", error); alert("Gagal mengirim soal."); } 
+          finally { submitBtn.disabled = false; submitBtn.innerHTML = `<i class="bi bi-send-check"></i> Kirim Soal`; }
+        }
+
+        async function loadRiwayatSoalDosen(dosenId) {
+            const container = document.getElementById("riwayatSoalDosen"); container.innerHTML = '<div class="text-center"><div class="spinner-border text-secondary" role="status"></div></div>';
+            document.getElementById("dosenStatSection").style.display = 'block';
+            const snapshot = await firestore.collection('soal').where('id_dosen_pembuat', '==', dosenId).get();
+            const soalList = snapshotToArray(snapshot);
+            
+            document.getElementById("dosenTotalCount").textContent = soalList.length;
+            document.getElementById("dosenDiterimaCount").textContent = soalList.filter(s => s.status === 'DITERIMA').length;
+            document.getElementById("dosenDitolakCount").textContent = soalList.filter(s => s.status === 'DITOLAK').length;
+            if (soalList.length === 0) { container.innerHTML = '<div class="alert alert-light text-center border">Anda belum pernah mengajukan soal.</div>'; return; }
+            let html = '<div class="table-responsive"><table class="table table-striped table-hover"><thead><tr><th>Soal</th><th>Status</th><th>Catatan Reviewer</th><th>Aksi</th></tr></thead><tbody>';
+            soalList.sort((a,b) => new Date(b.tgl_dibuat) - new Date(a.tgl_dibuat)).forEach(soal => {
+              let statusBadge = '';
+              switch(soal.status) {
+                case 'DITERIMA': statusBadge = '<span class="badge bg-success">DITERIMA</span>'; break;
+                case 'DITOLAK': statusBadge = '<span class="badge bg-danger">DITOLAK</span>'; break;
+                case 'MENUNGGU_REVIEW': statusBadge = '<span class="badge bg-warning text-dark">MENUNGGU REVIEW</span>'; break;
+                default: statusBadge = `<span class="badge bg-secondary">${soal.status}</span>`;
+              }
+              let aksiHtml = (soal.status === 'DITOLAK' || soal.status === 'MENUNGGU_REVIEW') ?
+                  `<button class="btn btn-sm ${soal.status === 'DITOLAK' ? 'btn-warning' : 'btn-info text-dark'} py-1" onclick='openEditSoalModal(${JSON.stringify(soal).replace(/'/g, "\\'")}, "${soal.status === 'DITOLAK' ? 'resubmit' : 'update'}")'><i class="${soal.status === 'DITOLAK' ? 'bi-pencil-square' : 'bi-pencil'}" style="margin-right: 0.2rem;"></i> ${soal.status === 'DITOLAK' ? 'Edit & Kirim Ulang' : 'Edit Soal'}</button>` : '-';
+              html += `<tr><td>${soal.soal_text.substring(0, 70)}...</td><td>${statusBadge}</td><td>${soal.catatan_reviewer || '-'}</td><td>${aksiHtml}</td></tr>`;
+            });
+            container.innerHTML = html + '</tbody></table></div>';
+        }
+
+        window.openEditSoalModal = async function(soal, context) {
+          const modalTitle = document.getElementById('editSoalModalTitle'), submitBtn = document.getElementById('editSoalSubmitBtn');
+          modalTitle.innerHTML = `<i class="bi ${context === 'resubmit' ? 'bi-pencil-square' : 'bi-pencil'} me-2"></i> ${context === 'resubmit' ? 'Edit & Ajukan Ulang Soal' : 'Edit Soal'}`;
+          submitBtn.innerHTML = `<i class="bi ${context === 'resubmit' ? 'bi-send-check' : 'bi-save'}"></i> ${context === 'resubmit' ? 'Simpan & Ajukan Ulang' : 'Simpan Perubahan'}`;
+          document.getElementById('editSoalId').value = soal.id;
+          document.getElementById('editSoalText').value = soal.soal_text; document.getElementById('editOpsiA').value = soal.opsi_a; document.getElementById('editOpsiB').value = soal.opsi_b; document.getElementById('editOpsiC').value = soal.opsi_c; document.getElementById('editOpsiD').value = soal.opsi_d; document.getElementById('editOpsiE').value = soal.opsi_e;
+          document.getElementById('editKunciJawaban').value = soal.kunci_jawaban;
+          await populatePeminatanSelect('editPeminatanDosen', currentUserProfile.peminatan);
+          document.getElementById('editPeminatanDosen').value = soal.id_peminatan;
+          editSoalModalInstance.show();
+        }
+
+        async function handleUpdateSoalSubmit(e) {
+            e.preventDefault();
+            const soalId = document.getElementById("editSoalId").value;
+            const soalData = {
+                soal_text: document.getElementById("editSoalText").value, opsi_a: document.getElementById("editOpsiA").value, opsi_b: document.getElementById("editOpsiB").value, opsi_c: document.getElementById("editOpsiC").value, opsi_d: document.getElementById("editOpsiD").value, opsi_e: document.getElementById("editOpsiE").value,
+                kunci_jawaban: document.getElementById("editKunciJawaban").value, id_peminatan: document.getElementById("editPeminatanDosen").value,
+                status: 'MENUNGGU_REVIEW', catatan_reviewer: '', id_reviewer: null
+            };
+            const submitBtn = e.target.querySelector('button[type="submit"]'), originalBtnHtml = submitBtn.innerHTML;
+            submitBtn.disabled = true; submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Menyimpan...`;
+            try {
+                await firestore.collection('soal').doc(soalId).update(soalData);
+                alert("Soal berhasil diperbarui dan diajukan kembali untuk review.");
+                editSoalModalInstance.hide(); loadRiwayatSoalDosen(currentUserProfile.id);
+            } catch (error) { console.error("Update soal error:", error); alert("Gagal memperbarui soal."); } 
+            finally { submitBtn.disabled = false; submitBtn.innerHTML = originalBtnHtml; }
+        }
+
+        async function loadReviewerDashboard(user) {
+            const snapshot = await firestore.collection('soal').where('id_reviewer', '==', user.id).get();
+            const reviewedSoal = snapshotToArray(snapshot);
+            document.getElementById("reviewerTotalCount").textContent = reviewedSoal.length;
+            document.getElementById("reviewerDiterimaCount").textContent = reviewedSoal.filter(s => s.status === 'DITERIMA').length;
+            document.getElementById("reviewerDitolakCount").textContent = reviewedSoal.filter(s => s.status === 'DITOLAK').length;
+            loadSoalForReviewer(user.peminatan);
+        }
+
+        async function loadSoalForReviewer(peminatanIdsStr) {
+          const userPeminatanIds = peminatanIdsStr ? peminatanIdsStr.split(',') : [];
+          if (userPeminatanIds.length === 0) {
+            document.getElementById("soalUntukReview").innerHTML = '<div class="alert alert-warning">Anda tidak terdaftar pada peminatan manapun.</div>';
+            return;
+          }
+          const snapshot = await firestore.collection('soal').where('status', '==', 'MENUNGGU_REVIEW').where('id_peminatan', 'in', userPeminatanIds).get();
+          const soalList = snapshotToArray(snapshot);
+          document.getElementById("reviewerPendingCount").textContent = soalList.length;
+          const container = document.getElementById("soalUntukReview");
+          if (soalList.length === 0) {
+            container.innerHTML = '<div class="alert alert-info text-center"><i class="bi bi-emoji-sunglasses"></i> Tidak ada soal yang perlu direview pada peminatan Anda saat ini.</div>';
+            return;
+          }
+          container.innerHTML = soalList.map(soal => `
+            <div class="card reviewer-card mb-4" id="card_${soal.id}">
+              <div class="card-header d-flex justify-content-between"><span>Soal dari: <strong>${soal.nama_dosen_pembuat}</strong></span><span class="badge bg-primary align-self-center">${allPeminatanList.find(p => p.id === soal.id_peminatan)?.nama || soal.id_peminatan}</span></div>
+              <div class="card-body">
+                <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
+                <ul class="list-group list-group-flush mb-3">${['a','b','c','d','e'].map(opt => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase() === opt.toUpperCase() ? 'correct-answer' : ''}"><strong>${opt.toUpperCase()}:</strong> ${soal['opsi_'+opt]}</li>`).join('')}</ul>
+                <p><strong>Kunci Jawaban: ${soal.kunci_jawaban.toUpperCase()}</strong></p><hr>
+                <div class="mb-3"><textarea class="form-control" id="catatan_${soal.id}" rows="2" placeholder="Catatan Review (Wajib jika ditolak)"></textarea></div>
+                <div class="d-flex justify-content-end gap-2">
+                  <button class="btn btn-danger" onclick="handleReview('${soal.id}', 'DITOLAK', this)"><i class="bi bi-x-circle"></i> Tolak</button>
+                  <button class="btn btn-success" onclick="handleReview('${soal.id}', 'DITERIMA', this)"><i class="bi bi-check-circle"></i> Terima</button>
+                </div>
+              </div>
+            </div>`).join('');
+        }
+
+        window.handleReview = async function(soalId, status, buttonElement) {
+            const catatan = document.getElementById(`catatan_${soalId}`).value;
+            if (status === 'DITOLAK' && !catatan.trim()) return alert("Catatan wajib diisi jika menolak soal.");
+            const buttonContainer = buttonElement.parentElement; buttonContainer.querySelectorAll('.btn').forEach(btn => btn.disabled = true);
+            buttonElement.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+            const reviewData = { status, catatan_reviewer: catatan, id_reviewer: currentUserProfile.id, tgl_direview: new Date().toISOString() };
+            try {
+                await firestore.collection('soal').doc(soalId).update(reviewData);
+                alert(`Soal berhasil di-${status.toLowerCase()}`);
+                const card = document.getElementById(`card_${soalId}`);
+                card.style.transition = 'opacity 0.5s ease'; card.style.opacity = '0';
+                setTimeout(() => { card.remove(); if (document.getElementById("soalUntukReview").children.length === 0) loadSoalForReviewer(currentUserProfile.peminatan); loadReviewerDashboard(currentUserProfile); }, 500);
+            } catch(error) {
+                console.error("Review error: ", error); alert("Gagal memproses review.");
+                buttonContainer.querySelectorAll('.btn').forEach(btn => btn.disabled = false);
+                buttonContainer.querySelector('.btn-success').innerHTML = '<i class="bi bi-check-circle"></i> Terima';
+                buttonContainer.querySelector('.btn-danger').innerHTML = '<i class="bi bi-x-circle"></i> Tolak';
+            }
+        }
+
+        async function loadAdminDashboard() {
+            const [usersSnap, soalSnap, peminatanSnap] = await Promise.all([
+                firestore.collection('users').get(), firestore.collection('soal').get(), firestore.collection('peminatan').get()
+            ]);
+            const users = snapshotToArray(usersSnap), soal = snapshotToArray(soalSnap), peminatan = snapshotToArray(peminatanSnap);
+            allPeminatanList = peminatan;
+            const stats = { bankSoalCount: soal.filter(s => s.status === 'DITERIMA').length, soalPerDosen: {}, reviewPerReviewer: {}, soalPerPeminatan: {} };
+            soal.forEach(s => {
+                stats.soalPerDosen[s.nama_dosen_pembuat] = (stats.soalPerDosen[s.nama_dosen_pembuat] || 0) + 1;
+                const peminatanName = peminatan.find(p => p.id === s.id_peminatan)?.nama || s.id_peminatan;
+                stats.soalPerPeminatan[peminatanName] = (stats.soalPerPeminatan[peminatanName] || 0) + 1;
+            });
+            users.filter(u => u.role === 'REVIEWER').forEach(rev => {
+                const reviewed = soal.filter(s => s.id_reviewer === rev.id);
+                stats.reviewPerReviewer[rev.id] = { nama: rev.nama, diterima: reviewed.filter(s => s.status === 'DITERIMA').length, ditolak: reviewed.filter(s => s.status === 'DITOLAK').length };
+            });
+            populateAdminStats(stats); populateUserTables(users); populateAdminPeminatanList(peminatan);
+        }
+
+        function populateAdminStats(stats) {
+          document.getElementById('bankSoalCount').textContent = stats.bankSoalCount || 0;
+          const rekapDosenBody = document.getElementById('rekapDosen');
+          rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ? Object.entries(stats.soalPerDosen).map(([d,c])=>`<tr><td>${d.split(" ")[0]}</td><td>${c}</td></tr>`).join('') : '<tr><td colspan="2">-</td></tr>';
+          const rekapReviewerBody = document.getElementById('rekapReviewer');
+          rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ? Object.values(stats.reviewPerReviewer).map(d=>`<tr><td>${d.nama.split(" ")[0]}</td><td>${d.diterima}</td><td>${d.ditolak}</td></tr>`).join('') : '<tr><td colspan="3">-</td></tr>';
+          const rekapPeminatanBody = document.getElementById('rekapPeminatan');
+          rekapPeminatanBody.innerHTML = Object.keys(stats.soalPerPeminatan).length > 0 ? Object.entries(stats.soalPerPeminatan).map(([p,c])=>`<tr><td>${p}</td><td>${c}</td></tr>`).join('') : '<tr><td colspan="2">-</td></tr>';
+        }
+
+        function populateUserTables(users) {
+            document.getElementById('totalUserCount').textContent = users.length || 0;
+            const userListBody = document.getElementById('userList');
+            userListBody.innerHTML = users.map(user => `<tr>
+              <td>${user.nama}</td><td>${user.email || '-'}</td><td><span class="badge bg-info text-dark">${user.role}</span></td>
+              <td>${(user.peminatan || '').split(',').filter(Boolean).map(p => `<span class="badge bg-secondary me-1">${p}</span>`).join('') || '-'}</td>
+              <td><button class="btn btn-sm btn-outline-primary py-1 px-2" onclick='openUserModal(${JSON.stringify(user)}, "${user.role}")'><i class="bi bi-pencil-square"></i></button>
+                  <button class="btn btn-sm btn-outline-danger py-1 px-2" onclick="handleDeleteUser('${user.id}', '${user.nama}')"><i class="bi bi-trash"></i></button></td>
+              </tr>`).join('');
+        }
+
+        function populateAdminPeminatanList(peminatanList) {
+            document.getElementById('peminatanList').innerHTML = peminatanList.map(p => `<tr>
+              <td><span class="badge bg-primary">${p.id}</span></td><td>${p.nama}</td>
+              <td class="text-end"><button class="btn btn-sm btn-outline-danger p-0 px-2" onclick="handleDeletePeminatan('${p.id}', '${p.nama}')"><i class="bi bi-x-lg"></i></button></td>
+              </tr>`).join('');
+        }
+
+        async function handlePeminatanFormSubmit(e) {
+            e.preventDefault();
+            const id = document.getElementById('peminatanId').value.trim(), nama = document.getElementById('peminatanNama').value.trim();
+            if(!id || !nama) return;
+            const submitBtn = e.target.querySelector('button'); submitBtn.disabled = true;
+            try { await firestore.collection('peminatan').doc(id).set({ id, nama }); alert(`Peminatan "${nama}" berhasil ditambahkan.`); e.target.reset(); loadAdminDashboard(); } 
+            catch (error) { console.error("Add peminatan:", error); alert("Gagal."); } finally { submitBtn.disabled = false; }
+        }
+
+        window.handleDeletePeminatan = async function(id, nama) {
+            if (confirm(`Yakin ingin menghapus peminatan "${nama}" (${id})?`)) {
+                try { await firestore.collection('peminatan').doc(id).delete(); alert(`"${nama}" dihapus.`); loadAdminDashboard(); } 
+                catch(error) { console.error("Delete peminatan:", error); alert("Gagal."); }
+            }
+        }
+
+        window.openUserModal = function(user, role) {
+          const form = document.getElementById('userForm'); form.reset();
+          document.getElementById('userRole').value = role;
+          const label = document.getElementById('userModalLabel');
+          const checkboxes = document.getElementById('userPeminatanCheckboxes'); checkboxes.innerHTML = '';
+          const userPeminatan = user ? (user.peminatan || '').split(',') : [];
+          allPeminatanList.forEach(p => {
+              const isChecked = userPeminatan.includes(p.id);
+              checkboxes.innerHTML += `<div class="form-check"><input class="form-check-input" type="checkbox" value="${p.id}" id="p_check_${p.id}" ${isChecked ? 'checked' : ''}><label class="form-check-label" for="p_check_${p.id}">${p.nama} (${p.id})</label></div>`;
+          });
+          if (user) {
+            label.innerHTML = `<i class="bi bi-pencil-square me-2"></i> Edit Data ${role}`;
+            document.getElementById('userId').value = user.id; document.getElementById('userNama').value = user.nama;
+            document.getElementById('userEmail').value = user.email || ''; document.getElementById('userEmail').readOnly = true;
+            document.getElementById('userPassword').required = false;
+          } else {
+            label.innerHTML = `<i class="bi bi-person-plus-fill me-2"></i> Tambah ${role} Baru`;
+            document.getElementById('userId').value = ''; document.getElementById('userEmail').readOnly = false;
+            document.getElementById('userPassword').required = true;
+          }
+          userModalInstance.show();
+        }
+
+        async function handleUserFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target, submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            const selectedPeminatan = Array.from(document.querySelectorAll('#userPeminatanCheckboxes input:checked')).map(cb => cb.value).join(',');
+            const userData = { nama: form.userNama.value, email: form.userEmail.value, role: form.userRole.value, peminatan: selectedPeminatan };
+            const userId = form.userId.value, password = form.userPassword.value;
+            try {
+                if (userId) { // Update
+                    await firestore.collection('users').doc(userId).update(userData);
+                    alert("Data user berhasil diperbarui.");
+                } else { // Add new
+                    if (!password) { alert("Password wajib diisi."); submitBtn.disabled = false; return; }
+                    const tempApp = firebase.initializeApp(firebaseConfig, 'Secondary');
+                    const cred = await tempApp.auth().createUserWithEmailAndPassword(userData.email, password);
+                    await firestore.collection('users').doc(cred.user.uid).set(userData);
+                    await tempApp.delete();
+                    alert("User baru berhasil ditambahkan.");
+                }
+                userModalInstance.hide(); loadAdminDashboard();
+            } catch(error) { console.error("User form error:", error); alert("Error: " + error.message); } 
+            finally { submitBtn.disabled = false; }
+        }
+
+        window.handleDeleteUser = async function(userId, userName) {
+            if (confirm(`Yakin ingin menghapus user "${userName}"? Ini hanya menghapus data dari database, tidak dari sistem autentikasi.`)) {
+                try { await firestore.collection('users').doc(userId).delete(); alert(`User "${userName}" dihapus.`); loadAdminDashboard(); }
+                catch(error) { console.error("Delete user error:", error); alert("Gagal menghapus user."); }
+            }
+        }
+        
+        window.handleExport = async function(format, peminatanId, button) {
+            const spinner = button.querySelector('.spinner-border'); spinner.classList.remove('d-none'); button.disabled = true;
+            try {
+                let query = firestore.collection('soal').where('status', '==', 'DITERIMA');
+                if (peminatanId !== 'all') query = query.where('id_peminatan', '==', peminatanId);
+                const snapshot = await query.get();
+                const bankSoal = snapshotToArray(snapshot);
+                if (bankSoal.length === 0) { alert("Tidak ada soal untuk diekspor."); return; }
+
+                const peminatanMap = allPeminatanList.reduce((acc, p) => ({ ...acc, [p.id]: p.nama }), {});
+                const dataToExport = bankSoal.map(s => ({ Peminatan: peminatanMap[s.id_peminatan] || s.id_peminatan, Soal: s.soal_text, "Opsi A": s.opsi_a, "Opsi B": s.opsi_b, "Opsi C": s.opsi_c, "Opsi D": s.opsi_d, "Opsi E": s.opsi_e, "Kunci Jawaban": s.kunci_jawaban, "Dosen Pembuat": s.nama_dosen_pembuat }));
+                const timestamp = new Date().toISOString().slice(0, 10);
+                if (format === 'excel') {
+                    const ws = XLSX.utils.json_to_sheet(dataToExport); const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Bank Soal"); XLSX.writeFile(wb, `bank_soal_${peminatanId}_${timestamp}.xlsx`);
+                } else if (format === 'pdf') {
+                    const { jsPDF } = window.jspdf; const doc = new jsPDF();
+                    doc.autoTable({ head: [Object.keys(dataToExport[0])], body: dataToExport.map(Object.values) });
+                    doc.save(`bank_soal_${peminatanId}_${timestamp}.pdf`);
+                }
+            } catch(e) { console.error("Export error:", e); alert("Gagal ekspor."); }
+            finally { spinner.classList.add('d-none'); button.disabled = false; }
+        }
+        
+        window.handleBackup = async function(button) {
+            const spinner = button.querySelector('.spinner-border'); spinner.classList.remove('d-none'); button.disabled = true;
+            try {
+                const collections = ['peminatan', 'users', 'soal'];
+                const backupData = {};
+                for (const coll of collections) {
+                    const snapshot = await firestore.collection(coll).get();
+                    backupData[coll] = snapshot.docs.map(doc => ({ _id: doc.id, ...doc.data() }));
+                }
+                const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+                downloadFile(JSON.stringify(backupData, null, 2), `simivig_firestore_backup_${timestamp}.json`, 'application/json');
+            } catch(e) { console.error("Backup error:", e); alert("Gagal backup."); }
+            finally { spinner.classList.add('d-none'); button.disabled = false; }
+        }
+
+        async function handleRestoreSubmit(e) {
+            e.preventDefault();
+            const file = document.getElementById('restoreFile').files[0];
+            const button = e.target.querySelector('button');
+            if(!file) return alert("Pilih file backup (.json).");
+            if (prompt("PERINGATAN! Ini akan MENIMPA data yang ada. Ketik 'RESTORE' untuk melanjutkan.") !== 'RESTORE') return alert("Restore dibatalkan.");
+            
+            button.disabled = true; button.innerHTML = `<span class="spinner-border spinner-border-sm"></span>`;
+            const reader = new FileReader();
+            reader.onload = async (event) => {
+                try {
+                    const backupData = JSON.parse(event.target.result);
+                    const collections = Object.keys(backupData);
+                    for (const coll of collections) {
+                        const batch = firestore.batch();
+                        backupData[coll].forEach(item => {
+                            const docId = item._id;
+                            delete item._id;
+                            batch.set(firestore.collection(coll).doc(docId), item);
+                        });
+                        await batch.commit();
+                    }
+                    alert("Data berhasil di-restore. Halaman akan dimuat ulang."); location.reload();
+                } catch (err) { console.error(err); alert("Gagal restore: " + err.message); } 
+                finally { button.disabled = false; button.innerHTML = `<i class="bi bi-database-up"></i>`; }
+            };
+            reader.readAsText(file);
+        }
+
+        let bankSoalModalInstance; let originalBankSoalList = [];
+        window.showBankSoal = async function() {
+            if (!bankSoalModalInstance) bankSoalModalInstance = new bootstrap.Modal(document.getElementById('bankSoalModal'));
+            document.getElementById('bankSoalContent').innerHTML = '<div class="text-center p-5"><div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div></div>';
+            document.getElementById('bankSoalControls').innerHTML = ''; bankSoalModalInstance.show();
+            const snapshot = await firestore.collection('soal').where('status', '==', 'DITERIMA').get();
+            originalBankSoalList = snapshotToArray(snapshot);
+            if (allPeminatanList.length === 0) {
+                const peminatanSnap = await firestore.collection('peminatan').get(); allPeminatanList = snapshotToArray(peminatanSnap);
+            }
+            if (allPeminatanList.length === 0) { document.getElementById('bankSoalContent').innerHTML = '<div class="alert alert-warning">Data Peminatan tidak ditemukan.</div>'; return; }
+            const years = [...new Set(originalBankSoalList.map(s => new Date(s.tgl_dibuat).getFullYear()))].sort((a,b)=>b-a);
+            document.getElementById('bankSoalControls').innerHTML = `<select id="bankSoalYearFilter" class="form-select form-select-sm" style="width: auto;"><option value="all">Semua Tahun</option>${years.map(y=>`<option value="${y}">${y}</option>`).join('')}</select>`;
+            document.getElementById('bankSoalYearFilter').addEventListener('change', (e) => {
+                const filteredList = e.target.value === 'all' ? originalBankSoalList : originalBankSoalList.filter(s => new Date(s.tgl_dibuat).getFullYear() == e.target.value);
+                renderBankSoalTabsAndContent(filteredList);
+            });
+            renderBankSoalTabsAndContent(originalBankSoalList);
+        }
+
+        function renderBankSoalTabsAndContent(bankSoalList) {
+            const modalBody = document.getElementById('bankSoalContent');
+            const renderSoalContent = (soalList, pId, pNama) => {
+                const header = `<div class="d-flex justify-content-between align-items-center mb-3"><h4 class="mb-0">Daftar Soal - ${pNama}</h4><div class="btn-group btn-group-sm"><button class="btn btn-outline-success" onclick="handleExport('excel','${pId}',this)"><i class="bi bi-file-earmark-excel-fill me-1"></i> Excel <span class="spinner-border spinner-border-sm d-none"></span></button><button class="btn btn-outline-danger" onclick="handleExport('pdf','${pId}',this)"><i class="bi bi-file-earmark-pdf-fill me-1"></i> PDF <span class="spinner-border spinner-border-sm d-none"></span></button></div></div>`;
+                if (soalList.length === 0) return header + '<div class="alert alert-info">Bank Soal kosong.</div>';
+                return header + soalList.map((soal, i) => `<div class="card reviewer-card mb-3"><div class="card-header d-flex justify-content-between"><span>Soal #${i + 1} (Dari: ${soal.nama_dosen_pembuat})</span>${pId === 'all' ? `<span class="badge bg-primary">${allPeminatanList.find(p=>p.id===soal.id_peminatan)?.nama}</span>` : ''}</div><div class="card-body"><p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p><ul class="list-group list-group-flush">${['a','b','c','d','e'].map(o=>`<li class="list-group-item ${soal.kunci_jawaban.toUpperCase()===o.toUpperCase()?'correct-answer':''}"><strong>${o.toUpperCase()}:</strong> ${soal['opsi_'+o]||''}</li>`).join('')}</ul></div></div>`).join('');
+            };
+            let tabHtml = `<button class="nav-link text-start active" data-bs-toggle="pill" data-bs-target="#p-content-all">Semua Peminatan <span class="badge bg-primary rounded-pill ms-1">${bankSoalList.length}</span></button>`;
+            let contentHtml = `<div class="tab-pane fade show active" id="p-content-all">${renderSoalContent(bankSoalList, 'all', 'Semua Peminatan')}</div>`;
+            allPeminatanList.forEach(p => {
+                const soalForP = bankSoalList.filter(s => s.id_peminatan === p.id);
+                tabHtml += `<button class="nav-link text-start" data-bs-toggle="pill" data-bs-target="#p-content-${p.id}">${p.nama} <span class="badge bg-secondary rounded-pill ms-1">${soalForP.length}</span></button>`;
+                contentHtml += `<div class="tab-pane fade" id="p-content-${p.id}">${renderSoalContent(soalForP, p.id, p.nama)}</div>`;
+            });
+            modalBody.innerHTML = `<div class="d-flex align-items-start"><div class="nav flex-column nav-pills me-3" style="min-width: 200px;">${tabHtml}</div><div class="tab-content flex-grow-1">${contentHtml}</div></div>`;
+        }
+      });
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
