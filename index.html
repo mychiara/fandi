@@ -64,22 +64,56 @@
       </div>
       <!-- DOSEN VIEW -->
       <div id="dosenView" class="content-card">
-        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-workspace"></i> Dashboard Dosen</h2><div class="d-flex align-items-center"><span id="userInfoDosen"></span><button class="btn btn-outline-danger btn-sm ms-3 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr>
+        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-workspace"></i> Dashboard Dosen</h2><div class="d-flex align-items-center"><span id="userInfoDosen"></span><button class="btn btn-outline-secondary btn-sm ms-3" id="btnPrintReportDosen" title="Cetak Laporan"><i class="bi bi-printer m-0"></i></button><button class="btn btn-outline-danger btn-sm ms-2 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr>
         <div class="row g-5"><div class="col-lg-6"><h3 class="mt-4"><i class="bi bi-file-earmark-arrow-up-fill"></i> Upload Soal via Template</h3><p class="text-muted">Untuk input banyak soal sekaligus, unduh template, isi, lalu unggah kembali.</p><div class="card p-3 bg-light border"><div class="row align-items-center g-2"><div class="col-md-5"><button id="btnDownloadTemplateDosen" class="btn btn-success w-100"><i class="bi bi-download"></i> Download</button></div><div class="col-md-7"><form id="formUploadSoal"><div class="input-group"><input type="file" class="form-control" id="soalFileUpload" accept=".csv" required><button class="btn btn-primary" type="submit" title="Upload File"><i class="bi bi-upload m-0"></i></button></div></form></div></div></div></div><div class="col-lg-6"><h3 class="mt-4"><i class="bi bi-pencil-square"></i> Input Soal Manual</h3><form id="formSoal"><div class="row g-3"><div class="col-12"><input type="text" id="namaDosen" class="form-control" readonly></div><div class="col-12"><select id="peminatanDosen" class="form-select" required></select></div><div class="col-12"><textarea id="soalText" class="form-control" rows="3" placeholder="Tulis soal di sini..." required></textarea></div><div class="col-md-6"><input type="text" id="opsiA" class="form-control" placeholder="Opsi A" required></div><div class="col-md-6"><input type="text" id="opsiB" class="form-control" placeholder="Opsi B" required></div><div class="col-md-6"><input type="text" id="opsiC" class="form-control" placeholder="Opsi C" required></div><div class="col-md-6"><input type="text" id="opsiD" class="form-control" placeholder="Opsi D" required></div><div class="col-md-6"><input type="text" id="opsiE" class="form-control" placeholder="Opsi E" required></div><div class="col-md-6"><select id="kunciJawaban" class="form-select" required><option value="" disabled selected>Kunci Jawaban...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div><div class="col-12"><button type="submit" class="btn btn-primary w-100"><i class="bi bi-send-check"></i> Kirim Soal</button></div></div></form></div></div>
         <hr class="my-5"><h3><i class="bi bi-clock-history"></i> Riwayat & Statistik Soal Anda</h3><p class="text-muted">Ringkasan soal yang pernah Anda ajukan.</p>
         <div id="dosenStatSection" style="display:none;"><div class="row g-4 mb-4"><div class="col-md-4 col-sm-12"><div class="stat-card"><i class="bi bi-journal-arrow-up stat-icon"></i><div id="dosenTotalCount" class="stat-value">0</div><div class="stat-label">Total Diajukan</div></div></div><div class="col-md-4 col-6"><div class="stat-card"><i class="bi bi-check-circle-fill stat-icon" style="color: var(--success-color);"></i><div id="dosenDiterimaCount" class="stat-value">0</div><div class="stat-label">Diterima</div></div></div><div class="col-md-4 col-6"><div class="stat-card"><i class="bi bi-x-circle-fill stat-icon" style="color: var(--danger-color);"></i><div id="dosenDitolakCount" class="stat-value">0</div><div class="stat-label">Ditolak</div></div></div></div></div>
+        <h4 class="mt-4 mb-3 h5 text-muted">Rekapan Pengajuan per Tanggal</h4>
+        <div class="table-responsive" style="max-height: 200px; border: 1px solid var(--border-color); border-radius: .5rem;">
+            <table class="table table-sm table-hover mb-0">
+                <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                    <tr><th>Tanggal Pengajuan</th><th class="text-end">Jumlah Soal</th></tr>
+                </thead>
+                <tbody id="rekapTanggalDosen"></tbody>
+            </table>
+        </div>
+        <h4 class="mt-5 mb-3 h5 text-muted">Detail Riwayat Pengajuan</h4>
         <div id="riwayatSoalDosen"></div>
       </div>
       <!-- REVIEWER VIEW -->
       <div id="reviewerView" class="content-card">
-        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-video3"></i> Dashboard Reviewer</h2><div class="d-flex align-items-center"><span id="userInfoReviewer"></span><button class="btn btn-outline-danger btn-sm ms-3 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr><p class="text-muted">Ringkasan aktivitas dan daftar soal yang menunggu untuk direview sesuai peminatan Anda.</p>
+        <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-video3"></i> Dashboard Reviewer</h2><div class="d-flex align-items-center"><span id="userInfoReviewer"></span><button class="btn btn-outline-secondary btn-sm ms-3" id="btnPrintReportReviewer" title="Cetak Laporan"><i class="bi bi-printer m-0"></i></button><button class="btn btn-outline-danger btn-sm ms-2 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr><p class="text-muted">Ringkasan aktivitas dan daftar soal yang menunggu untuk direview sesuai peminatan Anda.</p>
         <div class="row g-4 my-4"><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-hourglass-split stat-icon" style="color: var(--warning-color);"></i><div id="reviewerPendingCount" class="stat-value">...</div><div class="stat-label">Menunggu Review</div></div></div><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-journal-check stat-icon"></i><div id="reviewerTotalCount" class="stat-value">...</div><div class="stat-label">Total Direview</div></div></div><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-check-circle-fill stat-icon" style="color: var(--success-color);"></i><div id="reviewerDiterimaCount" class="stat-value">...</div><div class="stat-label">Diterima</div></div></div><div class="col-md-3 col-6"><div class="stat-card"><i class="bi bi-x-circle-fill stat-icon" style="color: var(--danger-color);"></i><div id="reviewerDitolakCount" class="stat-value">...</div><div class="stat-label">Ditolak</div></div></div></div>
-        <hr><div id="soalUntukReview" class="mt-4"></div>
+        <h4 class="mt-4 mb-3 h5 text-muted">Rekapan Review per Tanggal</h4>
+        <div class="table-responsive" style="max-height: 200px; border: 1px solid var(--border-color); border-radius: .5rem;">
+            <table class="table table-sm table-hover mb-0">
+                <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                    <tr>
+                        <th>Tanggal Review</th>
+                        <th class="text-end">Total</th>
+                        <th class="text-end text-success">Diterima</th>
+                        <th class="text-end text-danger">Ditolak</th>
+                    </tr>
+                </thead>
+                <tbody id="rekapTanggalReviewer"></tbody>
+            </table>
+        </div>
+        <hr><h4 class="h5 mt-4">Soal Menunggu Review</h4><div id="soalUntukReview" class="mt-4"></div>
       </div>
       <!-- ADMIN VIEW -->
       <div id="adminView" class="content-card">
         <div class="d-flex justify-content-between align-items-center"><h2><i class="bi bi-person-gear"></i> Dashboard Admin</h2><div class="d-flex align-items-center"><span id="userInfoAdmin"></span><button class="btn btn-outline-danger btn-sm ms-3 logout-button"><i class="bi bi-box-arrow-right m-0"></i></button></div></div><hr><p class="text-muted">Ringkasan aktivitas sistem dan manajemen data master.</p>
-        <div class="card admin-sub-card mb-5"><div class="card-body p-4"><div class="row g-4"><div class="col-lg-8"><h3 class="mt-2"><i class="bi bi-bar-chart-line-fill"></i> Statistik Keseluruhan</h3><div class="row g-3"><div class="col-sm-6"><div class="stat-card clickable h-100" onclick="showBankSoal()"><i class="bi bi-archive-fill stat-icon"></i><div id="bankSoalCount" class="stat-value">...</div><div class="stat-label">Soal di Bank Soal</div></div></div><div class="col-sm-6"><div class="stat-card h-100"><i class="bi bi-people-fill stat-icon"></i><div id="totalUserCount" class="stat-value">...</div><div class="stat-label">Total User Terdaftar</div></div></div></div><h4 class="mt-4 h5 text-center text-muted">Rekapan Aktivitas</h4><div class="row g-3"><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Peminatan</th><th>Soal</th></tr></thead><tbody id="rekapPeminatan"></tbody></table></div></div><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Nama Dosen</th><th>Soal</th></tr></thead><tbody id="rekapDosen"></tbody></table></div></div><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Reviewer</th><th class="text-success">Diterima</th><th class="text-danger">Ditolak</th></tr></thead><tbody id="rekapReviewer"></tbody></table></div></div></div></div><div class="col-lg-4"><h3 class="mt-2"><i class="bi bi-tools"></i> Alat Admin</h3><div class="list-group"><button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'DOSEN')"><i class="bi bi-person-plus-fill me-2"></i> Tambah Dosen Baru</button><button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'REVIEWER')"><i class="bi bi-person-video3 me-2"></i> Tambah Reviewer Baru</button><button type="button" id="btnDownloadTemplateAdmin" class="list-group-item list-group-item-action"><i class="bi bi-download me-2"></i> Download Template Soal</button></div><h3 class="mt-4"><i class="bi bi-box-seam"></i> Ekspor & Backup</h3><div class="list-group"><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('excel', 'all', this)"><span><i class="bi bi-file-earmark-excel-fill text-success me-2"></i> Ekspor Bank Soal (Excel)</span><span class="spinner-border spinner-border-sm d-none"></span></button><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('pdf', 'all', this)"><span><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i> Ekspor Bank Soal (PDF)</span><span class="spinner-border spinner-border-sm d-none"></span></button><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleBackup(this)"><span><i class="bi bi-database-down me-2"></i> Backup Seluruh Data (JSON)</span><span class="spinner-border spinner-border-sm d-none"></span></button></div><div class="card bg-light border-warning mt-4"><div class="card-body"><h5 class="card-title text-warning-emphasis"><i class="bi bi-exclamation-triangle-fill"></i> Restore Data</h5><p class="card-text small">Tindakan ini akan menimpa seluruh data yang ada. Gunakan dengan hati-hati.</p><form id="restoreForm"><div class="input-group"><input type="file" class="form-control form-control-sm" id="restoreFile" accept=".json" required><button class="btn btn-sm btn-warning" type="submit"><i class="bi bi-database-up"></i></button></div></form></div></div></div></div></div></div>
+        <div class="card admin-sub-card mb-5"><div class="card-body p-4"><div class="row g-4"><div class="col-lg-8"><h3 class="mt-2"><i class="bi bi-bar-chart-line-fill"></i> Statistik Keseluruhan</h3><div class="row g-3"><div class="col-sm-6"><div class="stat-card clickable h-100" onclick="showBankSoal()"><i class="bi bi-archive-fill stat-icon"></i><div id="bankSoalCount" class="stat-value">...</div><div class="stat-label">Soal di Bank Soal</div></div></div><div class="col-sm-6"><div class="stat-card h-100"><i class="bi bi-people-fill stat-icon"></i><div id="totalUserCount" class="stat-value">...</div><div class="stat-label">Total User Terdaftar</div></div></div></div><h4 class="mt-4 h5 text-center text-muted">Rekapan Aktivitas</h4><div class="row g-3"><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Peminatan</th><th>Soal</th></tr></thead><tbody id="rekapPeminatan"></tbody></table></div></div><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Nama Dosen</th><th>Soal</th></tr></thead><tbody id="rekapDosen"></tbody></table></div></div><div class="col-lg-4"><div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Reviewer</th><th class="text-success">Diterima</th><th class="text-danger">Ditolak</th></tr></thead><tbody id="rekapReviewer"></tbody></table></div></div></div>
+                        <h4 class="mt-4 h5 text-muted">Rekapan Soal Masuk per Tanggal</h4>
+                        <div class="table-responsive" style="max-height: 150px; border: 1px solid var(--border-color); border-radius: .5rem;">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead class="table-light" style="position: sticky; top: 0; z-index: 1;">
+                                    <tr><th>Tanggal Masuk</th><th class="text-end">Jumlah Soal</th></tr>
+                                </thead>
+                                <tbody id="rekapSoalMasukAdmin"></tbody>
+                            </table>
+                        </div>
+                    </div><div class="col-lg-4"><h3 class="mt-2"><i class="bi bi-tools"></i> Alat Admin</h3><div class="list-group"><button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'DOSEN')"><i class="bi bi-person-plus-fill me-2"></i> Tambah Dosen Baru</button><button type="button" class="list-group-item list-group-item-action" onclick="openUserModal(null, 'REVIEWER')"><i class="bi bi-person-video3 me-2"></i> Tambah Reviewer Baru</button><button type="button" id="btnDownloadTemplateAdmin" class="list-group-item list-group-item-action"><i class="bi bi-download me-2"></i> Download Template Soal</button></div><h3 class="mt-4"><i class="bi bi-box-seam"></i> Ekspor & Backup</h3><div class="list-group"><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('excel', 'all', this)"><span><i class="bi bi-file-earmark-excel-fill text-success me-2"></i> Ekspor Bank Soal (Excel)</span><span class="spinner-border spinner-border-sm d-none"></span></button><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleExport('pdf', 'all', this)"><span><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i> Ekspor Bank Soal (PDF)</span><span class="spinner-border spinner-border-sm d-none"></span></button><button type="button" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" onclick="handleBackup(this)"><span><i class="bi bi-database-down me-2"></i> Backup Seluruh Data (JSON)</span><span class="spinner-border spinner-border-sm d-none"></span></button></div><div class="card bg-light border-warning mt-4"><div class="card-body"><h5 class="card-title text-warning-emphasis"><i class="bi bi-exclamation-triangle-fill"></i> Restore Data</h5><p class="card-text small">Tindakan ini akan menimpa seluruh data yang ada. Gunakan dengan hati-hati.</p><form id="restoreForm"><div class="input-group"><input type="file" class="form-control form-control-sm" id="restoreFile" accept=".json" required><button class="btn btn-sm btn-warning" type="submit"><i class="bi bi-database-up"></i></button></div></form></div></div></div></div></div></div>
         <div class="row g-4"><div class="col-lg-8"><div class="card admin-sub-card h-100"><div class="card-body p-4"><h3 class="mb-4"><i class="bi bi-people-fill"></i> Manajemen User</h3><div class="table-responsive"><table class="table table-hover"><thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Peminatan</th><th>Aksi</th></tr></thead><tbody id="userList"></tbody></table></div></div></div></div><div class="col-lg-4"><div class="card admin-sub-card h-100"><div class="card-body p-4"><h3 class="mb-4"><i class="bi bi-tags-fill"></i> Manajemen Peminatan</h3><form id="peminatanForm" class="mb-3"><div class="input-group"><input type="text" id="peminatanId" class="form-control" placeholder="ID Peminatan (e.g. P01)" required><input type="text" id="peminatanNama" class="form-control" placeholder="Nama Peminatan" required><button class="btn btn-primary" type="submit"><i class="bi bi-plus-lg m-0"></i></button></div></form><div class="table-responsive"><table class="table table-sm"><thead><tr><th>ID</th><th>Nama</th><th></th></tr></thead><tbody id="peminatanList"></tbody></table></div></div></div></div></div>
       </div>
     </main>
@@ -89,6 +123,8 @@
     <div class="modal fade" id="bankSoalModal" tabindex="-1"><div class="modal-dialog modal-xl modal-dialog-scrollable"><div class="modal-content" style="border-radius: 1rem;"><div class="modal-header bg-light"><div class="d-flex w-100 justify-content-between align-items-center"><h5 class="modal-title h2" id="bankSoalModalLabel"><i class="bi bi-archive-fill me-2"></i> Bank Soal</h5><div id="bankSoalControls" class="d-flex align-items-center gap-2"></div></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="bankSoalContent" style="background-color: var(--light-bg); padding: 1.5rem;"></div></div></div></div>
     <div class="modal fade" id="userModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content" style="border-radius: 1rem;"><form id="userForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="userModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="userId" name="userId"><input type="hidden" id="userRole" name="userRole"><div class="mb-3"><label for="userNama" class="form-label">Nama Lengkap</label><input type="text" class="form-control" id="userNama" name="nama" required></div><div class="mb-3"><label for="userEmail" class="form-label">Email</label><input type="email" class="form-control" id="userEmail" name="email" required></div><div class="mb-3"><label for="userPassword" class="form-label">Password</label><input type="password" class="form-control" id="userPassword" name="password"><small class="form-text text-muted">Isi untuk menambah/mengubah. Kosongkan jika tidak ingin mengubah.</small></div><div class="mb-3"><label class="form-label">Peminatan</label><div id="userPeminatanCheckboxes" class="p-2 border rounded" style="max-height: 150px; overflow-y: auto;"></div><small class="form-text text-muted">Pilih satu atau lebih peminatan yang relevan.</small></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan</button></div></form></div></div></div>
     <div class="modal fade" id="editSoalModal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content" style="border-radius: 1rem;"><form id="editSoalForm"><div class="modal-header bg-light"><h5 class="modal-title h2" id="editSoalModalTitle"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="editSoalId"><div class="row g-3"><div class="col-12"><label for="editPeminatanDosen" class="form-label">Peminatan</label><select id="editPeminatanDosen" class="form-select" required></select></div><div class="col-12"><label for="editSoalText" class="form-label">Vignette / Teks Soal</label><textarea id="editSoalText" class="form-control" rows="4" placeholder="Tulis soal di sini..." required></textarea></div><div class="col-md-6"><label for="editOpsiA" class="form-label">Opsi A</label><input type="text" id="editOpsiA" class="form-control" placeholder="Opsi A" required></div><div class="col-md-6"><label for="editOpsiB" class="form-label">Opsi B</label><input type="text" id="editOpsiB" class="form-control" placeholder="Opsi B" required></div><div class="col-md-6"><label for="editOpsiC" class="form-label">Opsi C</label><input type="text" id="editOpsiC" class="form-control" placeholder="Opsi C" required></div><div class="col-md-6"><label for="editOpsiD" class="form-label">Opsi D</label><input type="text" id="editOpsiD" class="form-control" placeholder="Opsi D" required></div><div class="col-md-6"><label for="editOpsiE" class="form-label">Opsi E</label><input type="text" id="editOpsiE" class="form-control" placeholder="Opsi E" required></div><div class="col-md-6"><label for="editKunciJawaban" class="form-label">Kunci Jawaban</label><select id="editKunciJawaban" class="form-select" required><option value="" disabled selected>Pilih Kunci...</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="E">E</option></select></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button><button type="submit" class="btn btn-primary" id="editSoalSubmitBtn"></button></div></form></div></div></div>
+    <!-- NEW MODAL FOR ADMIN RECAP DETAILS -->
+    <div class="modal fade" id="detailRekapModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="detailRekapModalLabel"></h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="detailRekapModalBody"></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button><button type="button" class="btn btn-primary" id="btnPrintDetailRekap"><i class="bi bi-printer"></i> Cetak</button></div></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -107,15 +143,15 @@
       // PASTE YOUR FIREBASE CONFIGURATION OBJECT HERE
       // ===================================================================================
       const firebaseConfig = {
-  apiKey: "AIzaSyAt2__hZKhPPDc7ZC6tsOXEiw8vcZRjVls",
-  authDomain: "simivig2.firebaseapp.com",
-  databaseURL: "https://simivig2-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "simivig2",
-  storageBucket: "simivig2.firebasestorage.app",
-  messagingSenderId: "347242191217",
-  appId: "1:347242191217:web:a3f2418ee39a418d467ed0",
-  measurementId: "G-GBE56MZNR9"
-};
+        apiKey: "AIzaSyAt2__hZKhPPDc7ZC6tsOXEiw8vcZRjVls",
+        authDomain: "simivig2.firebaseapp.com",
+        databaseURL: "https://simivig2-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "simivig2",
+        storageBucket: "simivig2.firebasestorage.app",
+        messagingSenderId: "347242191217",
+        appId: "1:347242191217:web:a3f2418ee39a418d467ed0",
+        measurementId: "G-GBE56MZNR9"
+      };
 
       // --- Initialize Firebase ---
       firebase.initializeApp(firebaseConfig);
@@ -124,8 +160,10 @@
       
       let userModalInstance;
       let editSoalModalInstance;
+      let detailRekapModalInstance; // NEW
       let allPeminatanList = [];
       let currentUserProfile = null;
+      let adminSoalRekapData = {}; // NEW
       
       // Helper to convert Firestore snapshot to an array
       function snapshotToArray(snapshot) {
@@ -153,7 +191,64 @@
         document.body.appendChild(a); a.click();
         window.URL.revokeObjectURL(url); document.body.removeChild(a);
       }
+
+      function printReport(userName, userRole, stats, details) {
+        const reportWindow = window.open('', 'PRINT', 'height=600,width=800');
+        reportWindow.document.write('<html><head><title>Laporan Aktivitas</title>');
+        reportWindow.document.write(`<style> body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; margin: 2rem; } h1, h2, h3 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; } table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { border: 1px solid #ddd; padding: 12px; text-align: left; } th { background-color: #f8f9fa; font-weight: 600; } .footer { margin-top: 40px; font-size: 0.8em; color: #777; text-align: center; } </style>`);
+        reportWindow.document.write('</head><body>');
+        reportWindow.document.write(`<h1>Laporan Aktivitas SiMiVig</h1>`);
+        reportWindow.document.write(`<h2>${userRole}: ${userName}</h2>`);
+        reportWindow.document.write(`<p>Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}</p>`);
+        reportWindow.document.write('<h3>Ringkasan Statistik</h3>');
+        reportWindow.document.write('<table>');
+        stats.forEach(stat => {
+            reportWindow.document.write(`<tr><td style="width: 70%;">${stat.label}</td><td><strong>${stat.value}</strong></td></tr>`);
+        });
+        reportWindow.document.write('</table>');
+        
+        if (details && details.data && details.data.length > 0) {
+            reportWindow.document.write(`<h3>${details.title || 'Laporan Rinci'}</h3>`);
+            reportWindow.document.write('<table><thead><tr>');
+            details.headers.forEach(header => reportWindow.document.write(`<th>${header}</th>`));
+            reportWindow.document.write('</tr></thead><tbody>');
+            details.data.forEach(row => {
+                reportWindow.document.write('<tr>');
+                row.forEach(cell => reportWindow.document.write(`<td>${cell}</td>`));
+                reportWindow.document.write('</tr>');
+            });
+            reportWindow.document.write('</tbody></table>');
+        }
+
+        reportWindow.document.write('<div class="footer">Laporan ini dibuat secara otomatis oleh sistem SiMiVig.</div>');
+        reportWindow.document.write('</body></html>');
+        reportWindow.document.close(); reportWindow.focus();
+        setTimeout(() => { reportWindow.print(); }, 500);
+      }
       
+      // NEW PRINT FUNCTION FOR ADMIN RECAP
+      function printDetailRekap(date, elementId) {
+            const content = document.getElementById(elementId).innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Cetak Rekap Soal</title>');
+            printWindow.document.write('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>');
+            printWindow.document.write(`<style>
+                body { margin: 2rem; font-family: 'Inter', sans-serif; } 
+                .card { margin-bottom: 1.5rem !important; page-break-inside: avoid; }
+                .reviewer-card{border:1px solid #dee2e6;border-radius:.75rem;border-left:4px solid #0d6efd}
+                .reviewer-card .card-header{background-color:#e7f1ff;border-bottom:1px solid #dee2e6;font-weight:600;color:#0d6efd;border-radius:.75rem .75rem 0 0}
+                .reviewer-card .list-group-item.correct-answer{background-color:#d1e7dd;color:#0f5132;font-weight:600;border-color:rgba(0,0,0,.05)}
+                @media print { .no-print { display: none; } }
+            </style>`);
+            printWindow.document.write('</head><body>');
+            printWindow.document.write(`<h1>Rekap Soal Masuk</h1>`);
+            printWindow.document.write(`<h3>Tanggal: ${date}</h3><hr>`);
+            printWindow.document.write(content);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            setTimeout(() => { printWindow.focus(); printWindow.print(); }, 500);
+        }
+
       document.addEventListener("DOMContentLoaded", function() {
         const bodyEl = document.body;
         const footer = document.querySelector('.app-footer');
@@ -167,6 +262,7 @@
         
         userModalInstance = new bootstrap.Modal(document.getElementById('userModal'));
         editSoalModalInstance = new bootstrap.Modal(document.getElementById('editSoalModal'));
+        detailRekapModalInstance = new bootstrap.Modal(document.getElementById('detailRekapModal')); // NEW
 
         // --- Firebase Auth State Listener ---
         auth.onAuthStateChanged(async (user) => {
@@ -206,6 +302,45 @@
         document.getElementById("formUploadSoal").addEventListener("submit", handleSubmitUpload);
         document.getElementById("peminatanForm")?.addEventListener("submit", handlePeminatanFormSubmit);
         document.getElementById("restoreForm")?.addEventListener("submit", handleRestoreSubmit);
+        
+        document.getElementById("btnPrintReportDosen")?.addEventListener('click', () => {
+            if (!currentUserProfile) return;
+            const stats = [
+                { label: 'Total Soal Diajukan', value: document.getElementById('dosenTotalCount').textContent },
+                { label: 'Soal Diterima', value: document.getElementById('dosenDiterimaCount').textContent },
+                { label: 'Soal Ditolak', value: document.getElementById('dosenDitolakCount').textContent }
+            ];
+            const detailRows = Array.from(document.getElementById('rekapTanggalDosen').querySelectorAll('tr'));
+            const reportDetails = {
+                title: 'Rincian Pengajuan Soal per Tanggal',
+                headers: ['Tanggal Pengajuan', 'Jumlah Soal'],
+                data: detailRows.map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return [cells[0].textContent, cells[1].textContent];
+                })
+            };
+            printReport(currentUserProfile.nama, 'Dosen', stats, reportDetails);
+        });
+
+        document.getElementById("btnPrintReportReviewer")?.addEventListener('click', () => {
+            if (!currentUserProfile) return;
+            const stats = [
+                { label: 'Total Soal Direview', value: document.getElementById('reviewerTotalCount').textContent },
+                { label: 'Soal Diterima', value: document.getElementById('reviewerDiterimaCount').textContent },
+                { label: 'Soal Ditolak', value: document.getElementById('reviewerDitolakCount').textContent },
+                { label: 'Menunggu Review (Saat Ini)', value: document.getElementById('reviewerPendingCount').textContent }
+            ];
+            const detailRows = Array.from(document.getElementById('rekapTanggalReviewer').querySelectorAll('tr'));
+             const reportDetails = {
+                title: 'Rincian Aktivitas Review per Tanggal',
+                headers: ['Tanggal Review', 'Total', 'Diterima', 'Ditolak'],
+                data: detailRows.map(row => {
+                    const cells = row.querySelectorAll('td');
+                    return [cells[0].textContent, cells[1].textContent, cells[2].textContent, cells[3].textContent];
+                })
+            };
+            printReport(currentUserProfile.nama, 'Reviewer', stats, reportDetails);
+        });
 
         async function handleSubmitUpload(e) {
             e.preventDefault();
@@ -338,6 +473,25 @@
             document.getElementById("dosenTotalCount").textContent = soalList.length;
             document.getElementById("dosenDiterimaCount").textContent = soalList.filter(s => s.status === 'DITERIMA').length;
             document.getElementById("dosenDitolakCount").textContent = soalList.filter(s => s.status === 'DITOLAK').length;
+
+            const rekapTanggal = {};
+            soalList.forEach(soal => {
+                if (soal.tgl_dibuat) {
+                    const isoDate = new Date(soal.tgl_dibuat).toISOString().slice(0, 10);
+                    rekapTanggal[isoDate] = (rekapTanggal[isoDate] || 0) + 1;
+                }
+            });
+            const rekapTanggalDosenBody = document.getElementById('rekapTanggalDosen');
+            rekapTanggalDosenBody.innerHTML = Object.keys(rekapTanggal).sort().reverse()
+                .map(isoDate => {
+                    const [year, month, day] = isoDate.split('-');
+                    const displayDate = `${day}/${month}/${year}`;
+                    return `<tr><td>${displayDate}</td><td class="text-end">${rekapTanggal[isoDate]}</td></tr>`;
+                }).join('');
+            if (rekapTanggalDosenBody.innerHTML === '') {
+                rekapTanggalDosenBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">Belum ada data.</td></tr>';
+            }
+
             if (soalList.length === 0) { container.innerHTML = '<div class="alert alert-light text-center border">Anda belum pernah mengajukan soal.</div>'; return; }
             let html = '<div class="table-responsive"><table class="table table-striped table-hover"><thead><tr><th>Soal</th><th>Status</th><th>Catatan Reviewer</th><th>Aksi</th></tr></thead><tbody>';
             soalList.sort((a,b) => new Date(b.tgl_dibuat) - new Date(a.tgl_dibuat)).forEach(soal => {
@@ -391,6 +545,34 @@
             document.getElementById("reviewerTotalCount").textContent = reviewedSoal.length;
             document.getElementById("reviewerDiterimaCount").textContent = reviewedSoal.filter(s => s.status === 'DITERIMA').length;
             document.getElementById("reviewerDitolakCount").textContent = reviewedSoal.filter(s => s.status === 'DITOLAK').length;
+
+            const rekapTanggal = {};
+            reviewedSoal.forEach(soal => {
+                if (soal.tgl_direview) {
+                    const isoDate = new Date(soal.tgl_direview).toISOString().slice(0, 10);
+                    if (!rekapTanggal[isoDate]) {
+                        rekapTanggal[isoDate] = { total: 0, diterima: 0, ditolak: 0 };
+                    }
+                    rekapTanggal[isoDate].total++;
+                    if (soal.status === 'DITERIMA') {
+                        rekapTanggal[isoDate].diterima++;
+                    } else if (soal.status === 'DITOLAK') {
+                        rekapTanggal[isoDate].ditolak++;
+                    }
+                }
+            });
+            const rekapTanggalReviewerBody = document.getElementById('rekapTanggalReviewer');
+            rekapTanggalReviewerBody.innerHTML = Object.keys(rekapTanggal).sort().reverse()
+                .map(isoDate => {
+                    const [year, month, day] = isoDate.split('-');
+                    const displayDate = `${day}/${month}/${year}`;
+                    const data = rekapTanggal[isoDate];
+                    return `<tr><td>${displayDate}</td><td class="text-end">${data.total}</td><td class="text-end text-success">${data.diterima}</td><td class="text-end text-danger">${data.ditolak}</td></tr>`;
+                }).join('');
+            if (rekapTanggalReviewerBody.innerHTML === '') {
+                rekapTanggalReviewerBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Belum ada data.</td></tr>';
+            }
+
             loadSoalForReviewer(user.peminatan);
         }
 
@@ -445,37 +627,115 @@
         }
 
         async function loadAdminDashboard() {
-            const [usersSnap, soalSnap, peminatanSnap] = await Promise.all([
-                firestore.collection('users').get(), firestore.collection('soal').get(), firestore.collection('peminatan').get()
-            ]);
-            const users = snapshotToArray(usersSnap), soal = snapshotToArray(soalSnap), peminatan = snapshotToArray(peminatanSnap);
-            allPeminatanList = peminatan;
-            const stats = { bankSoalCount: soal.filter(s => s.status === 'DITERIMA').length, soalPerDosen: {}, reviewPerReviewer: {}, soalPerPeminatan: {} };
-            soal.forEach(s => {
-                stats.soalPerDosen[s.nama_dosen_pembuat] = (stats.soalPerDosen[s.nama_dosen_pembuat] || 0) + 1;
-                const peminatanName = peminatan.find(p => p.id === s.id_peminatan)?.nama || s.id_peminatan;
-                stats.soalPerPeminatan[peminatanName] = (stats.soalPerPeminatan[peminatanName] || 0) + 1;
-            });
-            users.filter(u => u.role === 'REVIEWER').forEach(rev => {
-                const reviewed = soal.filter(s => s.id_reviewer === rev.id);
-                stats.reviewPerReviewer[rev.id] = { nama: rev.nama, diterima: reviewed.filter(s => s.status === 'DITERIMA').length, ditolak: reviewed.filter(s => s.status === 'DITOLAK').length };
-            });
-            populateAdminStats(stats); populateUserTables(users); populateAdminPeminatanList(peminatan);
+            try {
+                const [usersSnap, soalSnap, peminatanSnap] = await Promise.all([
+                    firestore.collection('users').get(), firestore.collection('soal').get(), firestore.collection('peminatan').get()
+                ]);
+                const users = snapshotToArray(usersSnap), soal = snapshotToArray(soalSnap), peminatan = snapshotToArray(peminatanSnap);
+                allPeminatanList = peminatan;
+                const stats = { bankSoalCount: soal.filter(s => s.status === 'DITERIMA').length, soalPerDosen: {}, reviewPerReviewer: {}, soalPerPeminatan: {} };
+                adminSoalRekapData = {}; // RESET REKAP DATA
+                
+                soal.forEach(s => {
+                    stats.soalPerDosen[s.nama_dosen_pembuat] = (stats.soalPerDosen[s.nama_dosen_pembuat] || 0) + 1;
+                    const peminatanName = peminatan.find(p => p.id === s.id_peminatan)?.nama || s.id_peminatan;
+                    stats.soalPerPeminatan[peminatanName] = (stats.soalPerPeminatan[peminatanName] || 0) + 1;
+
+                    if (s.tgl_dibuat) {
+                        const isoDate = new Date(s.tgl_dibuat).toISOString().slice(0, 10);
+                        if (!adminSoalRekapData[isoDate]) { adminSoalRekapData[isoDate] = []; } // MODIFIED
+                        adminSoalRekapData[isoDate].push(s); // MODIFIED
+                    }
+                });
+
+                users.filter(u => u.role === 'REVIEWER').forEach(rev => {
+                    const reviewed = soal.filter(s => s.id_reviewer === rev.id);
+                    stats.reviewPerReviewer[rev.id] = { nama: rev.nama, diterima: reviewed.filter(s => s.status === 'DITERIMA').length, ditolak: reviewed.filter(s => s.status === 'DITOLAK').length };
+                });
+
+                populateAdminStats(stats); 
+                populateUserTables(users); 
+                populateAdminPeminatanList(peminatan);
+
+                const rekapSoalMasukAdminBody = document.getElementById('rekapSoalMasukAdmin');
+                rekapSoalMasukAdminBody.innerHTML = Object.keys(adminSoalRekapData).sort().reverse() // MODIFIED
+                    .map(isoDate => {
+                        const [year, month, day] = isoDate.split('-');
+                        const displayDate = `${day}/${month}/${year}`;
+                        // ADDED ONCLICK AND CURSOR STYLE
+                        return `<tr style="cursor: pointer;" onclick="showDetailRekapSoalMasuk('${isoDate}')">
+                                    <td>${displayDate}</td>
+                                    <td class="text-end">${adminSoalRekapData[isoDate].length}</td>
+                                </tr>`;
+                    }).join('');
+                if (rekapSoalMasukAdminBody.innerHTML === '') {
+                    rekapSoalMasukAdminBody.innerHTML = '<tr><td colspan="2" class="text-center text-muted">Belum ada soal masuk.</td></tr>';
+                }
+            } catch (error) {
+                console.error("Failed to load admin dashboard:", error);
+                alert("Terjadi kesalahan saat memuat data admin. Silakan cek console untuk detail.");
+                document.getElementById('adminView').innerHTML = `<div class="alert alert-danger">Gagal memuat dashboard. Error: ${error.message}</div>`;
+            }
+        }
+        
+        // NEW FUNCTION to show daily rekap detail
+        window.showDetailRekapSoalMasuk = function(isoDate) {
+            if (!adminSoalRekapData) return;
+            const soalList = adminSoalRekapData[isoDate];
+            if (!soalList || soalList.length === 0) return;
+
+            const [year, month, day] = isoDate.split('-');
+            const displayDate = `${day}/${month}/${year}`;
+            
+            document.getElementById('detailRekapModalLabel').textContent = `Detail Soal Masuk - ${displayDate}`;
+            const modalBody = document.getElementById('detailRekapModalBody');
+            
+            modalBody.innerHTML = soalList.map((soal, i) => {
+                let statusBadge;
+                switch(soal.status) {
+                    case 'DITERIMA': statusBadge = '<span class="badge bg-success">DITERIMA</span>'; break;
+                    case 'DITOLAK': statusBadge = '<span class="badge bg-danger">DITOLAK</span>'; break;
+                    case 'MENUNGGU_REVIEW': statusBadge = '<span class="badge bg-warning text-dark">MENUNGGU REVIEW</span>'; break;
+                    default: statusBadge = `<span class="badge bg-secondary">${soal.status}</span>`;
+                }
+                const peminatanName = allPeminatanList.find(p => p.id === soal.id_peminatan)?.nama || soal.id_peminatan;
+                return `
+                    <div class="card reviewer-card mb-3">
+                        <div class="card-header d-flex justify-content-between">
+                            <span>Soal #${i + 1} (Oleh: ${soal.nama_dosen_pembuat})</span>
+                            <div><span class="badge bg-primary me-2">${peminatanName}</span>${statusBadge}</div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text bg-light p-3 rounded" style="white-space: pre-wrap;">${soal.soal_text}</p>
+                            <ul class="list-group list-group-flush">
+                                ${['a','b','c','d','e'].map(o => `<li class="list-group-item ${soal.kunci_jawaban.toUpperCase()===o.toUpperCase()?'correct-answer':''}"><strong>${o.toUpperCase()}:</strong> ${soal['opsi_'+o]||''}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>`;
+            }).join('');
+
+            document.getElementById('btnPrintDetailRekap').onclick = () => printDetailRekap(displayDate, 'detailRekapModalBody');
+            detailRekapModalInstance.show();
         }
 
+
         function populateAdminStats(stats) {
-          document.getElementById('bankSoalCount').textContent = stats.bankSoalCount || 0;
-          const rekapDosenBody = document.getElementById('rekapDosen');
-          rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ? Object.entries(stats.soalPerDosen).map(([d,c])=>`<tr><td>${d.split(" ")[0]}</td><td>${c}</td></tr>`).join('') : '<tr><td colspan="2">-</td></tr>';
-          const rekapReviewerBody = document.getElementById('rekapReviewer');
-          rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ? Object.values(stats.reviewPerReviewer).map(d=>`<tr><td>${d.nama.split(" ")[0]}</td><td>${d.diterima}</td><td>${d.ditolak}</td></tr>`).join('') : '<tr><td colspan="3">-</td></tr>';
-          const rekapPeminatanBody = document.getElementById('rekapPeminatan');
-          rekapPeminatanBody.innerHTML = Object.keys(stats.soalPerPeminatan).length > 0 ? Object.entries(stats.soalPerPeminatan).map(([p,c])=>`<tr><td>${p}</td><td>${c}</td></tr>`).join('') : '<tr><td colspan="2">-</td></tr>';
+            document.getElementById('bankSoalCount').textContent = stats.bankSoalCount || 0;
+            const rekapDosenBody = document.getElementById('rekapDosen');
+            rekapDosenBody.innerHTML = Object.keys(stats.soalPerDosen).length > 0 ? Object.entries(stats.soalPerDosen).map(([d,c])=>`<tr><td>${d.split(" ")[0]}</td><td>${c}</td></tr>`).join('') : '<tr><td colspan="2" class="text-center text-muted small">Belum ada data</td></tr>';
+            const rekapReviewerBody = document.getElementById('rekapReviewer');
+            rekapReviewerBody.innerHTML = Object.keys(stats.reviewPerReviewer).length > 0 ? Object.values(stats.reviewPerReviewer).map(d=>`<tr><td>${(d.nama || 'N/A').split(" ")[0]}</td><td>${d.diterima}</td><td>${d.ditolak}</td></tr>`).join('') : '<tr><td colspan="3" class="text-center text-muted small">Belum ada data</td></tr>';
+            const rekapPeminatanBody = document.getElementById('rekapPeminatan');
+            rekapPeminatanBody.innerHTML = Object.keys(stats.soalPerPeminatan).length > 0 ? Object.entries(stats.soalPerPeminatan).map(([p,c])=>`<tr><td>${p}</td><td>${c}</td></tr>`).join('') : '<tr><td colspan="2" class="text-center text-muted small">Belum ada data</td></tr>';
         }
 
         function populateUserTables(users) {
             document.getElementById('totalUserCount').textContent = users.length || 0;
             const userListBody = document.getElementById('userList');
+            if (users.length === 0) {
+                userListBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">Belum ada user terdaftar.</td></tr>';
+                return;
+            }
             userListBody.innerHTML = users.map(user => `<tr>
               <td>${user.nama}</td><td>${user.email || '-'}</td><td><span class="badge bg-info text-dark">${user.role}</span></td>
               <td>${(user.peminatan || '').split(',').filter(Boolean).map(p => `<span class="badge bg-secondary me-1">${p}</span>`).join('') || '-'}</td>
@@ -485,7 +745,12 @@
         }
 
         function populateAdminPeminatanList(peminatanList) {
-            document.getElementById('peminatanList').innerHTML = peminatanList.map(p => `<tr>
+            const peminatanListBody = document.getElementById('peminatanList');
+            if (peminatanList.length === 0) {
+                peminatanListBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">Belum ada peminatan.</td></tr>';
+                return;
+            }
+            peminatanListBody.innerHTML = peminatanList.map(p => `<tr>
               <td><span class="badge bg-primary">${p.id}</span></td><td>${p.nama}</td>
               <td class="text-end"><button class="btn btn-sm btn-outline-danger p-0 px-2" onclick="handleDeletePeminatan('${p.id}', '${p.nama}')"><i class="bi bi-x-lg"></i></button></td>
               </tr>`).join('');
